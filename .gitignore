@@ -16,3 +16,4 @@ CMakeUserPresets.json
 *.out
 *.app
 *.obj
+.env
