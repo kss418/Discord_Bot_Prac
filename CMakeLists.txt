@@ -8,9 +8,11 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems
 set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows")
 
 find_package(dpp CONFIG REQUIRED)
+find_package(CURL REQUIRED)
+find_package(curlcpp REQUIRED)
 
 add_executable(Discord_BotP main.cpp)
 
-target_link_libraries(Discord_BotP dpp::dpp)
+target_link_libraries(Discord_BotP PRIVATE dpp::dpp curlcpp::curlcpp CURL::libcurl)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/installed/x64-windows/include")

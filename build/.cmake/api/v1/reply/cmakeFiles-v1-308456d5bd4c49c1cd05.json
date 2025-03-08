@@ -140,6 +140,92 @@
 		},
 		{
 			"path" : "vcpkg/installed/x64-windows/share/dpp/dppTargets-release.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/FindCURL.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curl/CURLConfigVersion.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curl/CURLConfig.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/FindZLIB.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/SelectLibraryConfigurations.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/FindPackageMessage.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curl/CURLTargets.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curl/CURLTargets-debug.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curl/CURLTargets-release.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curlcpp/curlcppConfig.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curl/CURLConfigVersion.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curl/CURLConfig.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Program Files/CMake/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curl/CURLTargets.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curlcpp/curlcppTargets.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curlcpp/curlcppTargets-debug.cmake"
+		},
+		{
+			"path" : "vcpkg/installed/x64-windows/share/curlcpp/curlcppTargets-release.cmake"
 		}
 	],
 	"kind" : "cmakeFiles",

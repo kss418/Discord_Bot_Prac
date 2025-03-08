@@ -50,7 +50,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Discord_BotP::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Discord_BotP-Debug-9e8be1b57e5a09441416.json",
+					"jsonFile" : "target-Discord_BotP-Debug-f4bde755ebca6ccebf63.json",
 					"name" : "Discord_BotP",
 					"projectIndex" : 0
 				},
@@ -112,7 +112,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Discord_BotP::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Discord_BotP-Release-88e4228eaac51c5b9791.json",
+					"jsonFile" : "target-Discord_BotP-Release-0e33f558a5ca5a757f0a.json",
 					"name" : "Discord_BotP",
 					"projectIndex" : 0
 				},
@@ -174,7 +174,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Discord_BotP::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Discord_BotP-MinSizeRel-fb5f89b9d9dd595e46db.json",
+					"jsonFile" : "target-Discord_BotP-MinSizeRel-18e94ff6c195f4a95812.json",
 					"name" : "Discord_BotP",
 					"projectIndex" : 0
 				},
@@ -236,7 +236,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Discord_BotP::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Discord_BotP-RelWithDebInfo-0b6f527bdb897a5a6701.json",
+					"jsonFile" : "target-Discord_BotP-RelWithDebInfo-c4cbec428d5dfe02d156.json",
 					"name" : "Discord_BotP",
 					"projectIndex" : 0
 				},
