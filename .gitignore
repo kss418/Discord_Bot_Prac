@@ -60,3 +60,4 @@ vcpkg-manifest-install.log
 vcpkg_installed/
 
 .vscode/
+cpr

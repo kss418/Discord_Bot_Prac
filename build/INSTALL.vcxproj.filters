@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\jis15\.vscode\Discord_BotP\build\CMakeFiles\9f76485c702aa8cd0db8ec3bf6b343bd\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F9AD29CE-A1A6-3EDF-9950-E9C0AB2CC718}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

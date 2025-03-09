@@ -5,7 +5,28 @@
       <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\x64\Release\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\_deps\curl-build\lib\Release\libcurl.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\cpr\cpr\Release\cpr.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\Release\Discord_BotP.exe</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\_deps\curl-build\docs\x64\Release\curl-generate-curl-config.1</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\_deps\curl-build\docs\x64\Release\curl-generate-mk-ca-bundle.1</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\_deps\curl-build\docs\libcurl\opts\x64\Release\curl-opts-man</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\_deps\curl-build\docs\libcurl\x64\Release\curl-man</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\_deps\zlib-build\Release\zlib.dll</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>C:\Users\jis15\.vscode\Discord_BotP\build\x64\Release\ALL_BUILD</FullPath>
