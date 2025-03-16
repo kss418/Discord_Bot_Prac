@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 int main() {
-    //¸ŞÀÌÇÃ API key È¯°æº¯¼ö ¼³Á¤ÇÏ±â
+    //ë©”ì´í”Œ API key í™˜ê²½ë³€ìˆ˜ ì„¤ì •í•˜ê¸°
     std::string API_Key = std::getenv("MAPLEBOT_TOKEN");
     std::string URL = "https://open.api.nexon.com/maplestory/v1";
     std::string Character_Name = "TRSwrD";

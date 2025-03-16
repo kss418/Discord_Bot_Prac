@@ -60,4 +60,6 @@ vcpkg-manifest-install.log
 vcpkg_installed/
 
 .vscode/
-cpr
+cpr/
+gumbo-query/
+gumbo-parser/

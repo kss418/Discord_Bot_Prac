@@ -3,12 +3,12 @@
 #include <string>
 
 int main() {
-    //µğ½ºÄÚµå º¿ ÅäÅ« È¯°æº¯¼ö ¼³Á¤ÇÏ±â
+    //ë””ìŠ¤ì½”ë“œ ë´‡ í† í° í™˜ê²½ë³€ìˆ˜ ì„¤ì •í•˜ê¸°
     std::string token = std::getenv("DISCORD_BOT_TOKEN");
     dpp::cluster bot(token);
 
     bot.on_ready([](const dpp::ready_t& event){
-        std::cout << "º¿ÀÌ ½ÇÇàµÇ¾ú½À´Ï´Ù!" << std::endl;
+        std::cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!" << std::endl;
     });
 
     bot.start(dpp::st_wait);
