@@ -103,13 +103,21 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 
 build cmake_object_order_depends_target_Discord_BotP: phony || CMakeFiles/Discord_BotP.dir
 
-build CMakeFiles/Discord_BotP.dir/Http_Request_P.cpp.o: CXX_COMPILER__Discord_BotP ../Http_Request_P.cpp || cmake_object_order_depends_target_Discord_BotP
+build CMakeFiles/Discord_BotP.dir/main.cpp.o: CXX_COMPILER__Discord_BotP ../main.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
-  DEP_FILE = CMakeFiles/Discord_BotP.dir/Http_Request_P.cpp.o.d
+  DEP_FILE = CMakeFiles/Discord_BotP.dir/main.cpp.o.d
   FLAGS = -g   -std=gnu++2a
-  INCLUDES = -isystem ../vcpkg/installed/x64-linux/include
+  INCLUDES = -I../src -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir
+
+build CMakeFiles/Discord_BotP.dir/src/Maple_API.cpp.o: CXX_COMPILER__Discord_BotP ../src/Maple_API.cpp || cmake_object_order_depends_target_Discord_BotP
+  DEFINES = -DDPP_BUILD
+  DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Maple_API.cpp.o.d
+  FLAGS = -g   -std=gnu++2a
+  INCLUDES = -I../src -isystem ../vcpkg/installed/x64-linux/include
+  OBJECT_DIR = CMakeFiles/Discord_BotP.dir
+  OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src
 
 
 # =============================================================================
@@ -119,7 +127,7 @@ build CMakeFiles/Discord_BotP.dir/Http_Request_P.cpp.o: CXX_COMPILER__Discord_Bo
 #############################################
 # Link the executable Discord_BotP
 
-build Discord_BotP: CXX_EXECUTABLE_LINKER__Discord_BotP CMakeFiles/Discord_BotP.dir/Http_Request_P.cpp.o | ../vcpkg/installed/x64-linux/lib/libssl.a ../vcpkg/installed/x64-linux/lib/libcrypto.a ../vcpkg/installed/x64-linux/debug/lib/libcpr.a ../vcpkg/installed/x64-linux/debug/lib/libdpp.so ../vcpkg/installed/x64-linux/lib/libcurl.a ../vcpkg/installed/x64-linux/lib/libssl.a ../vcpkg/installed/x64-linux/lib/libcrypto.a
+build Discord_BotP: CXX_EXECUTABLE_LINKER__Discord_BotP CMakeFiles/Discord_BotP.dir/main.cpp.o CMakeFiles/Discord_BotP.dir/src/Maple_API.cpp.o | ../vcpkg/installed/x64-linux/lib/libssl.a ../vcpkg/installed/x64-linux/lib/libcrypto.a ../vcpkg/installed/x64-linux/debug/lib/libcpr.a ../vcpkg/installed/x64-linux/debug/lib/libdpp.so ../vcpkg/installed/x64-linux/lib/libcurl.a ../vcpkg/installed/x64-linux/lib/libssl.a ../vcpkg/installed/x64-linux/lib/libcrypto.a
   FLAGS = -g
   LINK_LIBRARIES = -Wl,-rpath,/home/kss418/.vscode/Discord_BotP/vcpkg/installed/x64-linux/debug/lib  -lgumbo  -lgumboquery  ../vcpkg/installed/x64-linux/lib/libssl.a  ../vcpkg/installed/x64-linux/lib/libcrypto.a  ../vcpkg/installed/x64-linux/debug/lib/libcpr.a  ../vcpkg/installed/x64-linux/debug/lib/libdpp.so  ../vcpkg/installed/x64-linux/lib/libcurl.a  ../vcpkg/installed/x64-linux/lib/libssl.a  ../vcpkg/installed/x64-linux/lib/libcrypto.a  -ldl  -lpthread
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
