@@ -7,4 +7,5 @@ JSON_Parser -> nlohmann
 Discord_Bot -> DPP
 
 세 라이브러리 모두 Vcpkg, CMake로 관리
+
 개발 환경 -> Ubuntu 20.04.6
