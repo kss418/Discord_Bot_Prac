@@ -9,6 +9,7 @@ add_subdirectory(gumbo-query)
 add_executable(Discord_BotP
     main.cpp
     src/Maple_API.cpp
+    src/Discord_BOT.cpp
 )
 
 target_link_libraries(Discord_BotP
