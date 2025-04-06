@@ -22,7 +22,7 @@ void Discord_BOT::Get_Info(const dpp::slashcommand_t& Event){
     if(Character_Info.Status_Code != 200) { Find_Error(Event, Character_Info.Status_Code); return; }
     
     dpp::embed Image;
-    Image.set_title(Character_Name + "의 캐릭터")
+    Image.set_title(Character_Name)
         .set_image(Character_Info.Image_URL)
         .set_color(0xffcc00)
         .add_field("레벨", std::to_string(Character_Info.Level), true)
@@ -30,7 +30,6 @@ void Discord_BOT::Get_Info(const dpp::slashcommand_t& Event){
         .add_field("직업", Character_Info.Class, true)
         .add_field("월드", Character_Info.World_Name, true)
         .add_field("길드", Character_Info.Guild_Name.empty() ? "없음" : Character_Info.Guild_Name, true);
-    
     Event.reply(dpp::message().add_embed(Image));
 }
 
@@ -39,5 +38,11 @@ void Discord_BOT::Get_Union(const dpp::slashcommand_t& Event){
     Union Union_Info = M_API.Get_Union_Info(Character_Name);
     if(Union_Info.Status_Code != 200) { Find_Error(Event, Union_Info.Status_Code); return; }
 
-
+    dpp::embed Image;
+    Image.set_title(Character_Name)
+        .set_color(0xffcc00)
+        .add_field("유니온 레벨", std::to_string(Union_Info.Union_Level), true)
+        .add_field("등급", Union_Info.Union_Grade, true)
+        .add_field("아티팩트 레벨", std::to_string(Union_Info.Artifact_Level), true);
+    Event.reply(dpp::message().add_embed(Image));
 }

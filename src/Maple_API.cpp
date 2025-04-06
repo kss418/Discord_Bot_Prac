@@ -52,6 +52,7 @@ Character Maple_API::Get_Character_Info(const std::string& Character_Name) const
     Character_Info.Level = data["character_level"];
     Character_Info.EXP_Rate = data["character_exp_rate"];
     Character_Info.Guild_Name = data["character_guild_name"].is_null() ? "" : data["character_guild_name"];
+    Character_Info.Status_Code = 200;
 
     std::cout << "이미지 URL : " << data["character_image"] << std::endl;
 
@@ -81,11 +82,12 @@ Union Maple_API::Get_Union_Info(const std::string& Character_Name) const{
     }
     
     nlohmann::json data = nlohmann::json::parse(Response.text);
-
-    std::cout << "유니온 레벨 : " << data["union_level"] << std::endl;
     Union_Info.Union_Level = data["union_level"];
     Union_Info.Union_Grade = data["union_grade"];
     Union_Info.Artifact_Level = data["union_artifact_level"];
+    Union_Info.Status_Code = 200;
+
+    std::cout << "유니온 레벨 : " << data["union_level"] << std::endl;
 
     return Union_Info;
 }
