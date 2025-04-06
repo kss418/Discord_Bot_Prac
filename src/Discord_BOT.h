@@ -14,5 +14,8 @@ private:
 
     void Setup_Command();
     void Create_Command();
+    void Command_Create_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd);
     void Get_Info(const dpp::slashcommand_t& Event);
+    void Get_Union(const dpp::slashcommand_t& Event);
+    void Add_Command_Guild(const dpp::slashcommand& CMD);
 };

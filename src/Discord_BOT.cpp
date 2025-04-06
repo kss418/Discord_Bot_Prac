@@ -13,18 +13,26 @@ void Discord_BOT::Run(){
     BOT.start(dpp::st_wait);
 }
 
+void Discord_BOT::Command_Create_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd){
+    if(cb.is_error()) std::cout << cmd.name << " 등록 실패: " << cb.get_error().message << std::endl;
+    else std::cout << cmd.name << " 등록 성공" << std::endl;
+}
+
+void Discord_BOT::Add_Command_Guild(const dpp::slashcommand& CMD){
+    BOT.guild_command_create(CMD, Guild_ID,
+        [this, CMD](const dpp::confirmation_callback_t& cb) {
+            this->Command_Create_Log(cb, CMD);
+    });
+}
+
 void Discord_BOT::Create_Command(){
     BOT.on_ready([this](const dpp::ready_t& Event){
         std::cout << "봇이 성공적으로 켜졌습니다" << std::endl;
         //if(dpp::run_once<struct register_bot_commands>()){
-            BOT.guild_command_create(
-                dpp::slashcommand("정보", "사진 출력", BOT.me.id)
-                    .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true)), 
-                Guild_ID, 
-                [](const dpp::confirmation_callback_t& cb) {
-                    if (cb.is_error()) std::cout << "명령어 등록 실패: " << cb.get_error().message << std::endl;
-                    else std::cout << "명령어 등록 성공!" << std::endl;
-            });
+            auto CMD_Get_Info = dpp::slashcommand("정보", "사진 출력", BOT.me.id)
+                .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true));
+
+            Add_Command_Guild(CMD_Get_Info);
         //}
     });
 }
@@ -32,6 +40,7 @@ void Discord_BOT::Create_Command(){
 void Discord_BOT::Setup_Command(){
     BOT.on_slashcommand([this](const dpp::slashcommand_t& Event){
         if(Event.command.get_command_name() == "정보") Get_Info(Event);
+        if(Event.command.get_command_name() == "유니온") Get_Union(Event);
     });
 }
 
@@ -58,4 +67,8 @@ void Discord_BOT::Get_Info(const dpp::slashcommand_t& Event){
     
         Event.reply(dpp::message().add_embed(Image));
     }
+}
+
+void Discord_BOT::Get_Union(const dpp::slashcommand_t& Event){
+
 }

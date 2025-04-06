@@ -51,7 +51,9 @@ Character Maple_API::Get_Character_Info(const std::string& Character_Name) const
     Character_Info.Class = data["character_class"];
     Character_Info.Level = data["character_level"];
     Character_Info.EXP_Rate = data["character_exp_rate"];
-    Character_Info.Guild_Name = data["character_guild_name"];
+    Character_Info.Guild_Name = data["character_guild_name"].is_null() ? "" : data["character_guild_name"];
+
+    std::cout << "이미지 URL : " << data["character_image"] << std::endl;
 
     return Character_Info;
 }
