@@ -46,8 +46,7 @@ public:
 };
 
 class Potential_Option {
-    std::string Flag;
-    std::string Additional_Flag;
+public:
     std::string Grade;
     std::string Additional_Grade;
     std::string Option[3];
@@ -72,6 +71,11 @@ public:
     Option Additional_Option;
     Option Starforce_Option;
     Option Exceptional_Option;
+
+    std::string Flag;
+    std::string Additional_Flag;
+    Potential_Option Basic_Potential_Option;
+    Potential_Option Additional_Potential_Option;
 
     int64_t Special_Ring_Level;
 };
