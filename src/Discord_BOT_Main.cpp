@@ -2,8 +2,6 @@
 #include <iostream>
 #include <vector>
 
-const dpp::snowflake Guild_ID = 408601520951656448;
-
 Discord_BOT::Discord_BOT(const std::string& API_Key, const Maple_API& M_API) : BOT(API_Key), M_API(M_API){
     Create_Command();
     Setup_Command();
@@ -12,11 +10,6 @@ Discord_BOT::Discord_BOT(const std::string& API_Key, const Maple_API& M_API) : B
 void Discord_BOT::Run(){
     BOT.on_log(dpp::utility::cout_logger());
     BOT.start(dpp::st_wait);
-}
-
-void Discord_BOT::Command_Create_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd){
-    if(cb.is_error()) std::cout << cmd.name << " 명령어 등록 실패: " << cb.get_error().message << std::endl;
-    else std::cout << cmd.name << " 명령어 등록 성공" << std::endl;
 }
 
 void Discord_BOT::Create_Command(){
