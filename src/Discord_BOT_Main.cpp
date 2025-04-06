@@ -37,7 +37,20 @@ void Discord_BOT::Setup_Command(){
         if(Event.command.get_command_name() == "장비") Get_Equipment(Event);
     });
 
-    BOT.on_button_click([](const dpp::button_click_t& Event){
-        
+    BOT.on_button_click([this](const dpp::button_click_t& Event){
+        dpp::snowflake UID = Event.command.get_issuing_user().id;
+        size_t& Index = User_Page[UID];
+
+        if(Event.custom_id == "prev_page" && Index > 0) --Index;
+        if(Event.custom_id == "next_page" && Index < 3) ++Index;
+
+        auto it = User_Equipment_Map.find(UID);
+        if(it == User_Equipment_Map.end()){
+            Event.reply("장비 데이터를 찾을 수 없습니다.");
+            return;
+        }
+
+        const auto& Equipment_Set = it->second;
+        Event.reply(Generate_Equipment_Embed(Equipment_Set.Info[Index], Index));
     });
 }

@@ -13,6 +13,7 @@ private:
     std::string API_Key;
     Maple_API M_API;
     std::unordered_map<dpp::snowflake, size_t> User_Page;
+    std::unordered_map<dpp::snowflake, Equipment_Set> User_Equipment_Map;
 
     void Setup_Command();
     void Create_Command();
@@ -30,5 +31,5 @@ private:
     void Add_Command_Guild(const dpp::slashcommand& CMD);
     void Add_Command_Global(const dpp::slashcommand& CMD);
 
-    void Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page, const dpp::slashcommand_t& Event);
+    dpp::message Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page);
 };

@@ -51,7 +51,7 @@ void Discord_BOT::Get_Union(const dpp::slashcommand_t& Event){
     Event.reply(dpp::message().add_embed(Image));
 }
 
-void Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page, const dpp::slashcommand_t& Event){
+dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page){
     dpp::component menu;
     menu.set_type(dpp::cot_selectmenu)
         .set_placeholder("장비 선택")
@@ -72,7 +72,7 @@ void Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_Info>& In
     dpp::component row;
     row.add_component(menu);
 
-    dpp::message msg(page ? page + "번 장비" : "현재 장착 장비");
+    dpp::message msg(page ? std::to_string(page) + "번 장비" : "현재 장착 장비");
     msg.add_component(row);
     msg.add_component(dpp::component()
         .add_component(dpp::component()
@@ -87,7 +87,7 @@ void Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_Info>& In
             .set_type(dpp::cot_button))
     );
     
-    Event.reply(msg);
+    return msg;
 }
 
 void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
@@ -95,8 +95,10 @@ void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
     Equipment_Set Equipment_Set = M_API.Get_Equipment_Info(Character_Name);
     if(Equipment_Set.Status_Code != 200){ Find_Error(Event, Equipment_Set.Status_Code); return; }
     
-    size_t index = 0;
-    User_Page[Event.command.get_issuing_user().id] = index;
+    size_t Index = 0;
+    dpp::snowflake UID = Event.command.get_issuing_user().id;
+    User_Page[UID] = Index;
+    User_Equipment_Map[UID] = Equipment_Set;
 
-    Generate_Equipment_Embed(Equipment_Set.Info[index], index, Event);
+    Event.reply(Generate_Equipment_Embed(Equipment_Set.Info[Index], Index));
 }
