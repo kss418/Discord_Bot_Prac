@@ -36,4 +36,8 @@ void Discord_BOT::Setup_Command(){
         if(Event.command.get_command_name() == "유니온") Get_Union(Event);
         if(Event.command.get_command_name() == "장비") Get_Equipment(Event);
     });
+
+    BOT.on_button_click([](const dpp::button_click_t& Event){
+        
+    });
 }

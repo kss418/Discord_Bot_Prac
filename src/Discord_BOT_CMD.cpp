@@ -51,10 +51,48 @@ void Discord_BOT::Get_Union(const dpp::slashcommand_t& Event){
     Event.reply(dpp::message().add_embed(Image));
 }
 
+void Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page, const dpp::slashcommand_t& Event){
+    dpp::component menu;
+    menu.set_type(dpp::cot_selectmenu)
+        .set_placeholder("장비 선택")
+        .set_id("select_equipment");
+
+    for(int i = 0;i < Info.size();i++){
+        Equipment_Info Current_Equipment = Info[i];
+        menu.add_select_option(
+            dpp::select_option(Current_Equipment.Item_Name, std::to_string(i + 1))
+                .set_description("★" + Current_Equipment.Starforce + " | " + Current_Equipment.Part_Name)
+        );
+    }
+
+    dpp::component row;
+    row.add_component(menu);
+
+    dpp::message msg(page ? page + "번 장비" : "현재 장착 장비");
+    msg.add_component(row);
+    msg.add_component(dpp::component()
+        .add_component(dpp::component()
+            .set_label("◀️")
+            .set_id("prev_page")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+        .add_component(dpp::component()
+            .set_label("▶️")
+            .set_id("next_page")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+    );
+    
+    Event.reply(msg);
+}
 
 void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
     std::string Character_Name = std::get<std::string>(Event.get_parameter("character_name"));
     Equipment_Set Equipment_Set = M_API.Get_Equipment_Info(Character_Name);
     if(Equipment_Set.Status_Code != 200){ Find_Error(Event, Equipment_Set.Status_Code); return; }
-    std::cout << Equipment_Set.Info[0][0].Starforce << std::endl;
+    
+    size_t index = 0;
+    User_Page[Event.command.get_issuing_user().id] = index;
+
+    Generate_Equipment_Embed(Equipment_Set.Info[index], index, Event);
 }

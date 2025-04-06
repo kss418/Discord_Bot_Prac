@@ -143,6 +143,9 @@ Equipment_Set Maple_API::Get_Equipment_Info(const std::string& Character_Name) c
 
     nlohmann::json data = nlohmann::json::parse(Response.text);
     Parse_Equipment_Info(Equipment_Set.Info[0], data["item_equipment"]);
+    Parse_Equipment_Info(Equipment_Set.Info[1], data["item_equipment_preset_1"]);
+    Parse_Equipment_Info(Equipment_Set.Info[2], data["item_equipment_preset_2"]);
+    Parse_Equipment_Info(Equipment_Set.Info[3], data["item_equipment_preset_3"]);
 
     Equipment_Set.Status_Code = 200;
     return Equipment_Set;

@@ -2,6 +2,7 @@
 #include "Maple_API.h"
 #include <dpp/dpp.h>
 #include <string>
+#include <unordered_map>
 
 class Discord_BOT{
 public:
@@ -11,6 +12,7 @@ private:
     dpp::cluster BOT;
     std::string API_Key;
     Maple_API M_API;
+    std::unordered_map<dpp::snowflake, size_t> User_Page;
 
     void Setup_Command();
     void Create_Command();
@@ -27,4 +29,6 @@ private:
 
     void Add_Command_Guild(const dpp::slashcommand& CMD);
     void Add_Command_Global(const dpp::slashcommand& CMD);
+
+    void Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page, const dpp::slashcommand_t& Event);
 };
