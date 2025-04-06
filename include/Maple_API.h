@@ -16,7 +16,6 @@ public:
     void Parse_Equipment_Info(std::vector <Equipment_Info>& Info, const nlohmann::json& data) const;
     void Parse_Option_Info(Option& Info, const nlohmann::json& data) const;
     void Parse_Potential_Option_Info(Potential_Option& Info, const nlohmann::json& data) const;
-    void Parse_Additional_Potential_Option_Info(Potential_Option& Info, const nlohmann::json& data) const;
 private:
     std::string API_Key;
 };

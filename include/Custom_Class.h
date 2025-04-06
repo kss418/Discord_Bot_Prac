@@ -72,11 +72,7 @@ public:
     Option Starforce_Option;
     Option Exceptional_Option;
 
-    std::string Flag;
-    std::string Additional_Flag;
-    Potential_Option Basic_Potential_Option;
-    Potential_Option Additional_Potential_Option;
-
+    Potential_Option Potential_Option_Info;
     int64_t Special_Ring_Level;
 };
 

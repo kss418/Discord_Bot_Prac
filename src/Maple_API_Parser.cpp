@@ -24,9 +24,7 @@ void Maple_API::Parse_Potential_Option_Info(Potential_Option& Info, const nlohma
     Info.Option[0] = Get_Str(Data, "potential_option_1");
     Info.Option[1] = Get_Str(Data, "potential_option_2");
     Info.Option[2] = Get_Str(Data, "potential_option_3");
-}
 
-void Maple_API::Parse_Additional_Potential_Option_Info(Potential_Option& Info, const nlohmann::json& Data) const {
     Info.Additional_Grade = Get_Str(Data, "additional_potential_option_grade");
     Info.Additional_Option[0] = Get_Str(Data, "additional_potential_option_1");
     Info.Additional_Option[1] = Get_Str(Data, "additional_potential_option_2");
@@ -78,13 +76,7 @@ void Maple_API::Parse_Equipment_Info(std::vector<Equipment_Info>& Info, const nl
         if (Current_Equipment.contains("item_etc_option"))
             Parse_Option_Info(Now.Exceptional_Option, Current_Equipment["item_etc_option"]);
 
-        Now.Flag = Get_Str(Current_Equipment, "potential_option_flag");
-        if (Now.Flag == "false")
-            Parse_Potential_Option_Info(Now.Basic_Potential_Option, Current_Equipment);
-        
-        Now.Additional_Flag = Get_Str(Current_Equipment, "additional_potential_option_flag");
-        if (Now.Additional_Flag == "false")
-            Parse_Additional_Potential_Option_Info(Now.Additional_Potential_Option, Current_Equipment);
+        Parse_Potential_Option_Info(Now.Potential_Option_Info, Current_Equipment);
 
         Info.push_back(Now);
     }

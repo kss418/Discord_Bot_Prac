@@ -59,9 +59,13 @@ void Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_Info>& In
 
     for(int i = 0;i < Info.size();i++){
         Equipment_Info Current_Equipment = Info[i];
+        std::string description = "★" + Current_Equipment.Starforce;
+        if(!Current_Equipment.Potential_Option_Info.Grade.empty()) description += " | " + Current_Equipment.Potential_Option_Info.Grade;
+        if(!Current_Equipment.Potential_Option_Info.Additional_Grade.empty()) description += " | " + Current_Equipment.Potential_Option_Info.Additional_Grade;
+
         menu.add_select_option(
             dpp::select_option(Current_Equipment.Item_Name, std::to_string(i + 1))
-                .set_description("★" + Current_Equipment.Starforce + " | " + Current_Equipment.Part_Name)
+                .set_description(description)
         );
     }
 
