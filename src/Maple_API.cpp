@@ -92,6 +92,7 @@ Union Maple_API::Get_Union_Info(const std::string& Character_Name) const{
     return Union_Info;
 }
 
+// 인기도 정보 반환
 Popularity Maple_API::Get_Popularity_Info(const std::string& Character_Name) const{
     Popularity Popularity_Info;
     std::string OCID = Get_OCID(Character_Name);
@@ -117,4 +118,33 @@ Popularity Maple_API::Get_Popularity_Info(const std::string& Character_Name) con
     Popularity_Info.Popularity = data["popularity"];
     Popularity_Info.Status_Code = 200;
     return Popularity_Info;
+}
+
+// 아이템 정보 반환
+Equipment_Set Maple_API::Get_Equipment_Info(const std::string& Character_Name) const{
+    Equipment_Set Equipment_Set;
+    std::string OCID = Get_OCID(Character_Name);
+    if(OCID[0] == '-'){
+        OCID = OCID.substr(1);
+        Equipment_Set.Status_Code = std::stoi(OCID);
+        return Equipment_Set;
+    }
+
+    cpr::Response Response = cpr::Get(
+        cpr::Url{"https://open.api.nexon.com/maplestory/v1/character/item-equipment"},
+        cpr::Parameters{{"ocid", OCID}},
+        cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
+    );
+
+    std::cout << "장비 정보 요청 응답 코드 : " << Response.status_code << std::endl;
+    if(Response.status_code != 200){
+        Equipment_Set.Status_Code = Response.status_code;
+        return Equipment_Set;
+    }
+
+    nlohmann::json data = nlohmann::json::parse(Response.text);
+    std::cout << data["item_equipment"]["potential_option_grade"] << std::endl;
+
+    Equipment_Set.Status_Code = 200;
+    return Equipment_Set;
 }

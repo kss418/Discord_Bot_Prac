@@ -20,6 +20,8 @@ void Discord_BOT::Create_Command(){
                 dpp::slashcommand("정보", "캐릭터 정보 출력", BOT.me.id)
                     .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true)),
                 dpp::slashcommand("유니온", "유니온 출력", BOT.me.id)
+                    .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true)),
+                dpp::slashcommand("장비", "장비 출력", BOT.me.id)
                     .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true))
             };
 
@@ -32,5 +34,6 @@ void Discord_BOT::Setup_Command(){
     BOT.on_slashcommand([this](const dpp::slashcommand_t& Event){
         if(Event.command.get_command_name() == "정보") Get_Info(Event);
         if(Event.command.get_command_name() == "유니온") Get_Union(Event);
+        if(Event.command.get_command_name() == "장비") Get_Equipment(Event);
     });
 }

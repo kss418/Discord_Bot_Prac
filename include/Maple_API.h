@@ -10,6 +10,7 @@ public:
     Character Get_Character_Info(const std::string& Character_Name) const;
     Union Get_Union_Info(const std::string& Character_Name) const;
     Popularity Get_Popularity_Info(const std::string& Character_Name) const;
+    Equipment_Set Get_Equipment_Info(const std::string& Character_Name) const;
 private:
     std::string API_Key;
 };
