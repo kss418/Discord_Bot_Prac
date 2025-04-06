@@ -20,7 +20,7 @@ target_link_libraries(Discord_BotP
         dpp::dpp
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 find_package(OpenSSL REQUIRED)
 find_package(dpp CONFIG REQUIRED)
 find_package(cpr CONFIG REQUIRED)
