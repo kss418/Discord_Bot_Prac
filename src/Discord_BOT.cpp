@@ -38,7 +38,13 @@ void Discord_BOT::Setup_Command(){
 void Discord_BOT::Get_Info(const dpp::slashcommand_t& Event){
     std::string Character_Name = std::get<std::string>(Event.get_parameter("character_name"));
     std::string Image_URL = M_API.Get_Character_Image_URL(Character_Name);
-    if(Image_URL == "-400") Event.reply("존재하지 않는 닉네임입니다.");
+    if(Image_URL == "-400"){
+        dpp::embed error;
+        error.set_title("닉네임 오류")
+            .set_description("존재하지 않는 캐릭터입니다.")
+            .set_color(0xff0000);
+        Event.reply(dpp::message().add_embed(error));
+    }
     else{
         dpp::embed Image;
         Image.set_title(Character_Name + "의 캐릭터")
