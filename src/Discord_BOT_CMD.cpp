@@ -72,7 +72,7 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
     dpp::component row;
     row.add_component(menu);
 
-    dpp::message msg(page ? std::to_string(page) + "번 장비" : "현재 장착 장비");
+    dpp::message msg(page ? std::to_string(page) + "번 프리셋 장비" : "현재 장착 장비");
     msg.add_component(row);
     msg.add_component(dpp::component()
         .add_component(dpp::component()
