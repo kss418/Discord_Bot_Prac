@@ -35,7 +35,7 @@ Character Maple_API::Get_Character_Info(const std::string& Character_Name) const
 
     cpr::Response Response = cpr::Get(
         cpr::Url{"https://open.api.nexon.com/maplestory/v1/character/basic"},
-        cpr::Parameters{{"ocid", Get_OCID(Character_Name)}},
+        cpr::Parameters{{"ocid", OCID}},
         cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
     );
     
@@ -71,7 +71,7 @@ Union Maple_API::Get_Union_Info(const std::string& Character_Name) const{
 
     cpr::Response Response = cpr::Get(
         cpr::Url{"https://open.api.nexon.com/maplestory/v1/user/union"},
-        cpr::Parameters{{"ocid", Get_OCID(Character_Name)}},
+        cpr::Parameters{{"ocid", OCID}},
         cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
     );
     
@@ -90,4 +90,31 @@ Union Maple_API::Get_Union_Info(const std::string& Character_Name) const{
     std::cout << "유니온 레벨 : " << data["union_level"] << std::endl;
 
     return Union_Info;
+}
+
+Popularity Maple_API::Get_Popularity_Info(const std::string& Character_Name) const{
+    Popularity Popularity_Info;
+    std::string OCID = Get_OCID(Character_Name);
+    if(OCID[0] == '-'){
+        OCID = OCID.substr(1);
+        Popularity_Info.Status_Code = std::stoi(OCID);
+        return Popularity_Info;
+    }
+
+    cpr::Response Response = cpr::Get(
+        cpr::Url{"https://open.api.nexon.com/maplestory/v1/character/popularity"},
+        cpr::Parameters{{"ocid", OCID}},
+        cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
+    );
+
+    std::cout << "인기도 정보 요청 응답 코드 : " << Response.status_code << std::endl;
+    if(Response.status_code != 200){
+        Popularity_Info.Status_Code = Response.status_code;
+        return Popularity_Info;
+    }
+
+    nlohmann::json data = nlohmann::json::parse(Response.text);
+    Popularity_Info.Popularity = data["popularity"];
+    Popularity_Info.Status_Code = 200;
+    return Popularity_Info;
 }

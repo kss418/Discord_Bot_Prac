@@ -19,3 +19,9 @@ public:
     int64_t Artifact_Level;
     int32_t Status_Code;
 };
+
+class Popularity {
+public:
+    int32_t Popularity;
+    int32_t Status_Code;
+};
