@@ -15,15 +15,8 @@ void Discord_BOT::Run(){
 }
 
 void Discord_BOT::Command_Create_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd){
-    if(cb.is_error()) std::cout << cmd.name << " 등록 실패: " << cb.get_error().message << std::endl;
-    else std::cout << cmd.name << " 등록 성공" << std::endl;
-}
-
-void Discord_BOT::Add_Command_Guild(const dpp::slashcommand& CMD){
-    BOT.guild_command_create(CMD, Guild_ID,
-        [this, CMD](const dpp::confirmation_callback_t& cb) {
-            this->Command_Create_Log(cb, CMD);
-    });
+    if(cb.is_error()) std::cout << cmd.name << " 명령어 등록 실패: " << cb.get_error().message << std::endl;
+    else std::cout << cmd.name << " 명령어 등록 성공" << std::endl;
 }
 
 void Discord_BOT::Create_Command(){

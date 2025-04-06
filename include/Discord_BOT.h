@@ -18,4 +18,5 @@ private:
     void Get_Info(const dpp::slashcommand_t& Event);
     void Get_Union(const dpp::slashcommand_t& Event);
     void Add_Command_Guild(const dpp::slashcommand& CMD);
+    void Add_Command_Global(const dpp::slashcommand& CMD);
 };

@@ -1,6 +1,20 @@
 #include "Discord_BOT.h"
 #include <iostream>
 
+void Discord_BOT::Add_Command_Guild(const dpp::slashcommand& CMD){
+    BOT.guild_command_create(CMD, Guild_ID,
+        [this, CMD](const dpp::confirmation_callback_t& cb) {
+            this->Command_Create_Log(cb, CMD);
+    });
+}
+
+void Discord_BOT::Add_Command_Global(const dpp::slashcommand& CMD){
+    BOT.global_command_create(CMD,
+        [this, CMD](const dpp::confirmation_callback_t& cb) {
+            this->Command_Create_Log(cb, CMD);
+    });
+}
+
 void Discord_BOT::Get_Info(const dpp::slashcommand_t& Event){
     std::string Character_Name = std::get<std::string>(Event.get_parameter("character_name"));
     Character Character_Info = M_API.Get_Character_Info(Character_Name);
