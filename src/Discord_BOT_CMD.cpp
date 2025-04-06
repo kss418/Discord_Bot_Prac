@@ -51,9 +51,10 @@ void Discord_BOT::Get_Union(const dpp::slashcommand_t& Event){
     Event.reply(dpp::message().add_embed(Image));
 }
 
+
 void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
     std::string Character_Name = std::get<std::string>(Event.get_parameter("character_name"));
     Equipment_Set Equipment_Set = M_API.Get_Equipment_Info(Character_Name);
     if(Equipment_Set.Status_Code != 200){ Find_Error(Event, Equipment_Set.Status_Code); return; }
-    
+    std::cout << Equipment_Set.Info[0][0].Starforce << std::endl;
 }

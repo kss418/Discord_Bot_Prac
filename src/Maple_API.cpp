@@ -120,6 +120,55 @@ Popularity Maple_API::Get_Popularity_Info(const std::string& Character_Name) con
     return Popularity_Info;
 }
 
+void Maple_API::Parse_Potential_Option_Info(Option& Info, const nlohmann::json& data) const{
+
+}
+
+void Maple_API::Parse_Option_Info(Option& Info, const nlohmann::json& data) const {
+    Info.Str = data.value("str", "0");
+    Info.Dex = data.value("dex", "0");
+    Info.Int = data.value("int", "0");
+    Info.Luk = data.value("luk", "0");
+    Info.Max_HP = data.value("max_hp", "0");
+    Info.Max_MP = data.value("max_mp", "0");
+    Info.Attack_Power = data.value("attack_power", "0");
+    Info.Magic_Power = data.value("magic_power", "0");
+    Info.Boss_Damage = data.value("boss_damage", "0");
+    Info.All_Stat = data.value("all_stat", "0");
+    Info.Damage = data.value("damage", "0");
+    Info.Max_HP_Rate = data.value("max_hp_rate", "0");
+    Info.Max_MP_Rate = data.value("max_mp_rate", "0");
+}
+
+void Maple_API::Parse_Equipment_Info(std::vector<Equipment_Info>& Info, const nlohmann::json& data) const {
+    for (const auto& Current_Equipment : data) {
+        Equipment_Info Now;
+        Now.Part_Name = Current_Equipment.value("item_equipment_part", "");
+        Now.Slot_Name = Current_Equipment.value("item_equipment_slot", "");
+        Now.Item_Name = Current_Equipment.value("item_name", "");
+        Now.Item_Icon = Current_Equipment.value("item_icon", "");
+        Now.Uprage_Count = Current_Equipment.value("scroll_upgrade", "");
+        Now.Golden_Hammer_Flag = Current_Equipment.value("golden_hammer_flag", "");
+        if(Now.Slot_Name == "무기"){
+            Now.Soul_Name = Current_Equipment.value("soul_name", "");
+            Now.Soul_Option = Current_Equipment.value("soul_option", "");
+        }
+        Now.Starforce = Current_Equipment.value("starforce", "");
+        if(Now.Part_Name == "반지") Now.Special_Ring_Level = Current_Equipment.value("special_ring_level", 0);
+
+        if (Current_Equipment.contains("item_total_option"))
+            Parse_Option_Info(Now.Total_Option, Current_Equipment["item_total_option"]);
+        if (Current_Equipment.contains("item_base_option"))
+            Parse_Option_Info(Now.Base_Option, Current_Equipment["item_base_option"]);
+        if (Current_Equipment.contains("item_additional_option"))
+            Parse_Option_Info(Now.Additional_Option, Current_Equipment["item_additional_option"]);
+        if (Current_Equipment.contains("item_etc_option"))
+            Parse_Option_Info(Now.Exceptional_Option, Current_Equipment["item_etc_option"]);
+
+        Info.push_back(Now);
+    }
+}
+
 // 아이템 정보 반환
 Equipment_Set Maple_API::Get_Equipment_Info(const std::string& Character_Name) const{
     Equipment_Set Equipment_Set;
@@ -143,7 +192,7 @@ Equipment_Set Maple_API::Get_Equipment_Info(const std::string& Character_Name) c
     }
 
     nlohmann::json data = nlohmann::json::parse(Response.text);
-    std::cout << data["item_equipment"]["potential_option_grade"] << std::endl;
+    Parse_Equipment_Info(Equipment_Set.Info[0], data["item_equipment"]);
 
     Equipment_Set.Status_Code = 200;
     return Equipment_Set;
