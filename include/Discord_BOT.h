@@ -15,8 +15,15 @@ private:
     void Setup_Command();
     void Create_Command();
     void Command_Create_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd);
+
     void Get_Info(const dpp::slashcommand_t& Event);
     void Get_Union(const dpp::slashcommand_t& Event);
+
+    void Find_Error(const dpp::slashcommand_t& Event, int32_t Status_Code);
+    void Not_Found_Name(const dpp::slashcommand_t& Event);
+    void Internal_Server_Error(const dpp::slashcommand_t& Event);
+    void Many_Requests(const dpp::slashcommand_t& Event);
+
     void Add_Command_Guild(const dpp::slashcommand& CMD);
     void Add_Command_Global(const dpp::slashcommand& CMD);
 };

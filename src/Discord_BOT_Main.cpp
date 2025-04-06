@@ -17,7 +17,9 @@ void Discord_BOT::Create_Command(){
         std::cout << "봇이 성공적으로 켜졌습니다" << std::endl;
         //if(dpp::run_once<struct register_bot_commands>()){
             std::vector<dpp::slashcommand> Commands = {
-                dpp::slashcommand("정보", "사진 출력", BOT.me.id)
+                dpp::slashcommand("정보", "캐릭터 정보 출력", BOT.me.id)
+                    .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true)),
+                dpp::slashcommand("유니온", "유니온 출력", BOT.me.id)
                     .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true))
             };
 

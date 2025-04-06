@@ -12,3 +12,10 @@ public:
     int32_t Status_Code;
 };
 
+class Union {
+public:
+    int64_t Union_Level;
+    std::string Union_Grade;
+    int64_t Artifact_Level;
+    int32_t Status_Code;
+};

@@ -1,5 +1,5 @@
 #include "Maple_API.h"
-#include "Character.h"
+#include "Custom_Class.h"
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <cpr/cpr.h>
@@ -56,4 +56,36 @@ Character Maple_API::Get_Character_Info(const std::string& Character_Name) const
     std::cout << "이미지 URL : " << data["character_image"] << std::endl;
 
     return Character_Info;
+}
+
+// 유니온 정보 반환
+Union Maple_API::Get_Union_Info(const std::string& Character_Name) const{
+    Union Union_Info;
+    std::string OCID = Get_OCID(Character_Name);
+    if(OCID[0] == '-'){
+        OCID = OCID.substr(1);
+        Union_Info.Status_Code = std::stoi(OCID);
+        return Union_Info;
+    }
+
+    cpr::Response Response = cpr::Get(
+        cpr::Url{"https://open.api.nexon.com/maplestory/v1/user/union"},
+        cpr::Parameters{{"ocid", Get_OCID(Character_Name)}},
+        cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
+    );
+    
+    std::cout << "유니온 정보 요청 응답 코드 : " << Response.status_code << std::endl;
+    if(Response.status_code != 200){
+        Union_Info.Status_Code = Response.status_code;
+        return Union_Info;
+    }
+    
+    nlohmann::json data = nlohmann::json::parse(Response.text);
+
+    std::cout << "유니온 레벨 : " << data["union_level"] << std::endl;
+    Union_Info.Union_Level = data["union_level"];
+    Union_Info.Union_Grade = data["union_grade"];
+    Union_Info.Artifact_Level = data["union_artifact_level"];
+
+    return Union_Info;
 }
