@@ -21,7 +21,7 @@ private:
     void Create_Command();
 
     void Create_Command_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd);
-    void Create_Message_Log(const dpp::confirmation_callback_t& cb);
+    bool Create_Message_Log(const dpp::confirmation_callback_t& cb);
 
     void Get_Info(const dpp::slashcommand_t& Event);
     void Get_Union(const dpp::slashcommand_t& Event);
@@ -45,7 +45,10 @@ private:
 template<typename T>
 void Discord_BOT::Create_Message(dpp::message& Msg, const T& Event){
     const dpp::snowflake UID = Event.command.get_issuing_user().id;
+    Msg.channel_id = Event.command.channel_id;
     BOT.message_create(Msg, [this, UID](const dpp::confirmation_callback_t& cb){
-        
+        if(!this->Create_Message_Log(cb)) return;
+        const dpp::message& Sent = std::get<dpp::message>(cb.value);
+        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
     });
 }

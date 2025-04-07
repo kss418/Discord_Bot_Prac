@@ -52,8 +52,10 @@ void Discord_BOT::Setup_Command(){
         }
 
         const auto& Equipment_Set = it->second;
+        Event.reply("로딩 중 입니다...");
         dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
         Edit_Prev_Message(Msg, UID);
+        Event.delete_original_response();
     });
 
     BOT.on_select_click([this](const dpp::select_click_t& Event){
