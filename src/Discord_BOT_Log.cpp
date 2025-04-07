@@ -35,3 +35,8 @@ void Discord_BOT::Many_Requests(const dpp::slashcommand_t& Event){
         .set_color(0xff0000);
     Event.reply(dpp::message().add_embed(error));
 }
+
+void Discord_BOT::Reply_First_Log(const dpp::confirmation_callback_t& cb){
+    if(!cb.is_error()) return;
+    std::cout << "Reply 실패: " << cb.get_error().message << std::endl;
+}

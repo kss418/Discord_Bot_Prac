@@ -46,12 +46,14 @@ void Discord_BOT::Setup_Command(){
 
         auto it = User_Equipment_Map.find(UID);
         if(it == User_Equipment_Map.end()){
-            Event.reply(dpp::message("장비 데이터를 찾을 수 없습니다."));
+            dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
+            Edit_Prev_Message(Msg, UID);
             return;
         }
 
         const auto& Equipment_Set = it->second;
-        Event.reply(Generate_Equipment_Embed(Equipment_Set.Info[Page], Page));
+        dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
+        Edit_Prev_Message(Msg, UID);
     });
 
     BOT.on_select_click([this](const dpp::select_click_t& Event){
