@@ -20,8 +20,8 @@ private:
     void Setup_Command();
     void Create_Command();
 
-    void Command_Create_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd);
-    void Reply_First_Log(const dpp::confirmation_callback_t& cb);
+    void Create_Command_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd);
+    void Create_Message_Log(const dpp::confirmation_callback_t& cb);
 
     void Get_Info(const dpp::slashcommand_t& Event);
     void Get_Union(const dpp::slashcommand_t& Event);
@@ -39,10 +39,13 @@ private:
     void Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID);
 
     template<typename T>
-    void Reply_First(dpp::message& Msg, const T& Event);
+    void Create_Message(dpp::message& Msg, const T& Event);
 };
 
 template<typename T>
-void Discord_BOT::Reply_First(dpp::message& Msg, const T& Event){
-
+void Discord_BOT::Create_Message(dpp::message& Msg, const T& Event){
+    const dpp::snowflake UID = Event.command.get_issuing_user().id;
+    BOT.message_create(Msg, [this, UID](const dpp::confirmation_callback_t& cb){
+        
+    });
 }

@@ -5,14 +5,14 @@ const dpp::snowflake Guild_ID = 408601520951656448;
 void Discord_BOT::Add_Command_Guild(const dpp::slashcommand& CMD){
     BOT.guild_command_create(CMD, Guild_ID,
         [this, CMD](const dpp::confirmation_callback_t& cb) {
-            this->Command_Create_Log(cb, CMD);
+            this->Create_Command_Log(cb, CMD);
     });
 }
 
 void Discord_BOT::Add_Command_Global(const dpp::slashcommand& CMD){
     BOT.global_command_create(CMD,
         [this, CMD](const dpp::confirmation_callback_t& cb) {
-            this->Command_Create_Log(cb, CMD);
+            this->Create_Command_Log(cb, CMD);
     });
 }
 

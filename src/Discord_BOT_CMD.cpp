@@ -48,5 +48,5 @@ void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
     User_Equipment_Map[UID] = Equipment_Set;
 
     dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Index], Index);
-    Reply_First(Msg, Event);
+    Create_Message(Msg, Event);
 }
