@@ -199,9 +199,9 @@ bool Discord_BOT::Is_Additional_Option(const Equipment_Info& Equipment) const{
     if(Equipment.Slot_Name == "보조무기") return 0;
     if(Equipment.Slot_Name == "뱃지") return 0;
     if(Equipment.Slot_Name == "훈장") return 0;
-    if(Equipment.Slot_Name == "포켓 아이템") return 0;
+    if(Equipment.Slot_Name == "어깨장식") return 0;
     if(Equipment.Slot_Name == "엠블렘") return 0;
-    if(Equipment.Part_Name == "반지" && Equipment.Special_Ring_Level) return 0;
+    if(Equipment.Part_Name == "반지") return 0;
     return 1;
 }
 
@@ -215,8 +215,12 @@ std::string Discord_BOT::Get_Equipment_Detail_Option(const Equipment_Info& Equip
     std::string Msg;
     Msg += Get_Map_By_Key(Equipment.Total_Option.Map, Key);
     if(Is_Percentage(Key)) Msg += "%";
-    Msg += " (";
 
+    if(Get_Map_By_Key(Equipment.Total_Option.Map, Key) == Get_Map_By_Key(Equipment.Base_Option.Map, Key)){
+        return Msg;
+    }
+    
+    Msg += " (";
     Msg += Get_Map_By_Key(Equipment.Base_Option.Map, Key);
     if(Is_Percentage(Key)) Msg += "%";
 
@@ -252,6 +256,9 @@ std::string Discord_BOT::Get_Equipment_Name(const Equipment_Info& Equipment) con
     Msg += Equipment.Item_Name;
     if(Is_Scroll(Equipment)){
         Msg += " (+" + Equipment.Uprade_Count + ")";
+    }
+    if(Equipment.Special_Ring_Level && Equipment.Part_Name == "반지"){
+        Msg += " Lv." + std::to_string(Equipment.Special_Ring_Level);
     }
     return Msg;
 }
