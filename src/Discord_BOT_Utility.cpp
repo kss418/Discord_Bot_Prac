@@ -138,7 +138,9 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
     );
 
     Msg.add_component(Back_Button);
-    Edit_Prev_Message(Msg, UID);  
+    Msg.id = Event.command.message_id;
+    Msg.channel_id = Event.command.channel_id;
+    BOT.message_edit(Msg); 
     Event.delete_original_response();
 }
 
@@ -307,7 +309,9 @@ void Discord_BOT::Back_Summary_Page(const dpp::button_click_t& Event){
     const auto& Equipment_Set = it->second;
     Event.reply("로딩 중 입니다...");
     dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
-    Edit_Prev_Message(Msg, UID);
+    Msg.id = Event.command.message_id;
+    Msg.channel_id = Event.command.channel_id;
+    BOT.message_edit(Msg);
     Event.delete_original_response();
 }
 
