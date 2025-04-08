@@ -20,8 +20,8 @@ private:
     void Setup_Command();
     void Create_Command();
 
-    void Create_Command_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd);
-    bool Create_Message_Log(const dpp::confirmation_callback_t& cb);
+    void Create_Command_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd) const;
+    bool Create_Message_Log(const dpp::confirmation_callback_t& cb) const;
 
     void Get_Info(const dpp::slashcommand_t& Event);
     void Get_Union(const dpp::slashcommand_t& Event);
