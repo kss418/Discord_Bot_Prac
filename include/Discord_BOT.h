@@ -13,8 +13,8 @@ private:
     dpp::cluster BOT;
     std::string API_Key;
     Maple_API M_API;
-    std::unordered_map<dpp::snowflake, size_t> User_Page;
-    std::unordered_map<dpp::snowflake, Equipment_Set> User_Equipment_Map;
+    std::unordered_map<dpp::snowflake, size_t> Message_Page;
+    std::unordered_map<dpp::snowflake, Equipment_Set> Message_Equipment_Map;
     std::unordered_map<dpp::snowflake, std::pair<dpp::snowflake, dpp::snowflake>> Message_Info;
 
     void Setup_Command();
@@ -46,6 +46,7 @@ private:
     std::string Get_Equipment_Detail_Message(const Equipment_Info& Equipment) const;
     std::string Get_Equipment_Detail_Option(const Equipment_Info& Equipment, const std::string& Key) const;
     std::string Get_Equipment_Name(const Equipment_Info& Equipment) const;
+    void Create_Equipment_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Equipment_Set& Equipments);
 
     void Move_Page(const dpp::button_click_t& Event);
     void Back_Summary_Page(const dpp::button_click_t& Event);
@@ -55,18 +56,4 @@ private:
     bool Is_Starforce(const Equipment_Info& Equipment) const;
     bool Is_Scroll(const Equipment_Info& Equipment) const;
     bool Is_Additional_Option(const Equipment_Info& Equipment) const;
-
-    template<typename T>
-    void Create_Message(dpp::message& Msg, const T& Event);
 };
-
-template<typename T>
-void Discord_BOT::Create_Message(dpp::message& Msg, const T& Event){
-    const dpp::snowflake UID = Event.command.get_issuing_user().id;
-    Msg.channel_id = Event.command.channel_id;
-    BOT.message_create(Msg, [this, UID](const dpp::confirmation_callback_t& cb){
-        if(!this->Create_Message_Log(cb)) return;
-        const dpp::message& Sent = std::get<dpp::message>(cb.value);
-        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-    });
-}

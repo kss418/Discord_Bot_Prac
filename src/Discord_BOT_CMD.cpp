@@ -45,10 +45,9 @@ void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
     Event.reply(dpp::message("정보를 받는 중 입니다."));
     size_t Index = 0;
     dpp::snowflake UID = Event.command.get_issuing_user().id;
-    User_Page[UID] = Index;
-    User_Equipment_Map[UID] = Equipment_Set;
+    Message_Page[UID] = Index;
 
-    dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Index], Index);
-    Create_Message(Msg, Event);
+    dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[0], 0);
+    Create_Equipment_Message(Msg, Event, Equipment_Set);
     Event.delete_original_response();
 }

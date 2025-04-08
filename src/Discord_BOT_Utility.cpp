@@ -71,14 +71,15 @@ void Discord_BOT::Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID
 
 void Discord_BOT::Move_Page(const dpp::button_click_t& Event){
     dpp::snowflake UID = Event.command.get_issuing_user().id;
-    size_t& Page = User_Page[UID];
+    dpp::snowflake MID = Event.command.message_id;
+    size_t& Page = Message_Page[Event.command.message_id];
     Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
 
     if(Event.custom_id == "prev_page" && Page > 0) --Page;
     if(Event.custom_id == "next_page" && Page < 3) ++Page;
 
-    auto it = User_Equipment_Map.find(UID);
-    if(it == User_Equipment_Map.end()){
+    auto it = Message_Equipment_Map.find(MID);
+    if(it == Message_Equipment_Map.end()){
         dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         return;
@@ -97,18 +98,20 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
     std::cout << "상세 정보 출력 함수 호출" << std::endl;
     Event.reply(dpp::message("로딩 중 입니다..."));
     const dpp::snowflake UID = Event.command.get_issuing_user().id;
+    const dpp::snowflake MID = Event.command.message_id;
+    const dpp::snowflake CID = Event.command.channel_id;
 
     int Index = std::stoi(Event.values[0]);
-    auto Equipment_It = User_Equipment_Map.find(UID);
-    auto Page_It = User_Page.find(UID);
-    if(Equipment_It == User_Equipment_Map.end() || Page_It == User_Page.end()){
+    auto Equipment_It = Message_Equipment_Map.find(MID);
+    auto Page_It = Message_Page.find(MID);
+    if(Equipment_It == Message_Equipment_Map.end() || Page_It == Message_Page.end()){
         dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         Event.delete_original_response();
         return;
     }
 
-    const std::vector<Equipment_Info>& Equipment_List = User_Equipment_Map[UID].Info[User_Page[UID]];
+    const std::vector<Equipment_Info>& Equipment_List = Message_Equipment_Map[MID].Info[Message_Page[MID]];
     if(Index < 0 || Index >= Equipment_List.size()){
         dpp::message Msg("잘못된 장비 선택입니다.");
         Edit_Prev_Message(Msg, UID);
@@ -289,11 +292,13 @@ std::string Discord_BOT::Get_Equipment_Name(const Equipment_Info& Equipment) con
 }
 
 void Discord_BOT::Back_Summary_Page(const dpp::button_click_t& Event){
-    dpp::snowflake UID = Event.command.get_issuing_user().id;
-    size_t& Page = User_Page[UID];
+    const dpp::snowflake UID = Event.command.get_issuing_user().id;
+    const dpp::snowflake MID = Event.command.message_id;
+    const dpp::snowflake CID = Event.command.channel_id;
+    size_t& Page = Message_Page[MID];
 
-    auto it = User_Equipment_Map.find(UID);
-    if(it == User_Equipment_Map.end()){
+    auto it = Message_Equipment_Map.find(MID);
+    if(it == Message_Equipment_Map.end()){
         dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         return;
@@ -308,4 +313,15 @@ void Discord_BOT::Back_Summary_Page(const dpp::button_click_t& Event){
 
 void Discord_BOT::End_Equipment_Show(const dpp::button_click_t& Event){
     BOT.message_delete(Event.command.message_id, Event.command.channel_id);
+}
+
+void Discord_BOT::Create_Equipment_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Equipment_Set& Equipments){
+    const dpp::snowflake UID = Event.command.get_issuing_user().id;
+    Msg.channel_id = Event.command.channel_id;
+    BOT.message_create(Msg, [this, UID, Equipments](const dpp::confirmation_callback_t& cb){
+        if(!this->Create_Message_Log(cb)) return;
+        const dpp::message& Sent = std::get<dpp::message>(cb.value);
+        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
+        this->Message_Equipment_Map[Sent.id] = Equipments;
+    });
 }
