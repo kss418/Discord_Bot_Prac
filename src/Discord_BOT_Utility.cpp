@@ -29,7 +29,7 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
         if(!Current_Equipment.Potential_Option_Info.Additional_Grade.empty()) description += " | " + Current_Equipment.Potential_Option_Info.Additional_Grade;
 
         menu.add_select_option(
-            dpp::select_option(Current_Equipment.Item_Name, std::to_string(i + 1))
+            dpp::select_option(Current_Equipment.Item_Name, std::to_string(i))
                 .set_description(description)
         );
     }
@@ -104,12 +104,55 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
 
     const Equipment_Info& Equipment = Equipment_List[Index];
     dpp::message Msg;
-    Msg.set_content(
-        "장비 상세 정보\n"
-        "이름: " + Equipment.Item_Name + "\n"
-        "스타포스: " + Equipment.Starforce + "\n"
-        "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "회\n"
-    );
+    dpp::embed Image;
+    Image.set_title(Equipment.Item_Name + (Equipment.Uprage_Count.empty() ? "" : "(+" + Equipment.Uprage_Count + ")"))
+        .set_thumbnail(Equipment.Item_Icon)
+        .set_color(Get_Potential_Color(Equipment.Potential_Option_Info.Grade))
+        .set_description(Get_Equipment_Detail_Message(Equipment));
+        
+    Msg.add_embed(Image);
+    Edit_Prev_Message(Msg, UID);  
+}
 
-    Edit_Prev_Message(Msg, UID);   
+uint32_t Discord_BOT::Get_Potential_Color(const std::string& Potential_Grade) const{
+    if(Potential_Grade == "레전드리") return 0x33FF33;
+    else if(Potential_Grade == "유니크") return 0xFFFF00;
+    else if(Potential_Grade == "에픽") return 0x7F00FF;
+    else if(Potential_Grade == "레어") return 0x99CCFF;
+    return 0xFFFFFF;
+}
+
+std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equipment) const{
+    std::string Msg;
+    Msg += "스타포스: " + Equipment.Starforce + "\n";
+
+    Msg += "장비분류: " + Equipment.Part_Name + "\n";
+    if(Equipment.Cuttable_Count != "255"){
+        Msg += "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "\n";
+    }
+
+
+    if(!Equipment.Potential_Option_Info.Grade.empty()){
+        Msg += "\n" + Equipment.Potential_Option_Info.Grade + " 잠재옵션\n";
+        Msg += Equipment.Potential_Option_Info.Option[0] + "\n";
+        Msg += Equipment.Potential_Option_Info.Option[1] + "\n";
+        if(!Equipment.Potential_Option_Info.Option[2].empty()){
+            Msg += Equipment.Potential_Option_Info.Option[2] + "\n";
+        }
+    }
+
+    if(!Equipment.Potential_Option_Info.Additional_Grade.empty()){
+        Msg += "\n" + Equipment.Potential_Option_Info.Additional_Grade + " 에디셔널 잠재옵션\n";
+        Msg += Equipment.Potential_Option_Info.Additional_Option[0] + "\n";
+        Msg += Equipment.Potential_Option_Info.Additional_Option[1] + "\n";
+        if(!Equipment.Potential_Option_Info.Additional_Option[2].empty()){
+            Msg += Equipment.Potential_Option_Info.Additional_Option[2] + "\n";
+        }
+    }
+
+    return Msg;
+}
+
+std::string Discord_BOT::Get_Equipment_Detail_Stat(const Option& Total, const Option& Base, const Option& Add, const Option& Etc,const Option& Starforce) const{
+
 }

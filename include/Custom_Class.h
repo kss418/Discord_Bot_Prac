@@ -71,6 +71,7 @@ public:
     Option Additional_Option;
     Option Starforce_Option;
     Option Exceptional_Option;
+    Option Etc_Option;
 
     Potential_Option Potential_Option_Info;
     int64_t Special_Ring_Level;
