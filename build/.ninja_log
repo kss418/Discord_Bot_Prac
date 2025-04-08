@@ -39,3 +39,13 @@
 2	6655	1744110364084468929	CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Utility.cpp.o	d36fa622507869c6
 2	6696	1744110364124468924	CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Main.cpp.o	196b43da6056a7ee
 6696	7101	1744110364534468884	Discord_BotP	718b0b7e76e00fe2
+2	2881	1744111376434356245	CMakeFiles/Discord_BotP.dir/src/Maple_API_Parser.cpp.o	bd3dc1001d360432
+3	6347	1744111379904355367	CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Handler.cpp.o	397946d67553ee9d
+3	6413	1744111379964355351	CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Log.cpp.o	658c033a044c7340
+2	6427	1744111379984355345	CMakeFiles/Discord_BotP.dir/main.cpp.o	67875d454dad9593
+2	6656	1744111380204355291	CMakeFiles/Discord_BotP.dir/src/Discord_BOT_CMD.cpp.o	906e4cc65aa202a9
+3	6929	1744111380474355222	CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Utility.cpp.o	d36fa622507869c6
+2	7023	1744111380574355197	CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Main.cpp.o	196b43da6056a7ee
+7023	7524	1744111381074355074	Discord_BotP	718b0b7e76e00fe2
+1	5580	1744111491324344972	CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Utility.cpp.o	d36fa622507869c6
+5580	6005	1744111491754344924	Discord_BotP	718b0b7e76e00fe2

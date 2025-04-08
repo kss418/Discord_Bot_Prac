@@ -33,8 +33,8 @@ void Maple_API::Parse_Potential_Option_Info(Potential_Option& Info, const nlohma
 
 void Maple_API::Parse_Option_Info(Option& Info, const nlohmann::json& Data) const {
     for(auto it = Data.begin();it != Data.end();it++){
-        if(!it.value().is_string()) continue;
-        Info.Map[it.key()] = it.value().get<std::string>();
+        if(it.value().is_string()) Info.Map[it.key()] = it.value().get<std::string>();
+        else if(it.value().is_number_integer()) Info.Map[it.key()] = std::to_string(it.value().get<long long>());
     }
 }
 

@@ -142,8 +142,8 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         Msg += "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "\n";
     }
 
-    Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
     if(!Equipment.Potential_Option_Info.Grade.empty()){
+        Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
         Msg += "\n" + Equipment.Potential_Option_Info.Grade + " 잠재옵션\n";
         Msg += Equipment.Potential_Option_Info.Option[0] + "\n";
         Msg += Equipment.Potential_Option_Info.Option[1] + "\n";
@@ -152,8 +152,8 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         }
     }
 
-    Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
     if(!Equipment.Potential_Option_Info.Additional_Grade.empty()){
+        Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
         Msg += "\n" + Equipment.Potential_Option_Info.Additional_Grade + " 에디셔널 잠재옵션\n";
         Msg += Equipment.Potential_Option_Info.Additional_Option[0] + "\n";
         Msg += Equipment.Potential_Option_Info.Additional_Option[1] + "\n";
@@ -162,11 +162,20 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         }
     }
 
+    if(Get_Map_By_Key(Equipment.Exceptional_Option.Map, "exceptional_upgrade") != "0"){
+        Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n익셉셔널\n";
+        for(const auto& [Key, Name] : Option_List){
+            if(Equipment.Exceptional_Option.Map.find(Key) == Equipment.Exceptional_Option.Map.end()) continue;
+            if(Get_Map_By_Key(Equipment.Exceptional_Option.Map, Key) == "0") continue;
+            Msg += Name + ": +" + Get_Map_By_Key(Equipment.Exceptional_Option.Map, Key) + "\n";
+        }
+    }
+
     return Msg;
 }
 
 bool Discord_BOT::Is_Starforce(const std::string& Key) const{
-    
+    return 0;
 }
 
 bool Discord_BOT::Is_Percentage(const std::string& Key) const{
@@ -191,8 +200,9 @@ std::string Discord_BOT::Get_Equipment_Detail_Option(const Equipment_Info& Equip
     Msg += Get_Map_By_Key(Equipment.Etc_Option.Map, Key);
     if(Is_Percentage(Key)) Msg += "%";
 
-    Msg += "+" + Get_Map_By_Key(Equipment.Starforce_Option.Map, Key) + ")";
+    Msg += "+" + Get_Map_By_Key(Equipment.Starforce_Option.Map, Key);
     if(Is_Percentage(Key)) Msg += "%";
+    Msg += ")";
     return Msg;
 }
 
