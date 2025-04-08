@@ -61,4 +61,25 @@ void Discord_BOT::Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID
     BOT.message_edit(Msg);
 }
 
+void Discord_BOT::Move_Page(const dpp::button_click_t& Event){
+    dpp::snowflake UID = Event.command.get_issuing_user().id;
+    size_t& Page = User_Page[UID];
+
+    if(Event.custom_id == "prev_page" && Page > 0) --Page;
+    if(Event.custom_id == "next_page" && Page < 3) ++Page;
+
+    auto it = User_Equipment_Map.find(UID);
+    if(it == User_Equipment_Map.end()){
+        dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
+        Edit_Prev_Message(Msg, UID);
+        return;
+    }
+
+    const auto& Equipment_Set = it->second;
+    Event.reply("로딩 중 입니다...");
+    dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
+    Edit_Prev_Message(Msg, UID);
+    Event.delete_original_response();
+}
+
 

@@ -13,6 +13,7 @@ add_executable(Discord_BotP
     src/Discord_BOT_CMD.cpp
     src/Discord_BOT_Log.cpp
     src/Discord_BOT_Utility.cpp
+    src/Discord_BOT_Handler.cpp
 )
 
 target_link_libraries(Discord_BotP

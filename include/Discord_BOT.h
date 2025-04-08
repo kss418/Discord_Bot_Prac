@@ -20,6 +20,10 @@ private:
     void Setup_Command();
     void Create_Command();
 
+    void Handle_Slash_Command(const dpp::slashcommand_t& Event);
+    void Handle_Button_Click(const dpp::button_click_t& Event);
+    void Handle_Select_Click(const dpp::select_click_t& Event);
+
     void Create_Command_Log(const dpp::confirmation_callback_t& cb, const dpp::slashcommand& cmd) const;
     bool Create_Message_Log(const dpp::confirmation_callback_t& cb) const;
 
@@ -37,6 +41,7 @@ private:
 
     dpp::message Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page);
     void Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID);
+    void Move_Page(const dpp::button_click_t& Event);
 
     template<typename T>
     void Create_Message(dpp::message& Msg, const T& Event);

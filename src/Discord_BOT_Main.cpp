@@ -32,38 +32,14 @@ void Discord_BOT::Create_Command(){
 
 void Discord_BOT::Setup_Command(){
     BOT.on_slashcommand([this](const dpp::slashcommand_t& Event){
-        if(Event.command.get_command_name() == "정보") Get_Info(Event);
-        if(Event.command.get_command_name() == "유니온") Get_Union(Event);
-        if(Event.command.get_command_name() == "장비") Get_Equipment(Event);
+        Handle_Slash_Command(Event);
     });
 
     BOT.on_button_click([this](const dpp::button_click_t& Event){
-        dpp::snowflake UID = Event.command.get_issuing_user().id;
-        size_t& Page = User_Page[UID];
-
-        if(Event.custom_id == "prev_page" && Page > 0) --Page;
-        if(Event.custom_id == "next_page" && Page < 3) ++Page;
-
-        auto it = User_Equipment_Map.find(UID);
-        if(it == User_Equipment_Map.end()){
-            dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
-            Edit_Prev_Message(Msg, UID);
-            return;
-        }
-
-        const auto& Equipment_Set = it->second;
-        Event.reply("로딩 중 입니다...");
-        dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
-        Edit_Prev_Message(Msg, UID);
-        Event.delete_original_response();
+        Handle_Button_Click(Event);
     });
 
     BOT.on_select_click([this](const dpp::select_click_t& Event){
-        dpp::snowflake UID = Event.command.get_issuing_user().id;
-        if(Event.values.empty()) return;
-        int Index = std::stoi(Event.values[0]);
-        Equipment_Info& Equipment = User_Equipment_Map[UID].Info[User_Page[UID]][Index];
-        
-
+        Handle_Select_Click(Event);
     });
 }
