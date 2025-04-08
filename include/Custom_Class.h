@@ -61,7 +61,7 @@ public:
     std::string Slot_Name;
     std::string Item_Name;
     std::string Item_Icon;
-    std::string Uprage_Count;
+    std::string Uprade_Count;
     std::string Cuttable_Count;
     std::string Golden_Hammer_Flag;
     std::string Soul_Name;

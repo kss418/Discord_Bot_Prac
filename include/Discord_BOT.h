@@ -46,9 +46,12 @@ private:
     uint32_t Get_Potential_Color(const std::string& Potential_Grade) const;
     std::string Get_Equipment_Detail_Message(const Equipment_Info& Equipment) const;
     std::string Get_Equipment_Detail_Option(const Equipment_Info& Equipment, const std::string& Key) const;
-    bool Is_Percentage(const std::string& Key) const;
-    bool Is_Starforce(const std::string& Key) const;
     std::string Get_Equipment_Name(const Equipment_Info& Equipment) const;
+
+    bool Is_Percentage(const std::string& Key) const;
+    bool Is_Starforce(const Equipment_Info& Equipment) const;
+    bool Is_Scroll(const Equipment_Info& Equipment) const;
+    bool Is_Additional_Option(const Equipment_Info& Equipment) const;
 
     template<typename T>
     void Create_Message(dpp::message& Msg, const T& Event);

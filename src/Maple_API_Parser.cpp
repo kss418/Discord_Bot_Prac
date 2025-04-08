@@ -45,7 +45,7 @@ void Maple_API::Parse_Equipment_Info(std::vector<Equipment_Info>& Info, const nl
         Now.Slot_Name = Get_Str(Current_Equipment, "item_equipment_slot");
         Now.Item_Name = Get_Str(Current_Equipment, "item_name");
         Now.Item_Icon = Get_Str(Current_Equipment, "item_icon");
-        Now.Uprage_Count = Get_Str(Current_Equipment, "scroll_upgrade");
+        Now.Uprade_Count = Get_Str(Current_Equipment, "scroll_upgrade");
         Now.Golden_Hammer_Flag = Get_Str(Current_Equipment, "golden_hammer_flag");
         Now.Cuttable_Count = Get_Str(Current_Equipment, "cuttable_count");
 

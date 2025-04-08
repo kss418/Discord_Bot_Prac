@@ -24,8 +24,8 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
 
     for(int i = 0;i < Info.size();i++){
         Equipment_Info Current_Equipment = Info[i];
-        std::string description = "★" + Current_Equipment.Starforce;
-        if(!Current_Equipment.Potential_Option_Info.Grade.empty()) description += " | " + Current_Equipment.Potential_Option_Info.Grade;
+        std::string description = (Is_Starforce(Current_Equipment) ? "★" + Current_Equipment.Starforce + " | " : "");
+        if(!Current_Equipment.Potential_Option_Info.Grade.empty()) description += Current_Equipment.Potential_Option_Info.Grade;
         if(!Current_Equipment.Potential_Option_Info.Additional_Grade.empty()) description += " | " + Current_Equipment.Potential_Option_Info.Additional_Grade;
 
         menu.add_select_option(
@@ -169,13 +169,40 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
             if(Get_Map_By_Key(Equipment.Exceptional_Option.Map, Key) == "0") continue;
             Msg += Name + ": +" + Get_Map_By_Key(Equipment.Exceptional_Option.Map, Key) + "\n";
         }
+        Msg += "익셉셔널 강화 " + Get_Map_By_Key(Equipment.Exceptional_Option.Map, "exceptional_upgrade") + "회 적용\n";
     }
 
     return Msg;
 }
 
-bool Discord_BOT::Is_Starforce(const std::string& Key) const{
-    return 0;
+bool Discord_BOT::Is_Starforce(const Equipment_Info& Equipment) const{
+    if(Equipment.Slot_Name == "보조무기") return 0;
+    if(Equipment.Slot_Name == "뱃지") return 0;
+    if(Equipment.Slot_Name == "훈장") return 0;
+    if(Equipment.Slot_Name == "포켓 아이템") return 0;
+    if(Equipment.Slot_Name == "엠블렘") return 0;
+    if(Equipment.Part_Name == "반지" && Equipment.Special_Ring_Level) return 0;
+    return 1;
+}
+
+bool Discord_BOT::Is_Scroll(const Equipment_Info& Equipment) const{
+    if(Equipment.Slot_Name == "보조무기") return 0;
+    if(Equipment.Slot_Name == "뱃지") return 0;
+    if(Equipment.Slot_Name == "훈장") return 0;
+    if(Equipment.Slot_Name == "포켓 아이템") return 0;
+    if(Equipment.Slot_Name == "엠블렘") return 0;
+    if(Equipment.Part_Name == "반지" && Equipment.Special_Ring_Level) return 0;
+    return 1;
+}
+
+bool Discord_BOT::Is_Additional_Option(const Equipment_Info& Equipment) const{
+    if(Equipment.Slot_Name == "보조무기") return 0;
+    if(Equipment.Slot_Name == "뱃지") return 0;
+    if(Equipment.Slot_Name == "훈장") return 0;
+    if(Equipment.Slot_Name == "포켓 아이템") return 0;
+    if(Equipment.Slot_Name == "엠블렘") return 0;
+    if(Equipment.Part_Name == "반지" && Equipment.Special_Ring_Level) return 0;
+    return 1;
 }
 
 bool Discord_BOT::Is_Percentage(const std::string& Key) const{
@@ -193,26 +220,38 @@ std::string Discord_BOT::Get_Equipment_Detail_Option(const Equipment_Info& Equip
     Msg += Get_Map_By_Key(Equipment.Base_Option.Map, Key);
     if(Is_Percentage(Key)) Msg += "%";
 
-    Msg += "+" + Get_Map_By_Key(Equipment.Additional_Option.Map, Key);
-    if(Is_Percentage(Key)) Msg += "%";
+    if(Is_Additional_Option(Equipment)){
+        Msg += "+" + Get_Map_By_Key(Equipment.Additional_Option.Map, Key);
+        if(Is_Percentage(Key)) Msg += "%";
+    }
     
-    Msg += (std::stoi(Get_Map_By_Key(Equipment.Etc_Option.Map, Key)) < 0 ? "-" : "+");
-    Msg += Get_Map_By_Key(Equipment.Etc_Option.Map, Key);
-    if(Is_Percentage(Key)) Msg += "%";
+    if(Is_Scroll(Equipment)){
+        Msg += (std::stoi(Get_Map_By_Key(Equipment.Etc_Option.Map, Key)) < 0 ? "-" : "+");
+        Msg += Get_Map_By_Key(Equipment.Etc_Option.Map, Key);
+        if(Is_Percentage(Key)) Msg += "%";
+    }
 
-    Msg += "+" + Get_Map_By_Key(Equipment.Starforce_Option.Map, Key);
-    if(Is_Percentage(Key)) Msg += "%";
+    if(Is_Starforce(Equipment)){
+        Msg += "+" + Get_Map_By_Key(Equipment.Starforce_Option.Map, Key);
+        if(Is_Percentage(Key)) Msg += "%";
+    }
     Msg += ")";
     return Msg;
 }
 
 std::string Discord_BOT::Get_Equipment_Name(const Equipment_Info& Equipment) const{
     std::string Msg;
-    for(int i = 1;i <= 30;i++){
-        if(i % 5 == 1 && i != 1) Msg += " ";
-        if(i == 16) Msg += "\n";
-        Msg += (i <= std::stoi(Equipment.Starforce) ? "★" : "☆");
+    if(Is_Starforce(Equipment)){
+        for(int i = 1;i <= 30;i++){
+            if(i % 5 == 1 && i != 1) Msg += " ";
+            if(i == 16) Msg += "\n";
+            Msg += (i <= std::stoi(Equipment.Starforce) ? "★" : "☆");
+        }   
+        Msg += "\n";
     }
-    Msg += "\n" + Equipment.Item_Name + (Equipment.Uprage_Count.empty() ? "" : " (+" + Equipment.Uprage_Count + ")");
+    Msg += Equipment.Item_Name;
+    if(Is_Scroll(Equipment)){
+        Msg += " (+" + Equipment.Uprade_Count + ")";
+    }
     return Msg;
 }
