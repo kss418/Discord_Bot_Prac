@@ -82,4 +82,33 @@ void Discord_BOT::Move_Page(const dpp::button_click_t& Event){
     Event.delete_original_response();
 }
 
+void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
+    if(Event.values.empty()) return;
+    const dpp::snowflake UID = Event.command.get_issuing_user().id;
 
+    int Index = std::stoi(Event.values[0]);
+    auto Equipment_It = User_Equipment_Map.find(UID);
+    auto Page_It = User_Page.find(UID);
+    if(Equipment_It == User_Equipment_Map.end() || Page_It == User_Page.end()){
+        dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
+        Edit_Prev_Message(Msg, UID);
+        return;
+    }
+
+    const std::vector<Equipment_Info>& Equipment_List = User_Equipment_Map[UID].Info[User_Page[UID]];
+    if(Index < 0 || Index >= Equipment_List.size()){
+        dpp::message Msg("잘못된 장비 선택입니다.");
+        Edit_Prev_Message(Msg, UID);
+        return;
+    }
+
+    const Equipment_Info& Equipment = Equipment_List[Index];
+    dpp::message Msg;
+    Msg.set_content(
+        "장비 상세 정보\n"
+        "이름: " + Equipment.Item_Name + "\n"
+        "스타포스: " + Equipment.Starforce + "\n"
+        "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "회\n"
+    );
+
+}

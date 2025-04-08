@@ -42,6 +42,7 @@ private:
     dpp::message Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page);
     void Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID);
     void Move_Page(const dpp::button_click_t& Event);
+    void Show_Equipment_Detail(const dpp::select_click_t& Event);
 
     template<typename T>
     void Create_Message(dpp::message& Msg, const T& Event);
