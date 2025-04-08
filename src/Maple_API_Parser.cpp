@@ -76,8 +76,10 @@ void Maple_API::Parse_Equipment_Info(std::vector<Equipment_Info>& Info, const nl
             Parse_Option_Info(Now.Additional_Option, Current_Equipment["item_additional_option"]);
         if (Current_Equipment.contains("item_etc_option"))
             Parse_Option_Info(Now.Etc_Option, Current_Equipment["item_etc_option"]);
-            if (Current_Equipment.contains("item_exceptional_option"))
+        if (Current_Equipment.contains("item_exceptional_option"))
             Parse_Option_Info(Now.Exceptional_Option, Current_Equipment["item_exceptional_option"]);
+            if (Current_Equipment.contains("item_starforce_option"))
+            Parse_Option_Info(Now.Starforce_Option, Current_Equipment["item_starforce_option"]);
         
         Parse_Potential_Option_Info(Now.Potential_Option_Info, Current_Equipment);
 

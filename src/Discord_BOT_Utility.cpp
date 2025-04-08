@@ -131,6 +131,14 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         Msg += "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "\n";
     }
 
+    if(!Equipment.Total_Option.Str.empty()){
+        Msg += "Str : +" + Equipment.Total_Option.Str + " (";
+        Msg += Equipment.Base_Option.Str + " ";
+        Msg += Equipment.Additional_Option.Str + " ";
+        Msg += Equipment.Etc_Option.Str + " ";
+        Msg += Equipment.Starforce_Option.Str + " ";
+        Msg += ")\n";
+    }
 
     if(!Equipment.Potential_Option_Info.Grade.empty()){
         Msg += "\n" + Equipment.Potential_Option_Info.Grade + " 잠재옵션\n";
@@ -151,8 +159,4 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
     }
 
     return Msg;
-}
-
-std::string Discord_BOT::Get_Equipment_Detail_Stat(const Option& Total, const Option& Base, const Option& Add, const Option& Etc,const Option& Starforce) const{
-
 }
