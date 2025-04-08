@@ -83,7 +83,7 @@ void Discord_BOT::Move_Page(const dpp::button_click_t& Event){
 }
 
 void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
-    if(Event.values.empty()) return;
+    std::cout << "상세 정보 출력 함수 호출" << std::endl;
     const dpp::snowflake UID = Event.command.get_issuing_user().id;
 
     int Index = std::stoi(Event.values[0]);
@@ -111,4 +111,5 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
         "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "회\n"
     );
 
+    Edit_Prev_Message(Msg, UID);   
 }
