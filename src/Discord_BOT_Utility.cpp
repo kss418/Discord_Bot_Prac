@@ -53,6 +53,11 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
             .set_id("next_page")
             .set_style(dpp::cos_secondary)
             .set_type(dpp::cot_button))
+        .add_component(dpp::component()
+            .set_label("❌")
+            .set_id("end_equipment_show")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
     );
     
     return msg;
@@ -62,6 +67,17 @@ void Discord_BOT::Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID
     Msg.id = Message_Info[UID].first;
     Msg.channel_id = Message_Info[UID].second;
     BOT.message_edit(Msg);
+}
+
+void Discord_BOT::Delete_Prev_Message(const dpp::snowflake& UID){
+    if(Message_Info.find(UID) == Message_Info.end()){
+        std::cout << "메세지 삭제 실패!" << std::endl;
+        return;
+    }
+
+    std::cout << "메세지 삭제 성공!" << std::endl;
+    BOT.message_delete(Message_Info[UID].first, Message_Info[UID].second);
+    Message_Info.erase(UID);
 }
 
 void Discord_BOT::Move_Page(const dpp::button_click_t& Event){
@@ -296,4 +312,9 @@ void Discord_BOT::Back_Summary_Page(const dpp::button_click_t& Event){
     dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
     Edit_Prev_Message(Msg, UID);
     Event.delete_original_response();
+}
+
+void Discord_BOT::End_Equipment_Show(const dpp::button_click_t& Event){
+    dpp::snowflake UID = Event.command.get_issuing_user().id;
+    Delete_Prev_Message(UID);
 }
