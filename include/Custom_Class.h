@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 class Character {
 public:
@@ -27,22 +28,23 @@ public:
     int32_t Status_Code;
 };
 
+const std::vector <std::pair<std::string, std::string>> Option_List = {
+    {"str", "STR"},
+    {"dex", "DEX"},
+    {"int", "INT"},
+    {"luk", "LUK"},
+    {"max_hp", "최대 HP"},
+    {"attack_power", "공격력"},
+    {"magic_power", "마력"},
+    {"boss_damage", "보스 공격 시 데미지 증가"},
+    {"ignore_monster_armor", "몬스터 방어율 무시"},
+    {"all_stat", "올스탯"},
+    {"max_hp_rate", "최대 HP"},
+};
+
 class Option {
 public:
-    std::string Str;
-    std::string Dex;
-    std::string Int;
-    std::string Luk;
-    std::string Max_HP;
-    std::string Max_MP;
-    std::string Attack_Power;
-    std::string Magic_Power;
-    std::string Boss_Damage;
-    std::string Ignore_Armor;
-    std::string All_Stat;
-    std::string Damage;
-    std::string Max_HP_Rate;
-    std::string Max_MP_Rate;
+    std::unordered_map <std::string, std::string> Map;
 };
 
 class Potential_Option {

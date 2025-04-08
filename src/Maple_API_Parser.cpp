@@ -32,19 +32,9 @@ void Maple_API::Parse_Potential_Option_Info(Potential_Option& Info, const nlohma
 }
 
 void Maple_API::Parse_Option_Info(Option& Info, const nlohmann::json& Data) const {
-    Info.Str = Get_Str(Data, "str");
-    Info.Dex = Get_Str(Data, "dex");
-    Info.Int = Get_Str(Data, "int");
-    Info.Luk = Get_Str(Data, "luk");
-    Info.Max_HP = Get_Str(Data, "max_hp");
-    Info.Max_MP = Get_Str(Data, "max_mp");
-    Info.Attack_Power = Get_Str(Data, "attack_power");
-    Info.Magic_Power = Get_Str(Data, "magic_power");
-    Info.Boss_Damage = Get_Str(Data, "boss_damage");
-    Info.All_Stat = Get_Str(Data, "all_stat");
-    Info.Damage = Get_Str(Data, "damage");
-    Info.Max_HP_Rate = Get_Str(Data, "max_hp_rate");
-    Info.Max_MP_Rate = Get_Str(Data, "max_mp_rate");
+    for(auto it = Data.begin();it != Data.end();it++){
+        Info.Map[it.key()] = it.value().get<std::string>();
+    }
 }
 
 void Maple_API::Parse_Equipment_Info(std::vector<Equipment_Info>& Info, const nlohmann::json& Data) const {
