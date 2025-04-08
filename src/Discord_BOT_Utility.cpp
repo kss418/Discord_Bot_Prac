@@ -327,5 +327,6 @@ void Discord_BOT::Create_Equipment_Message(dpp::message& Msg, const dpp::slashco
         const dpp::message& Sent = std::get<dpp::message>(cb.value);
         this->Message_Info[UID] = { Sent.id, Sent.channel_id };
         this->Message_Equipment_Map[Sent.id] = Equipments;
+        this->Message_Page[Sent.id] = 0;
     });
 }
