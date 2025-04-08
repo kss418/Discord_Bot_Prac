@@ -131,20 +131,9 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         Msg += "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "\n";
     }
 
-    if(!Equipment.Total_Option.Str.empty()){
-        Msg += "STR : +" + Equipment.Total_Option.Str + " (";
-        Msg += Equipment.Base_Option.Str;
-        if(Equipment.Additional_Option.Str != "0"){
-            Msg += "+" + Equipment.Additional_Option.Str;
-        }
-        if(Equipment.Etc_Option.Str != "0"){
-            Msg += (std::stoi(Equipment.Etc_Option.Str) < 0 ? "-" : "+");
-            Msg += Equipment.Etc_Option.Str;
-        }
-        if(Equipment.Starforce_Option.Str != "0"){
-            Msg += "+" + Equipment.Starforce_Option.Str;
-        }
-        Msg += ")\n";
+    for(const auto[Key, Name] : Option_List){
+        if(Equipment.Total_Option.Map.find(Key) == Equipment.Total_Option.Map.end()) continue;
+        Msg += Name + ": " + Get_Equipment_Detail_Option(Equipment, Key) + "\n";
     }
 
     if(!Equipment.Potential_Option_Info.Grade.empty()){
@@ -165,5 +154,24 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         }
     }
 
+    return Msg;
+}
+
+std::string Discord_BOT::Get_Equipment_Detail_Option(Equipment_Info& Equipment, const std::string& Key) {
+    std::string Msg;
+    Msg += Equipment.Total_Option.Map[Key] + " (";
+    Msg += Equipment.Base_Option.Map[Key];
+    if(Equipment.Additional_Option.Map[Key] != "0"){
+        Msg += "+" + Equipment.Additional_Option.Map[Key];
+    }
+    if(Equipment.Etc_Option.Map[Key] != "0"){
+        Msg += (std::stoi(Equipment.Etc_Option.Map[Key]) < 0 ? "-" : "+");
+        Msg += Equipment.Etc_Option.Map[Key];
+    }
+    if(Equipment.Starforce_Option.Map[Key] != "0"){
+        Msg += "+" + Equipment.Starforce_Option.Map[Key];
+    }
+    Msg += ")\n";
+    
     return Msg;
 }
