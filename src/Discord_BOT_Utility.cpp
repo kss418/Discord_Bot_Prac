@@ -105,7 +105,7 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
     const Equipment_Info& Equipment = Equipment_List[Index];
     dpp::message Msg;
     dpp::embed Image;
-    Image.set_title(Equipment.Item_Name + (Equipment.Uprage_Count.empty() ? "" : "(+" + Equipment.Uprage_Count + ")"))
+    Image.set_title(Get_Equipment_Name(Equipment))
         .set_thumbnail(Equipment.Item_Icon)
         .set_color(Get_Potential_Color(Equipment.Potential_Option_Info.Grade))
         .set_description(Get_Equipment_Detail_Message(Equipment));
@@ -122,20 +122,27 @@ uint32_t Discord_BOT::Get_Potential_Color(const std::string& Potential_Grade) co
     return 0xFFFFFF;
 }
 
+const std::string& Get_Map_By_Key(const std::unordered_map<std::string, std::string> Map, const std::string& Key){
+    static const std::string Empty = "0";
+    auto It = Map.find(Key);
+    return (It != Map.end() ? It->second : Empty);
+}
+
 std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equipment) const{
     std::string Msg;
-    Msg += "스타포스: " + Equipment.Starforce + "\n";
-
     Msg += "장비분류: " + Equipment.Part_Name + "\n";
+
+    for(const auto& [Key, Name] : Option_List){
+        if(Equipment.Total_Option.Map.find(Key) == Equipment.Total_Option.Map.end()) continue;
+        if(Get_Map_By_Key(Equipment.Total_Option.Map, Key) == "0") continue;
+        Msg += Name + ": +" + Get_Equipment_Detail_Option(Equipment, Key) + "\n";
+    }
+
     if(Equipment.Cuttable_Count != "255"){
         Msg += "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "\n";
     }
 
-    for(const auto[Key, Name] : Option_List){
-        if(Equipment.Total_Option.Map.find(Key) == Equipment.Total_Option.Map.end()) continue;
-        Msg += Name + ": " + Get_Equipment_Detail_Option(Equipment, Key) + "\n";
-    }
-
+    Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
     if(!Equipment.Potential_Option_Info.Grade.empty()){
         Msg += "\n" + Equipment.Potential_Option_Info.Grade + " 잠재옵션\n";
         Msg += Equipment.Potential_Option_Info.Option[0] + "\n";
@@ -145,6 +152,7 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         }
     }
 
+    Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
     if(!Equipment.Potential_Option_Info.Additional_Grade.empty()){
         Msg += "\n" + Equipment.Potential_Option_Info.Additional_Grade + " 에디셔널 잠재옵션\n";
         Msg += Equipment.Potential_Option_Info.Additional_Option[0] + "\n";
@@ -157,21 +165,44 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
     return Msg;
 }
 
-std::string Discord_BOT::Get_Equipment_Detail_Option(Equipment_Info& Equipment, const std::string& Key) {
-    std::string Msg;
-    Msg += Equipment.Total_Option.Map[Key] + " (";
-    Msg += Equipment.Base_Option.Map[Key];
-    if(Equipment.Additional_Option.Map[Key] != "0"){
-        Msg += "+" + Equipment.Additional_Option.Map[Key];
-    }
-    if(Equipment.Etc_Option.Map[Key] != "0"){
-        Msg += (std::stoi(Equipment.Etc_Option.Map[Key]) < 0 ? "-" : "+");
-        Msg += Equipment.Etc_Option.Map[Key];
-    }
-    if(Equipment.Starforce_Option.Map[Key] != "0"){
-        Msg += "+" + Equipment.Starforce_Option.Map[Key];
-    }
-    Msg += ")\n";
+bool Discord_BOT::Is_Starforce(const std::string& Key) const{
     
+}
+
+bool Discord_BOT::Is_Percentage(const std::string& Key) const{
+    if(Key == "boss_damage" || Key == "ignore_monster_armor") return 1;
+    if(Key == "all_stat" || Key == "max_hp_rate") return 1;
+    return 0;
+}
+
+std::string Discord_BOT::Get_Equipment_Detail_Option(const Equipment_Info& Equipment, const std::string& Key) const{
+    std::string Msg;
+    Msg += Get_Map_By_Key(Equipment.Total_Option.Map, Key);
+    if(Is_Percentage(Key)) Msg += "%";
+    Msg += " (";
+
+    Msg += Get_Map_By_Key(Equipment.Base_Option.Map, Key);
+    if(Is_Percentage(Key)) Msg += "%";
+
+    Msg += "+" + Get_Map_By_Key(Equipment.Additional_Option.Map, Key);
+    if(Is_Percentage(Key)) Msg += "%";
+    
+    Msg += (std::stoi(Get_Map_By_Key(Equipment.Etc_Option.Map, Key)) < 0 ? "-" : "+");
+    Msg += Get_Map_By_Key(Equipment.Etc_Option.Map, Key);
+    if(Is_Percentage(Key)) Msg += "%";
+
+    Msg += "+" + Get_Map_By_Key(Equipment.Starforce_Option.Map, Key) + ")";
+    if(Is_Percentage(Key)) Msg += "%";
+    return Msg;
+}
+
+std::string Discord_BOT::Get_Equipment_Name(const Equipment_Info& Equipment) const{
+    std::string Msg;
+    for(int i = 1;i <= 30;i++){
+        if(i % 5 == 1 && i != 1) Msg += " ";
+        if(i == 16) Msg += "\n";
+        Msg += (i <= std::stoi(Equipment.Starforce) ? "★" : "☆");
+    }
+    Msg += "\n" + Equipment.Item_Name + (Equipment.Uprage_Count.empty() ? "" : " (+" + Equipment.Uprage_Count + ")");
     return Msg;
 }

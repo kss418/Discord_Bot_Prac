@@ -36,7 +36,7 @@ const std::vector <std::pair<std::string, std::string>> Option_List = {
     {"max_hp", "최대 HP"},
     {"attack_power", "공격력"},
     {"magic_power", "마력"},
-    {"boss_damage", "보스 공격 시 데미지 증가"},
+    {"boss_damage", "보스 몬스터 공격 시 데미지"},
     {"ignore_monster_armor", "몬스터 방어율 무시"},
     {"all_stat", "올스탯"},
     {"max_hp_rate", "최대 HP"},
