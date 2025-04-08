@@ -132,17 +132,19 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
     }
 
     if(!Equipment.Total_Option.Str.empty()){
-        Msg += "str : +" + Equipment.Total_Option.Str + " (";
-        Msg += Equipment.Base_Option.Str + " ";
-        Msg += Equipment.Additional_Option.Str + " ";
-        Msg += Equipment.Etc_Option.Str + " ";
-        Msg += Equipment.Starforce_Option.Str + " ";
+        Msg += "STR : +" + Equipment.Total_Option.Str + " (";
+        Msg += Equipment.Base_Option.Str;
+        if(Equipment.Additional_Option.Str != "0"){
+            Msg += "+" + Equipment.Additional_Option.Str;
+        }
+        if(Equipment.Etc_Option.Str != "0"){
+            Msg += (std::stoi(Equipment.Etc_Option.Str) < 0 ? "-" : "+");
+            Msg += Equipment.Etc_Option.Str;
+        }
+        if(Equipment.Starforce_Option.Str != "0"){
+            Msg += "+" + Equipment.Starforce_Option.Str;
+        }
         Msg += ")\n";
-
-        std::cout << "기본 스탯: " << Equipment.Base_Option.Str << std::endl;
-        std::cout << "추가 옵션: " << Equipment.Additional_Option.Str << std::endl;
-        std::cout << "작: " << Equipment.Etc_Option.Str << std::endl;
-        std::cout << "스타포스: " << Equipment.Starforce_Option.Str << std::endl;
     }
 
     if(!Equipment.Potential_Option_Info.Grade.empty()){
