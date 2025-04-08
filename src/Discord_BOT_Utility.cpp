@@ -87,6 +87,7 @@ void Discord_BOT::Move_Page(const dpp::button_click_t& Event){
 
 void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
     std::cout << "상세 정보 출력 함수 호출" << std::endl;
+    Event.reply(dpp::message("로딩 중 입니다..."));
     const dpp::snowflake UID = Event.command.get_issuing_user().id;
 
     int Index = std::stoi(Event.values[0]);
@@ -95,6 +96,7 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
     if(Equipment_It == User_Equipment_Map.end() || Page_It == User_Page.end()){
         dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
+        Event.delete_original_response();
         return;
     }
 
@@ -102,6 +104,7 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
     if(Index < 0 || Index >= Equipment_List.size()){
         dpp::message Msg("잘못된 장비 선택입니다.");
         Edit_Prev_Message(Msg, UID);
+        Event.delete_original_response();
         return;
     }
 
@@ -114,7 +117,18 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
         .set_description(Get_Equipment_Detail_Message(Equipment));
         
     Msg.add_embed(Image);
+
+    dpp::component Back_Button = dpp::component()
+        .add_component(dpp::component()
+            .set_type(dpp::cot_button)
+            .set_style(dpp::cos_secondary)
+            .set_label("🔙")
+            .set_id("back_summary")
+    );
+
+    Msg.add_component(Back_Button);
     Edit_Prev_Message(Msg, UID);  
+    Event.delete_original_response();
 }
 
 uint32_t Discord_BOT::Get_Potential_Color(const std::string& Potential_Grade) const{
@@ -264,4 +278,22 @@ std::string Discord_BOT::Get_Equipment_Name(const Equipment_Info& Equipment) con
         Msg += " Lv." + std::to_string(Equipment.Special_Ring_Level);
     }
     return Msg;
+}
+
+void Discord_BOT::Back_Summary_Page(const dpp::button_click_t& Event){
+    dpp::snowflake UID = Event.command.get_issuing_user().id;
+    size_t& Page = User_Page[UID];
+
+    auto it = User_Equipment_Map.find(UID);
+    if(it == User_Equipment_Map.end()){
+        dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
+        Edit_Prev_Message(Msg, UID);
+        return;
+    }
+
+    const auto& Equipment_Set = it->second;
+    Event.reply("로딩 중 입니다...");
+    dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
+    Edit_Prev_Message(Msg, UID);
+    Event.delete_original_response();
 }

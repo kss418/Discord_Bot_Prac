@@ -10,6 +10,7 @@ void Discord_BOT::Handle_Slash_Command(const dpp::slashcommand_t& Event){
 void Discord_BOT::Handle_Button_Click(const dpp::button_click_t& Event){
     if(Event.custom_id == "prev_page") Move_Page(Event);
     else if(Event.custom_id == "next_page") Move_Page(Event);
+    else if(Event.custom_id == "back_summary") Back_Summary_Page(Event);
 }
 
 void Discord_BOT::Handle_Select_Click(const dpp::select_click_t& Event){
