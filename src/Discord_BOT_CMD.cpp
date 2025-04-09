@@ -59,6 +59,6 @@ void Discord_BOT::Get_Hexa_Skill(const dpp::slashcommand_t& Event){
     size_t Index = 0;
   
     dpp::message Msg = Generate_Hexa_Skill_Embed(Skill_Info, Index);
-    Create_Hexa_Skill_Message(Msg, Event, Skill_Info);
+    Create_Skill_Message(Msg, Event, Skill_Info);
     Event.delete_original_response();
 }
