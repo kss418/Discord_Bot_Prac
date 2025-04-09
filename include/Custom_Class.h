@@ -28,6 +28,31 @@ public:
     int32_t Status_Code;
 };
 
+class Hexa_Core {
+public:
+
+    int32_t Status_Code;
+};
+
+class Character_Skill {
+public:
+    class Skill_Info{
+    public:
+        std::string skill_name;
+        std::string skill_description;
+        int64_t skill_level;
+        std::string skill_effect;
+        std::string skill_effect_next;
+        std::string skill_icon;
+    };
+    
+    std::string date;
+    std::string character_class;  
+    std::string character_skill_grade;
+    Skill_Info character_skill;
+    int32_t Status_Code;
+};
+
 const std::vector <std::pair<std::string, std::string>> Option_List = {
     {"str", "STR"},
     {"dex", "DEX"},

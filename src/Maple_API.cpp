@@ -4,11 +4,22 @@
 #include <nlohmann/json.hpp>
 #include <cpr/cpr.h>
 
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character_Skill::Skill_Info,
+    skill_name, skill_description, skill_level,
+    skill_effect, skill_effect_next, skill_icon);
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character_Skill,
+    date, character_class, character_skill_grade, character_skill);
+
 //"https://open.api.nexon.com/maplestory/v1";
 Maple_API::Maple_API(const std::string& API_Key) : API_Key(API_Key){}
 
 // API에 OCID 요청
 const std::string Maple_API::Get_OCID(const std::string& Character_Name) const {
+    if(OCID_Map.find(Character_Name) != OCID_Map.end()){
+        return OCID_Map[Character_Name];
+    }
+
     cpr::Response Response = cpr::Get(
         cpr::Url{"https://open.api.nexon.com/maplestory/v1/id"},
         cpr::Parameters{{"character_name", Character_Name}},
@@ -19,7 +30,8 @@ const std::string Maple_API::Get_OCID(const std::string& Character_Name) const {
     if(Response.status_code != 200) return "-" + std::to_string(Response.status_code);
 
     nlohmann::json data = nlohmann::json::parse(Response.text);
-    return data["ocid"].get<std::string>();
+    OCID_Map[Character_Name] = data["ocid"].get<std::string>();
+    return OCID_Map[Character_Name];
 }
 
 // 캐릭터 정보 반환
@@ -149,4 +161,8 @@ Equipment_Set Maple_API::Get_Equipment_Info(const std::string& Character_Name) c
 
     Equipment_Set.Status_Code = 200;
     return Equipment_Set;
+}
+
+Character_Skill Maple_API::Get_Hexa_Core_Info(const std::string& Character_Name) const{
+    return Character_Skill();
 }
