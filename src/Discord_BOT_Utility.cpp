@@ -67,19 +67,21 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
 dpp::message Discord_BOT::Generate_Hexa_Skill_Embed(const Character_Skill& Skill, int Page){
     std::vector <Character_Skill::Skill_Info> Skill_List = Skill.character_skill;
     dpp::message Msg;
-    dpp::embed Embed;
+    dpp::embed Embed[4], Main_Embed;
 
     int32_t Start = Page * Skill_Per_Page;
-    Embed.set_title("헥사 스킬 목록\n" + std::to_string(Page + 1) + " / " + 
+    Main_Embed.set_title("헥사 스킬 목록\n" + std::to_string(Page + 1) + " / " + 
         std::to_string((Skill_List.size() - 1) / Skill_Per_Page + 1) + "페이지")
         .set_color(0xFFFF);
     
     for(int i = 0;i < Skill_Per_Page && Start + i < Skill_List.size();i++){
         const Character_Skill::Skill_Info& Skill = Skill_List[Start + i];
-        Embed.add_field(Skill.skill_icon, Skill.skill_name, true);
-        Embed.add_field("레벨: ", std::to_string(Skill.skill_level), false);
+        Embed[i].set_thumbnail(Skill.skill_icon);
+        Embed[i].add_field(Skill.skill_name, std::to_string(Skill.skill_level) + "레벨", false);
     }
-    Msg.add_embed(Embed);
+    Msg.add_embed(Main_Embed);
+    for(int i = 0;i < Skill_Per_Page;i++) Msg.add_embed(Embed[i]);
+
     Msg.add_component(dpp::component()
         .add_component(dpp::component()
             .set_label("◀️")
