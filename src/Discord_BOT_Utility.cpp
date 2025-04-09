@@ -330,3 +330,15 @@ void Discord_BOT::Create_Equipment_Message(dpp::message& Msg, const dpp::slashco
         this->Message_Page[Sent.id] = 0;
     });
 }
+
+void Discord_BOT::Create_Skill_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Character_Skill& Skill){
+    const dpp::snowflake UID = Event.command.get_issuing_user().id;
+    Msg.channel_id = Event.command.channel_id;
+    BOT.message_create(Msg, [this, UID, Skill](const dpp::confirmation_callback_t& cb){
+        if(!this->Create_Message_Log(cb)) return;
+        const dpp::message& Sent = std::get<dpp::message>(cb.value);
+        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
+        this->Message_Skill_Map[Sent.id] = Skill;
+        this->Message_Page[Sent.id] = 0;
+    });
+}

@@ -44,7 +44,6 @@ void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
     
     Event.reply(dpp::message("정보를 받는 중 입니다."));
     size_t Index = 0;
-    dpp::snowflake UID = Event.command.get_issuing_user().id;
 
     dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[0], 0);
     Create_Equipment_Message(Msg, Event, Equipment_Set);
@@ -57,7 +56,9 @@ void Discord_BOT::Get_Hexa_Skill(const dpp::slashcommand_t& Event){
     if(Skill_Info.Status_Code != 200){ Find_Error(Event, Skill_Info.Status_Code); return; }
 
     Event.reply(dpp::message("정보를 받는 중 입니다."));
-
-
+    size_t Index = 0;
+  
+    dpp::message Msg = Generate_Hexa_Skill_Embed(Skill_Info, Index);
+    Create_Hexa_Skill_Message(Msg, Event, Skill_Info);
     Event.delete_original_response();
 }
