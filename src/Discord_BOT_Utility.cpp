@@ -63,13 +63,18 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
     return msg;
 }
 
+dpp::message Discord_BOT::Generate_Hexa_Skill_Embed(const Character_Skill& Skill, int page){
+    std::vector <Character_Skill::Skill_Info> Skill_List = Skill.character_skill;
+   
+}
+
 void Discord_BOT::Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID){
     Msg.id = Message_Info[UID].first;
     Msg.channel_id = Message_Info[UID].second;
     BOT.message_edit(Msg);
 }
 
-void Discord_BOT::Move_Page(const dpp::button_click_t& Event){
+void Discord_BOT::Move_Equipment_Page(const dpp::button_click_t& Event){
     dpp::snowflake UID = Event.command.get_issuing_user().id;
     dpp::snowflake MID = Event.command.message_id;
     size_t& Page = Message_Page[Event.command.message_id];
@@ -315,7 +320,7 @@ void Discord_BOT::Back_Summary_Page(const dpp::button_click_t& Event){
     Event.delete_original_response();
 }
 
-void Discord_BOT::End_Equipment_Show(const dpp::button_click_t& Event){
+void Discord_BOT::Delete_Command_Message(const dpp::button_click_t& Event){
     BOT.message_delete(Event.command.message_id, Event.command.channel_id);
 }
 

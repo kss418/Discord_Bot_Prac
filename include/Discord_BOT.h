@@ -54,9 +54,10 @@ private:
     void Create_Equipment_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Equipment_Set& Equipments);
     void Create_Skill_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Character_Skill& Skill);
 
-    void Move_Page(const dpp::button_click_t& Event);
+    void Move_Equipment_Page(const dpp::button_click_t& Event);
+    void Move_Hexa_Skill_Page(const dpp::button_click_t& Event);
     void Back_Summary_Page(const dpp::button_click_t& Event);
-    void End_Equipment_Show(const dpp::button_click_t& Event);
+    void Delete_Command_Message(const dpp::button_click_t& Event);
 
     bool Is_Percentage(const std::string& Key) const;
     bool Is_Starforce(const Equipment_Info& Equipment) const;
