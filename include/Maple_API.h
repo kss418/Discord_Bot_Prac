@@ -14,6 +14,7 @@ public:
     Popularity Get_Popularity_Info(const std::string& Character_Name) const;
     Equipment_Set Get_Equipment_Info(const std::string& Character_Name) const;
     Character_Skill Get_Hexa_Skill_Info(const std::string& Character_Name) const;
+    Hexa_Stat Get_Hexa_Stat_Info(const std::string& Character_Name) const;
 
     void Parse_Equipment_Info(std::vector <Equipment_Info>& Info, const nlohmann::json& data) const;
     void Parse_Option_Info(Option& Info, const nlohmann::json& data) const;

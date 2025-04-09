@@ -5,10 +5,27 @@
 #include <cpr/cpr.h>
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character_Skill::Skill_Info,
-    skill_name, skill_level, skill_description, skill_icon);
+    skill_name, skill_level, skill_description, skill_icon
+);
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character_Skill,
-    character_class, character_skill_grade, character_skill);
+    character_class, character_skill_grade, character_skill
+);
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Hexa_Stat::Core,
+    slot_id, main_stat_name, sub_stat_name_1, sub_stat_name_2,
+    main_stat_level, sub_stat_level_1, sub_stat_level_2, stat_grade
+);
+
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Hexa_Stat,
+    character_haxa_stat_core,
+    character_haxa_stat_core_2,
+    character_haxa_stat_core_3,
+    preset_character_haxa_stat_core,
+    preset_character_haxa_stat_core_2,
+    preset_character_haxa_stat_core_3
+);
 
 //"https://open.api.nexon.com/maplestory/v1";
 Maple_API::Maple_API(const std::string& API_Key) : API_Key(API_Key){}
@@ -186,6 +203,32 @@ Character_Skill Maple_API::Get_Hexa_Skill_Info(const std::string& Character_Name
     nlohmann::json data = nlohmann::json::parse(Response.text);
     Skill_Info = data.get<Character_Skill>();
     Skill_Info.Status_Code = 200;
-
     return Skill_Info;
+}
+
+Hexa_Stat Maple_API::Get_Hexa_Stat_Info(const std::string& Character_Name) const{
+    Hexa_Stat Stat_Info;
+    std::string OCID = Get_OCID(Character_Name);
+    if(OCID[0] == '-'){
+        OCID = OCID.substr(1);
+        Stat_Info.Status_Code = std::stoi(OCID);
+        return Stat_Info;
+    }
+
+    cpr::Response Response = cpr::Get(
+        cpr::Url{"https://open.api.nexon.com/maplestory/v1/character/hexamatrix-stat"},
+        cpr::Parameters{{"ocid", OCID}},
+        cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
+    );
+
+    std::cout << "헥사 스탯 정보 요청 응답 코드 : " << Response.status_code << std::endl;
+    if(Response.status_code != 200){
+        Stat_Info.Status_Code = Response.status_code;
+        return Stat_Info;
+    }
+
+    nlohmann::json data = nlohmann::json::parse(Response.text);
+    Stat_Info = data.get<Hexa_Stat>();
+    Stat_Info.Status_Code = 200;
+    return Stat_Info;
 }

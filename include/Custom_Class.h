@@ -100,3 +100,27 @@ public:
     std::vector <Equipment_Info> Info[4];
     int32_t Status_Code;
 };
+
+class Hexa_Stat {
+public:
+    class Core{
+    public:
+        std::string slot_id;
+        std::string main_stat_name;
+        std::string sub_stat_name_1;
+        std::string sub_stat_name_2;
+        int64_t main_stat_level;
+        int64_t sub_stat_level_1;
+        int64_t sub_stat_level_2;
+        int64_t stat_grade;
+    };
+    std::string character_class;
+    Core character_haxa_stat_core;
+    Core character_haxa_stat_core_2;
+    Core character_haxa_stat_core_3;
+
+    Core preset_character_haxa_stat_core;
+    Core preset_character_haxa_stat_core_2;
+    Core preset_character_haxa_stat_core_3;
+    int32_t Status_Code;
+};
