@@ -50,3 +50,14 @@ void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
     Create_Equipment_Message(Msg, Event, Equipment_Set);
     Event.delete_original_response();
 }
+
+void Discord_BOT::Get_Hexa_Skill(const dpp::slashcommand_t& Event){
+    std::string Character_Name = std::get<std::string>(Event.get_parameter("character_name"));
+    Character_Skill Skill_Info = M_API.Get_Hexa_Skill_Info(Character_Name);
+    if(Skill_Info.Status_Code != 200){ Find_Error(Event, Skill_Info.Status_Code); return; }
+
+    Event.reply(dpp::message("정보를 받는 중 입니다."));
+
+
+    Event.delete_original_response();
+}

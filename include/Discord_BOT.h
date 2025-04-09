@@ -30,6 +30,7 @@ private:
     void Get_Info(const dpp::slashcommand_t& Event);
     void Get_Union(const dpp::slashcommand_t& Event);
     void Get_Equipment(const dpp::slashcommand_t& Event);
+    void Get_Hexa_Skill(const dpp::slashcommand_t& Event);
 
     void Find_Error(const dpp::slashcommand_t& Event, int32_t Status_Code);
     void Not_Found_Name(const dpp::slashcommand_t& Event);

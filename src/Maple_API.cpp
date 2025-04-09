@@ -5,11 +5,10 @@
 #include <cpr/cpr.h>
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character_Skill::Skill_Info,
-    skill_name, skill_description, skill_level,
-    skill_effect, skill_effect_next, skill_icon);
+    skill_name, skill_level, skill_description, skill_icon);
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character_Skill,
-    date, character_class, character_skill_grade, character_skill);
+    character_class, character_skill_grade, character_skill);
 
 //"https://open.api.nexon.com/maplestory/v1";
 Maple_API::Maple_API(const std::string& API_Key) : API_Key(API_Key){}
@@ -163,6 +162,30 @@ Equipment_Set Maple_API::Get_Equipment_Info(const std::string& Character_Name) c
     return Equipment_Set;
 }
 
-Character_Skill Maple_API::Get_Hexa_Core_Info(const std::string& Character_Name) const{
-    return Character_Skill();
+Character_Skill Maple_API::Get_Hexa_Skill_Info(const std::string& Character_Name) const{
+    Character_Skill Skill_Info;
+    std::string OCID = Get_OCID(Character_Name);
+    if(OCID[0] == '-'){
+        OCID = OCID.substr(1);
+        Skill_Info.Status_Code = std::stoi(OCID);
+        return Skill_Info;
+    }
+
+    cpr::Response Response = cpr::Get(
+        cpr::Url{"https://open.api.nexon.com/maplestory/v1/character/skill"},
+        cpr::Parameters{{"ocid", OCID}, {"character_skill_grade", "6"}},
+        cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
+    );
+
+    std::cout << "헥사 스킬 정보 요청 응답 코드 : " << Response.status_code << std::endl;
+    if(Response.status_code != 200){
+        Skill_Info.Status_Code = Response.status_code;
+        return Skill_Info;
+    }
+
+    nlohmann::json data = nlohmann::json::parse(Response.text);
+    Skill_Info = data.get<Character_Skill>();
+    Skill_Info.Status_Code = 200;
+
+    return Skill_Info;
 }
