@@ -1,6 +1,7 @@
 #include "Discord_BOT.h"
 #include <iostream>
 const dpp::snowflake Guild_ID = 408601520951656448;
+const int32_t Skill_Per_Page = 4;
 
 void Discord_BOT::Add_Command_Guild(const dpp::slashcommand& CMD){
     BOT.guild_command_create(CMD, Guild_ID,
@@ -45,17 +46,17 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
     msg.add_component(dpp::component()
         .add_component(dpp::component()
             .set_label("◀️")
-            .set_id("prev_page")
+            .set_id("prev_equipment_page")
             .set_style(dpp::cos_secondary)
             .set_type(dpp::cot_button))
         .add_component(dpp::component()
             .set_label("▶️")
-            .set_id("next_page")
+            .set_id("next_equipment_page")
             .set_style(dpp::cos_secondary)
             .set_type(dpp::cot_button))
         .add_component(dpp::component()
             .set_label("❌")
-            .set_id("end_equipment_show")
+            .set_id("delete_command_message")
             .set_style(dpp::cos_secondary)
             .set_type(dpp::cot_button))
     );
@@ -63,9 +64,68 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
     return msg;
 }
 
-dpp::message Discord_BOT::Generate_Hexa_Skill_Embed(const Character_Skill& Skill, int page){
+dpp::message Discord_BOT::Generate_Hexa_Skill_Embed(const Character_Skill& Skill, int Page){
     std::vector <Character_Skill::Skill_Info> Skill_List = Skill.character_skill;
-   
+    dpp::message Msg;
+    dpp::embed Embed;
+
+    int32_t Start = Page * Skill_Per_Page;
+    Embed.set_title("헥사 스킬 목록\n" + std::to_string(Page + 1) + " / " + 
+        std::to_string((Skill_List.size() - 1) / Skill_Per_Page + 1) + "페이지")
+        .set_color(0xFFFF);
+    
+    for(int i = 0;i < Skill_Per_Page && Start + i < Skill_List.size();i++){
+        const Character_Skill::Skill_Info& Skill = Skill_List[Start + i];
+        Embed.add_field(Skill.skill_icon, Skill.skill_name, true);
+        Embed.add_field("레벨: ", std::to_string(Skill.skill_level), false);
+    }
+    Msg.add_embed(Embed);
+    Msg.add_component(dpp::component()
+        .add_component(dpp::component()
+            .set_label("◀️")
+            .set_id("prev_hexa_skill_page")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+        .add_component(dpp::component()
+            .set_label("▶️")
+            .set_id("next_hexa_skill_page")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+        .add_component(dpp::component()
+            .set_label("❌")
+            .set_id("delete_command_message")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+    );
+
+    return Msg;
+}
+
+void Discord_BOT::Move_Hexa_Skill_Page(const dpp::button_click_t& Event){
+    dpp::snowflake UID = Event.command.get_issuing_user().id;
+    dpp::snowflake MID = Event.command.message_id;
+    size_t& Page = Message_Page[Event.command.message_id];
+    Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
+
+    auto it = Message_Skill_Map.find(MID);
+    if(it == Message_Skill_Map.end()){
+        dpp::message Msg("헥사 스킬 데이터를 찾을 수 없습니다.");
+        Edit_Prev_Message(Msg, UID);
+        return;
+    }
+
+    Event.reply("로딩 중 입니다...");
+    const auto& Skill = it->second;
+
+    int32_t Last_Page = (Skill.character_skill.size() - 1) / Skill_Per_Page;
+    if(Event.custom_id == "next_hexa_skill_page" && Page < Last_Page) Page++;
+    if(Event.custom_id == "prev_hexa_skill_page" && Page > 0) Page--;
+
+    dpp::message Msg = Generate_Hexa_Skill_Embed(Skill, Page);
+    Msg.id = Event.command.message_id;
+    Msg.channel_id = Event.command.channel_id;
+    BOT.message_edit(Msg);
+    Event.delete_original_response();
 }
 
 void Discord_BOT::Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID){
@@ -80,8 +140,8 @@ void Discord_BOT::Move_Equipment_Page(const dpp::button_click_t& Event){
     size_t& Page = Message_Page[Event.command.message_id];
     Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
 
-    if(Event.custom_id == "prev_page" && Page > 0) --Page;
-    if(Event.custom_id == "next_page" && Page < 3) ++Page;
+    if(Event.custom_id == "prev_equipment_page" && Page > 0) --Page;
+    if(Event.custom_id == "next_equipmnet_page" && Page < 3) ++Page;
 
     auto it = Message_Equipment_Map.find(MID);
     if(it == Message_Equipment_Map.end()){
