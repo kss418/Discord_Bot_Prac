@@ -6,6 +6,7 @@ void Discord_BOT::Handle_Slash_Command(const dpp::slashcommand_t& Event){
     if(Event.command.get_command_name() == "유니온") Get_Union(Event);
     if(Event.command.get_command_name() == "장비") Get_Equipment(Event);
     if(Event.command.get_command_name() == "헥사스킬") Get_Hexa_Skill(Event);
+    if(Event.command.get_command_name() == "헥사스탯") Get_Hexa_Stat(Event);
 }
 
 void Discord_BOT::Handle_Button_Click(const dpp::button_click_t& Event){

@@ -32,6 +32,7 @@ private:
     void Get_Union(const dpp::slashcommand_t& Event);
     void Get_Equipment(const dpp::slashcommand_t& Event);
     void Get_Hexa_Skill(const dpp::slashcommand_t& Event);
+    void Get_Hexa_Stat(const dpp::slashcommand_t& Event);
 
     void Find_Error(const dpp::slashcommand_t& Event, int32_t Status_Code);
     void Not_Found_Name(const dpp::slashcommand_t& Event);
@@ -50,9 +51,11 @@ private:
     
     dpp::message Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page);
     dpp::message Generate_Hexa_Skill_Embed(const Character_Skill& Skill, int page);
+    dpp::message Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int page);
 
     void Create_Equipment_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Equipment_Set& Equipments);
     void Create_Skill_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Character_Skill& Skill);
+    void Create_Hexa_Stat_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Hexa_Stat& Stat);
 
     void Move_Equipment_Page(const dpp::button_click_t& Event);
     void Move_Hexa_Skill_Page(const dpp::button_click_t& Event);
