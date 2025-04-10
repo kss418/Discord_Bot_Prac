@@ -65,7 +65,7 @@ void Discord_BOT::Get_Hexa_Stat(const dpp::slashcommand_t& Event){
     if(Stat_Info.Status_Code != 200){ Find_Error(Event, Stat_Info.Status_Code ); return; }
 
     Event.reply(dpp::message("정보를 받는 중 입니다."));
-    dpp::message Msg = Generate_Hexa_Stat_Embed(Stat_Info, 0);
-    Create_Hexa_Stat_Message(Msg, Event, Stat_Info);
+    //dpp::message Msg = Generate_Hexa_Stat_Embed(Stat_Info);
+    //Create_Hexa_Stat_Message(Msg, Event, Stat_Info);
     Event.delete_original_response();
 }

@@ -4,6 +4,7 @@
 #include <dpp/dpp.h>
 #include <string>
 #include <unordered_map>
+const int32_t Skill_Per_Page = 4;
 
 class Discord_BOT{
 public:
@@ -45,13 +46,14 @@ private:
     void Edit_Prev_Message(dpp::message& Msg, const dpp::snowflake& UID);
     void Show_Equipment_Detail(const dpp::select_click_t& Event);
     uint32_t Get_Potential_Color(const std::string& Potential_Grade) const;
-    std::string Get_Equipment_Detail_Message(const Equipment_Info& Equipment) const;
-    std::string Get_Equipment_Detail_Option(const Equipment_Info& Equipment, const std::string& Key) const;
+    std::string Get_Equipment_Detail_Message(const Equipment_Info& Equipment);
+    std::string Get_Equipment_Detail_Option(const Equipment_Info& Equipment, const std::string& Key);
     std::string Get_Equipment_Name(const Equipment_Info& Equipment) const;
-    
+    std::string Get_Map_By_Key(const std::unordered_map<std::string, std::string>& Map, const std::string& Key);
+
     dpp::message Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page);
     dpp::message Generate_Hexa_Skill_Embed(const Character_Skill& Skill, int page);
-    dpp::message Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int page);
+    dpp::message Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat);
 
     void Create_Equipment_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Equipment_Set& Equipments);
     void Create_Skill_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Character_Skill& Skill);
