@@ -129,17 +129,18 @@ dpp::message Discord_BOT::Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int pa
 
     dpp::message Msg;
     dpp::embed Embed;
-    Embed.set_title(std::to_string(page + 1) + "번 헥사 스탯")
-    .set_color(0x00CCFF)                                       
-    .add_field("메인 레벨", std::to_string(Current_Core.main_stat_level), true)
-    .add_field("스탯", Current_Core.main_stat_name, true)
-    .add_field("\u200B", "\u200B", true)
-    .add_field("에디셔널1 레벨", std::to_string(Current_Core.sub_stat_level_1), true)
-    .add_field("스탯", Current_Core.sub_stat_name_1, true)
-    .add_field("\u200B", "\u200B", true)
-    .add_field("에디셔널2 레벨", std::to_string(Current_Core.sub_stat_level_2), true)
-    .add_field("스탯", Current_Core.sub_stat_name_2, true)
-    .add_field("\u200B", "\u200B", true);
+    Embed.set_title(std::to_string(page + 1) + "번 헥사 스탯\n" + 
+        std::to_string(page + 1) + " / " + std::to_string(Hexa_Core_Count) + "페이지")
+        .set_color(0x00CCFF)                                       
+        .add_field("메인 레벨", std::to_string(Current_Core.main_stat_level), true)
+        .add_field("스탯", Current_Core.main_stat_name, true)
+        .add_field("\u200B", "\u200B", true)
+        .add_field("에디셔널1 레벨", std::to_string(Current_Core.sub_stat_level_1), true)
+        .add_field("스탯", Current_Core.sub_stat_name_1, true)
+        .add_field("\u200B", "\u200B", true)
+        .add_field("에디셔널2 레벨", std::to_string(Current_Core.sub_stat_level_2), true)
+        .add_field("스탯", Current_Core.sub_stat_name_2, true)
+        .add_field("\u200B", "\u200B", true);
 
     Msg.add_embed(Embed);
     Msg.add_component(dpp::component()
