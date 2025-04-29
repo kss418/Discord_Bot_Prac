@@ -164,10 +164,26 @@ dpp::message Discord_BOT::Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int pa
 }
 
 dpp::message Discord_BOT::Generate_Symbol_Embed(const Symbol& Symbol, int page){
-
-
     dpp::message Msg;
+    dpp::embed Embed[6], Main_Embed;
+    Main_Embed.set_title(std::string(page ? "어센틱" : "아케인") + "심볼\n" + 
+        std::to_string(page + 1) + " / " + std::to_string(2) + "페이지")
+        .set_color(0x00CCFF);
 
+        
+    const auto& Symbol_Info = Symbol.symbol; 
+    for(size_t i = 0;i < 6;i++){
+        const auto& Current_Symbol = Symbol_Info[i];
+        Embed[i].set_thumbnail(Current_Symbol.symbol_icon);
+        Embed[i].add_field(Current_Symbol.symbol_name, 
+            std::to_string(Current_Symbol.symbol_level) + "레벨" + 
+            (Current_Symbol.symbol_level != 20 ? " (" + std::to_string(Current_Symbol.symbol_growth_count) + "/" + 
+            std::to_string(Current_Symbol.symbol_require_growth_count) + ")" : " (MAX)"), true);
+        Embed[i].set_color(0x00CCFF);
+    }
+
+    Msg.add_embed(Main_Embed);
+    for(int i = 0;i < 6;i++) Msg.add_embed(Embed[i]);  
 
     return Msg;
 }

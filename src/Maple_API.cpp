@@ -252,7 +252,7 @@ Symbol Maple_API::Get_Symbol_Info(const std::string& Character_Name) const{
     }
 
     cpr::Response Response = cpr::Get(
-        cpr::Url{"https://open.api.nexon.com/maplestory/v1/character/hexamatrix-stat"},
+        cpr::Url{"https://open.api.nexon.com/maplestory/v1/character/symbol-equipment"},
         cpr::Parameters{{"ocid", OCID}},
         cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
     );

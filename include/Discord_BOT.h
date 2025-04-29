@@ -19,6 +19,7 @@ private:
     std::unordered_map<dpp::snowflake, Equipment_Set> Message_Equipment_Map;
     std::unordered_map<dpp::snowflake, Character_Skill> Message_Skill_Map;
     std::unordered_map<dpp::snowflake, Hexa_Stat> Message_Hexa_Stat_Map;
+    std::unordered_map<dpp::snowflake, Symbol> Message_Symbol_Map;
     std::unordered_map<dpp::snowflake, std::pair<dpp::snowflake, dpp::snowflake>> Message_Info;
 
     void Setup_Command();

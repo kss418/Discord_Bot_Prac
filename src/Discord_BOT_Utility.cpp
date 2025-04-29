@@ -337,7 +337,7 @@ void Discord_BOT::Create_Symbol_Message(dpp::message& Msg, const dpp::slashcomma
         if(!this->Create_Message_Log(cb)) return;
         const dpp::message& Sent = std::get<dpp::message>(cb.value);
         this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        //this->Message_Hexa_Stat_Map[Sent.id] = Stat;
+        this->Message_Symbol_Map[Sent.id] = Symbol;
         this->Message_Page[Sent.id] = 0;
     });
 }
