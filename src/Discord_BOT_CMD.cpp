@@ -69,3 +69,14 @@ void Discord_BOT::Get_Hexa_Stat(const dpp::slashcommand_t& Event){
     Create_Hexa_Stat_Message(Msg, Event, Stat_Info);
     Event.delete_original_response();
 }
+
+void Discord_BOT::Get_Symbol(const dpp::slashcommand_t& Event){
+    std::string Character_Name = std::get<std::string>(Event.get_parameter("character_name"));
+    Symbol Symbol_Info = M_API.Get_Symbol_Info(Character_Name);
+    if(Symbol_Info.Status_Code != 200){ Find_Error(Event, Symbol_Info.Status_Code ); return; }
+
+    Event.reply(dpp::message("정보를 받는 중 입니다."));
+    dpp::message Msg = Generate_Symbol_Embed(Symbol_Info, 0);
+    Create_Symbol_Message(Msg, Event, Symbol_Info);
+    Event.delete_original_response();
+}

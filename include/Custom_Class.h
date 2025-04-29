@@ -121,3 +121,18 @@ public:
     
     int32_t Status_Code;
 };
+
+class Symbol {
+public:
+    class Info{
+    public:
+        std::string symbol_name;
+        std::string symbol_icon;
+        int32_t symbol_level;
+        int32_t symbol_growth_count;
+        int32_t symbol_require_growth_count;
+    };
+    
+    std::vector <Info> symbol;
+    int32_t Status_Code;
+};

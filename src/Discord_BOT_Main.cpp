@@ -26,6 +26,8 @@ void Discord_BOT::Create_Command(){
                 dpp::slashcommand("헥사스킬", "헥사 스킬 출력", BOT.me.id)
                     .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true)),
                 dpp::slashcommand("헥사스탯", "헥사 스탯 출력", BOT.me.id)
+                    .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true)),
+                dpp::slashcommand("심볼", "심볼 출력", BOT.me.id)
                     .add_option(dpp::command_option(dpp::co_string, "character_name", "닉네임", true))
             };
 

@@ -23,6 +23,16 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Hexa_Stat,
     character_hexa_stat_core_3
 );
 
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Symbol::Info,
+    symbol_name, symbol_icon,
+    symbol_level, symbol_growth_count,
+    symbol_require_growth_count
+);
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Symbol,
+    symbol
+);
+
 //"https://open.api.nexon.com/maplestory/v1";
 Maple_API::Maple_API(const std::string& API_Key) : API_Key(API_Key){}
 
@@ -175,6 +185,7 @@ Equipment_Set Maple_API::Get_Equipment_Info(const std::string& Character_Name) c
     return Equipment_Set;
 }
 
+// 헥사 스킬 정보 반환
 Character_Skill Maple_API::Get_Hexa_Skill_Info(const std::string& Character_Name) const{
     Character_Skill Skill_Info;
     std::string OCID = Get_OCID(Character_Name);
@@ -202,6 +213,7 @@ Character_Skill Maple_API::Get_Hexa_Skill_Info(const std::string& Character_Name
     return Skill_Info;
 }
 
+// 헥사 스탯 정보 반환
 Hexa_Stat Maple_API::Get_Hexa_Stat_Info(const std::string& Character_Name) const{
     Hexa_Stat Stat_Info;
     std::string OCID = Get_OCID(Character_Name);
@@ -227,4 +239,32 @@ Hexa_Stat Maple_API::Get_Hexa_Stat_Info(const std::string& Character_Name) const
     Stat_Info = data.get<Hexa_Stat>();
     Stat_Info.Status_Code = 200;
     return Stat_Info;
+}
+
+// 심볼 정보 반환
+Symbol Maple_API::Get_Symbol_Info(const std::string& Character_Name) const{
+    Symbol Symbol_Info;
+    std::string OCID = Get_OCID(Character_Name);
+    if(OCID[0] == '-'){
+        OCID = OCID.substr(1);
+        Symbol_Info.Status_Code = std::stoi(OCID);
+        return Symbol_Info;
+    }
+
+    cpr::Response Response = cpr::Get(
+        cpr::Url{"https://open.api.nexon.com/maplestory/v1/character/hexamatrix-stat"},
+        cpr::Parameters{{"ocid", OCID}},
+        cpr::Header{{"x-nxopen-api-key", API_Key}, {"Accept", "application/json"}}
+    );
+
+    std::cout << "심볼 정보 요청 응답 코드 : " << Response.status_code << std::endl;
+    if(Response.status_code != 200){
+        Symbol_Info.Status_Code = Response.status_code;
+        return Symbol_Info;
+    }
+
+    nlohmann::json data = nlohmann::json::parse(Response.text);
+    Symbol_Info = data.get<Symbol>();
+    Symbol_Info.Status_Code = 200;
+    return Symbol_Info;
 }

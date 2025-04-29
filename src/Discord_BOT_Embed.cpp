@@ -162,3 +162,12 @@ dpp::message Discord_BOT::Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int pa
 
     return Msg;
 }
+
+dpp::message Discord_BOT::Generate_Symbol_Embed(const Symbol& Symbol, int page){
+
+
+    dpp::message Msg;
+
+
+    return Msg;
+}
