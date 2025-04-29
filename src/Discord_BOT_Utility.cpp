@@ -29,15 +29,15 @@ void Discord_BOT::Move_Hexa_Skill_Page(const dpp::button_click_t& Event){
     size_t& Page = Message_Page[Event.command.message_id];
     Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
 
-    auto it = Message_Skill_Map.find(MID);
-    if(it == Message_Skill_Map.end()){
+    auto it = Message_Map.find(MID);
+    if(it == Message_Map.end()){
         dpp::message Msg("헥사 스킬 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         return;
     }
 
     Event.reply("로딩 중 입니다...");
-    const auto& Skill = it->second;
+    const auto& Skill = std::get<Character_Skill>(it->second);
 
     int32_t Last_Page = (Skill.character_skill.size() - 1) / Skill_Per_Page;
     if(Event.custom_id == "next_hexa_skill_page" && Page < Last_Page) Page++;
@@ -65,16 +65,16 @@ void Discord_BOT::Move_Equipment_Page(const dpp::button_click_t& Event){
     if(Event.custom_id == "prev_equipment_page" && Page > 0) --Page;
     if(Event.custom_id == "next_equipment_page" && Page < 3) ++Page;
 
-    auto it = Message_Equipment_Map.find(MID);
-    if(it == Message_Equipment_Map.end()){
+    auto it = Message_Map.find(MID);
+    if(it == Message_Map.end()){
         dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         return;
     }
 
-    const auto& Equipment_Set = it->second;
+    const auto& Equipment = std::get<Equipment_Set>(it->second);
     Event.reply("로딩 중 입니다...");
-    dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
+    dpp::message Msg = Generate_Equipment_Embed(Equipment.Info[Page], Page);
     Msg.id = Event.command.message_id;
     Msg.channel_id = Event.command.channel_id;
     BOT.message_edit(Msg);
@@ -89,16 +89,16 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
     const dpp::snowflake CID = Event.command.channel_id;
 
     int Index = std::stoi(Event.values[0]);
-    auto Equipment_It = Message_Equipment_Map.find(MID);
+    auto Equipment_It = Message_Map.find(MID);
     auto Page_It = Message_Page.find(MID);
-    if(Equipment_It == Message_Equipment_Map.end() || Page_It == Message_Page.end()){
+    if(Equipment_It == Message_Map.end() || Page_It == Message_Page.end()){
         dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         Event.delete_original_response();
         return;
     }
 
-    const std::vector<Equipment_Info>& Equipment_List = Message_Equipment_Map[MID].Info[Message_Page[MID]];
+    const std::vector<Equipment_Info>& Equipment_List = std::get<Equipment_Set>(Message_Map[MID]).Info[Message_Page[MID]];
     if(Index < 0 || Index >= Equipment_List.size()){
         dpp::message Msg("잘못된 장비 선택입니다.");
         Edit_Prev_Message(Msg, UID);
@@ -248,16 +248,16 @@ void Discord_BOT::Back_Summary_Page(const dpp::button_click_t& Event){
     const dpp::snowflake CID = Event.command.channel_id;
     size_t& Page = Message_Page[MID];
 
-    auto it = Message_Equipment_Map.find(MID);
-    if(it == Message_Equipment_Map.end()){
+    auto it = Message_Map.find(MID);
+    if(it == Message_Map.end()){
         dpp::message Msg("장비 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         return;
     }
 
-    const auto& Equipment_Set = it->second;
+    const auto& Equipment = std::get<Equipment_Set>(it->second);
     Event.reply("로딩 중 입니다...");
-    dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[Page], Page);
+    dpp::message Msg = Generate_Equipment_Embed(Equipment.Info[Page], Page);
     Msg.id = Event.command.message_id;
     Msg.channel_id = Event.command.channel_id;
     BOT.message_edit(Msg);
@@ -275,7 +275,7 @@ void Discord_BOT::Create_Equipment_Message(dpp::message& Msg, const dpp::slashco
         if(!this->Create_Message_Log(cb)) return;
         const dpp::message& Sent = std::get<dpp::message>(cb.value);
         this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        this->Message_Equipment_Map[Sent.id] = Equipments;
+        this->Message_Map[Sent.id] = Equipments;
         this->Message_Page[Sent.id] = 0;
     });
 }
@@ -287,7 +287,7 @@ void Discord_BOT::Create_Skill_Message(dpp::message& Msg, const dpp::slashcomman
         if(!this->Create_Message_Log(cb)) return;
         const dpp::message& Sent = std::get<dpp::message>(cb.value);
         this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        this->Message_Skill_Map[Sent.id] = Skill;
+        this->Message_Map[Sent.id] = Skill;
         this->Message_Page[Sent.id] = 0;
     });
 }
@@ -299,7 +299,7 @@ void Discord_BOT::Create_Hexa_Stat_Message(dpp::message& Msg, const dpp::slashco
         if(!this->Create_Message_Log(cb)) return;
         const dpp::message& Sent = std::get<dpp::message>(cb.value);
         this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        this->Message_Hexa_Stat_Map[Sent.id] = Stat;
+        this->Message_Map[Sent.id] = Stat;
         this->Message_Page[Sent.id] = 0;
     });
 }
@@ -310,15 +310,15 @@ void Discord_BOT::Move_Hexa_Stat_Page(const dpp::button_click_t& Event){
     size_t& Page = Message_Page[Event.command.message_id];
     Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
 
-    auto it = Message_Hexa_Stat_Map.find(MID);
-    if(it == Message_Hexa_Stat_Map.end()){
+    auto it = Message_Map.find(MID);
+    if(it == Message_Map.end()){
         dpp::message Msg("헥사 스탯 데이터를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         return;
     }
 
     Event.reply("로딩 중 입니다...");
-    const auto& Stat = it->second;
+    const auto& Stat = std::get<Hexa_Stat>(it->second);
 
     int32_t Last_Page = Hexa_Core_Count;
     if(Event.custom_id == "next_hexa_stat_page" && Page < Last_Page - 1) Page++;
@@ -338,7 +338,7 @@ void Discord_BOT::Create_Symbol_Message(dpp::message& Msg, const dpp::slashcomma
         if(!this->Create_Message_Log(cb)) return;
         const dpp::message& Sent = std::get<dpp::message>(cb.value);
         this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        this->Message_Symbol_Map[Sent.id] = Symbol;
+        this->Message_Map[Sent.id] = Symbol;
         this->Message_Page[Sent.id] = 0;
     });
 }
@@ -349,21 +349,21 @@ void Discord_BOT::Move_Symbol_Page(const dpp::button_click_t& Event){
     size_t& Page = Message_Page[Event.command.message_id];
     Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
 
-    auto it = Message_Symbol_Map.find(MID);
-    if(it == Message_Symbol_Map.end()){
+    auto it = Message_Map.find(MID);
+    if(it == Message_Map.end()){
         dpp::message Msg("심볼 정보를 찾을 수 없습니다.");
         Edit_Prev_Message(Msg, UID);
         return;
     }
 
     Event.reply("로딩 중 입니다...");
-    const auto& Symbol = it->second;
+    const auto& Symbol_Info = std::get<Symbol>(it->second);
 
-    int32_t Last_Page = Symbol.symbol.size() / 6 + (Symbol.symbol.size() % 6 ? 1 : 0);
+    int32_t Last_Page = Symbol_Info.symbol.size() / 6 + (Symbol_Info.symbol.size() % 6 ? 1 : 0);
     if(Event.custom_id == "next_symbol_page" && Page < Last_Page - 1) Page++;
     if(Event.custom_id == "prev_symbol_page" && Page > 0) Page--;
 
-    dpp::message Msg = Generate_Symbol_Embed(Symbol, Page);
+    dpp::message Msg = Generate_Symbol_Embed(Symbol_Info, Page);
     Msg.id = Event.command.message_id;
     Msg.channel_id = Event.command.channel_id;
     BOT.message_edit(Msg);

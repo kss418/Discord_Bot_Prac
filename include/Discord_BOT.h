@@ -1,23 +1,21 @@
 #pragma once
 #include "Maple_API.h"
-#include <dpp/coro.h>
 #include <dpp/dpp.h>
 #include <string>
 #include <unordered_map>
+#include <variant>
 
 class Discord_BOT{
 public:
     Discord_BOT(const std::string& API_Key, const Maple_API& Maple_API);
     void Run();
 private:
+    using Map_Type = std::variant<Equipment_Set, Character_Skill, Hexa_Stat, Symbol>;
     dpp::cluster BOT;
     std::string API_Key;
     Maple_API M_API;
     std::unordered_map<dpp::snowflake, size_t> Message_Page;
-    std::unordered_map<dpp::snowflake, Equipment_Set> Message_Equipment_Map;
-    std::unordered_map<dpp::snowflake, Character_Skill> Message_Skill_Map;
-    std::unordered_map<dpp::snowflake, Hexa_Stat> Message_Hexa_Stat_Map;
-    std::unordered_map<dpp::snowflake, Symbol> Message_Symbol_Map;
+    std::unordered_map<dpp::snowflake, Map_Type> Message_Map;
     std::unordered_map<dpp::snowflake, std::pair<dpp::snowflake, dpp::snowflake>> Message_Info;
 
     void Setup_Command();
