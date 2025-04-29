@@ -4,6 +4,7 @@ set(CMAKE_PREFIX_PATH "/home/kss418/.vscode/Discord_BotP/vcpkg/installed/x64-lin
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(Discord_BotP
     main.cpp

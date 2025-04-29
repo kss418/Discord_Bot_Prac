@@ -64,7 +64,7 @@ build cmake_object_order_depends_target_Discord_BotP: phony || CMakeFiles/Discor
 build CMakeFiles/Discord_BotP.dir/main.cpp.o: CXX_COMPILER__Discord_BotP ../main.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/main.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir
@@ -72,7 +72,7 @@ build CMakeFiles/Discord_BotP.dir/main.cpp.o: CXX_COMPILER__Discord_BotP ../main
 build CMakeFiles/Discord_BotP.dir/src/Maple_API.cpp.o: CXX_COMPILER__Discord_BotP ../src/Maple_API.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Maple_API.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src
@@ -80,7 +80,7 @@ build CMakeFiles/Discord_BotP.dir/src/Maple_API.cpp.o: CXX_COMPILER__Discord_Bot
 build CMakeFiles/Discord_BotP.dir/src/Maple_API_Parser.cpp.o: CXX_COMPILER__Discord_BotP ../src/Maple_API_Parser.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Maple_API_Parser.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src
@@ -88,7 +88,7 @@ build CMakeFiles/Discord_BotP.dir/src/Maple_API_Parser.cpp.o: CXX_COMPILER__Disc
 build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Main.cpp.o: CXX_COMPILER__Discord_BotP ../src/Discord_BOT_Main.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Main.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src
@@ -96,7 +96,7 @@ build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Main.cpp.o: CXX_COMPILER__Disc
 build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_CMD.cpp.o: CXX_COMPILER__Discord_BotP ../src/Discord_BOT_CMD.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Discord_BOT_CMD.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src
@@ -104,7 +104,7 @@ build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_CMD.cpp.o: CXX_COMPILER__Disco
 build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Log.cpp.o: CXX_COMPILER__Discord_BotP ../src/Discord_BOT_Log.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Log.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src
@@ -112,7 +112,7 @@ build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Log.cpp.o: CXX_COMPILER__Disco
 build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Utility.cpp.o: CXX_COMPILER__Discord_BotP ../src/Discord_BOT_Utility.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Utility.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src
@@ -120,7 +120,7 @@ build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Utility.cpp.o: CXX_COMPILER__D
 build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Handler.cpp.o: CXX_COMPILER__Discord_BotP ../src/Discord_BOT_Handler.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Handler.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src
@@ -128,7 +128,7 @@ build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Handler.cpp.o: CXX_COMPILER__D
 build CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Embed.cpp.o: CXX_COMPILER__Discord_BotP ../src/Discord_BOT_Embed.cpp || cmake_object_order_depends_target_Discord_BotP
   DEFINES = -DDPP_BUILD
   DEP_FILE = CMakeFiles/Discord_BotP.dir/src/Discord_BOT_Embed.cpp.o.d
-  FLAGS = -g   -std=gnu++2a
+  FLAGS = -g   -std=c++2a
   INCLUDES = -I../include -isystem ../vcpkg/installed/x64-linux/include
   OBJECT_DIR = CMakeFiles/Discord_BotP.dir
   OBJECT_FILE_DIR = CMakeFiles/Discord_BotP.dir/src

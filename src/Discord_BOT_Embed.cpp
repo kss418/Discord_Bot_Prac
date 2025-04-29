@@ -168,22 +168,24 @@ dpp::message Discord_BOT::Generate_Symbol_Embed(const Symbol& Symbol, int page){
     dpp::embed Embed[6], Main_Embed;
     std::vector<std::string> Symbol_Name = {"아케인", "어센틱", "그랜드 어센틱"};
     Main_Embed.set_title(Symbol_Name[page] + "심볼\n" + 
-        std::to_string(page + 1) + " / " + std::to_string(2) + "페이지")
+        std::to_string(page + 1) + " / " + std::to_string(Symbol.symbol.size() / 6 + (Symbol.symbol.size() % 6 ? 1 : 0)) + "페이지")
         .set_color(0x00CCFF);
 
-    const auto& Symbol_Info = Symbol.symbol; 
+    const auto& Symbol_Info = Symbol.symbol;
     for(size_t i = 0;i < 6;i++){
-        const auto& Current_Symbol = Symbol_Info[i];
+        if(i + 6 * page >= Symbol_Info.size()) break;
+        const auto& Current_Symbol = Symbol_Info[i + 6 * page];
         Embed[i].set_thumbnail(Current_Symbol.symbol_icon);
         Embed[i].add_field(Current_Symbol.symbol_name, 
-            std::to_string(Current_Symbol.symbol_level) + "레벨" + 
-            (Current_Symbol.symbol_level != 20 ? " (" + std::to_string(Current_Symbol.symbol_growth_count) + "/" + 
-            std::to_string(Current_Symbol.symbol_require_growth_count) + ")" : " (MAX)"), true);
+            std::to_string(Current_Symbol.symbol_level) + "레벨" + Get_Symbol_Progress(Current_Symbol), true);
         Embed[i].set_color(0x00CCFF);
     }
 
     Msg.add_embed(Main_Embed);
-    for(int i = 0;i < 6;i++) Msg.add_embed(Embed[i]);
+    for(size_t i = 0;i < 6;i++){
+        if(i + 6 * page >= Symbol_Info.size()) break;
+        Msg.add_embed(Embed[i]);
+    }
 
     Msg.add_component(dpp::component()
         .add_component(dpp::component()

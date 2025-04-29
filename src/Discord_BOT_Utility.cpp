@@ -1,5 +1,6 @@
 #include "Discord_BOT.h"
 #include <iostream>
+#include <string_view>
 const dpp::snowflake Guild_ID = 408601520951656448;
 
 void Discord_BOT::Add_Command_Guild(const dpp::slashcommand& CMD){
@@ -340,4 +341,45 @@ void Discord_BOT::Create_Symbol_Message(dpp::message& Msg, const dpp::slashcomma
         this->Message_Symbol_Map[Sent.id] = Symbol;
         this->Message_Page[Sent.id] = 0;
     });
+}
+
+void Discord_BOT::Move_Symbol_Page(const dpp::button_click_t& Event){
+    dpp::snowflake UID = Event.command.get_issuing_user().id;
+    dpp::snowflake MID = Event.command.message_id;
+    size_t& Page = Message_Page[Event.command.message_id];
+    Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
+
+    auto it = Message_Symbol_Map.find(MID);
+    if(it == Message_Symbol_Map.end()){
+        dpp::message Msg("심볼 정보를 찾을 수 없습니다.");
+        Edit_Prev_Message(Msg, UID);
+        return;
+    }
+
+    Event.reply("로딩 중 입니다...");
+    const auto& Symbol = it->second;
+
+    int32_t Last_Page = Symbol.symbol.size() / 6 + (Symbol.symbol.size() % 6 ? 1 : 0);
+    if(Event.custom_id == "next_symbol_page" && Page < Last_Page - 1) Page++;
+    if(Event.custom_id == "prev_symbol_page" && Page > 0) Page--;
+
+    dpp::message Msg = Generate_Symbol_Embed(Symbol, Page);
+    Msg.id = Event.command.message_id;
+    Msg.channel_id = Event.command.channel_id;
+    BOT.message_edit(Msg);
+    Event.delete_original_response();
+}
+
+std::string Discord_BOT::Get_Symbol_Progress(const Symbol::Info& Symbol) const{
+    std::string_view Suffix{ Symbol.symbol_name };
+    std::string Ret;
+    if(Suffix.starts_with("아케인") && Symbol.symbol_level == 20) Ret += " (MAX)";
+    else if(Suffix.starts_with("어센틱") && Symbol.symbol_level == 11) Ret += " (MAX)";
+    else if(Suffix.starts_with("그랜드 어센틱") && Symbol.symbol_level == 11) Ret += " (MAX)";
+    else{
+        Ret += " (" + std::to_string(Symbol.symbol_growth_count) + " / ";
+        Ret += std::to_string(Symbol.symbol_require_growth_count) + ")";
+    }
+    
+    return Ret;
 }

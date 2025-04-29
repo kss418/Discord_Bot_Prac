@@ -4,8 +4,6 @@
 #include <dpp/dpp.h>
 #include <string>
 #include <unordered_map>
-const int32_t Skill_Per_Page = 4;
-const int32_t Hexa_Core_Count = 3;
 
 class Discord_BOT{
 public:
@@ -76,4 +74,8 @@ private:
     bool Is_Starforce(const Equipment_Info& Equipment) const;
     bool Is_Scroll(const Equipment_Info& Equipment) const;
     bool Is_Additional_Option(const Equipment_Info& Equipment) const;
+    std::string Get_Symbol_Progress(const Symbol::Info& Symbol) const;
+
+    const int32_t Skill_Per_Page = 4;
+    const int32_t Hexa_Core_Count = 3;
 };
