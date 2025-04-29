@@ -63,7 +63,7 @@ void Discord_BOT::Move_Equipment_Page(const dpp::button_click_t& Event){
     Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
 
     if(Event.custom_id == "prev_equipment_page" && Page > 0) --Page;
-    if(Event.custom_id == "next_equipmnet_page" && Page < 3) ++Page;
+    if(Event.custom_id == "next_equipment_page" && Page < 3) ++Page;
 
     auto it = Message_Equipment_Map.find(MID);
     if(it == Message_Equipment_Map.end()){
@@ -381,5 +381,32 @@ std::string Discord_BOT::Get_Symbol_Progress(const Symbol::Info& Symbol) const{
         Ret += std::to_string(Symbol.symbol_require_growth_count) + ")";
     }
     
+    return Ret;
+}
+
+dpp::component Discord_BOT::Create_Move_Page_Component(const std::string& Custom_ID) const{
+    dpp::component Ret{};
+
+    Ret.add_component(dpp::component()
+        .set_label("◀️")
+        .set_id("prev_" + Custom_ID + "_page")
+        .set_style(dpp::cos_secondary)
+        .set_type(dpp::cot_button)
+    );
+
+    Ret.add_component(dpp::component()
+        .set_label("▶️")
+        .set_id("next_" + Custom_ID + "_page")
+        .set_style(dpp::cos_secondary)
+        .set_type(dpp::cot_button)
+    );
+
+    Ret.add_component(dpp::component()
+        .set_label("❌")
+        .set_id("delete_command_message")
+        .set_style(dpp::cos_secondary)
+        .set_type(dpp::cot_button)
+    );
+       
     return Ret;
 }

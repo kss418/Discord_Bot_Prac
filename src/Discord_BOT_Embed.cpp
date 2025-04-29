@@ -59,23 +59,7 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
 
     dpp::message msg(page ? std::to_string(page) + "번 프리셋 장비" : "현재 장착 장비");
     msg.add_component(row);
-    msg.add_component(dpp::component()
-        .add_component(dpp::component()
-            .set_label("◀️")
-            .set_id("prev_equipment_page")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-        .add_component(dpp::component()
-            .set_label("▶️")
-            .set_id("next_equipment_page")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-        .add_component(dpp::component()
-            .set_label("❌")
-            .set_id("delete_command_message")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-    );
+    msg.add_component(Create_Move_Page_Component("equipment"));
     
     return msg;
 }
@@ -98,24 +82,7 @@ dpp::message Discord_BOT::Generate_Hexa_Skill_Embed(const Character_Skill& Skill
     Msg.add_embed(Main_Embed);
     for(int i = 0;i < Skill_Per_Page;i++) Msg.add_embed(Embed[i]);
 
-    Msg.add_component(dpp::component()
-        .add_component(dpp::component()
-            .set_label("◀️")
-            .set_id("prev_hexa_skill_page")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-        .add_component(dpp::component()
-            .set_label("▶️")
-            .set_id("next_hexa_skill_page")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-        .add_component(dpp::component()
-            .set_label("❌")
-            .set_id("delete_command_message")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-    );
-
+    Msg.add_component(Create_Move_Page_Component("hexa_skill"));
     return Msg;
 }
 
@@ -142,23 +109,7 @@ dpp::message Discord_BOT::Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int pa
         .add_field("\u200B", "\u200B", true);
 
     Msg.add_embed(Embed);
-    Msg.add_component(dpp::component()
-        .add_component(dpp::component()
-            .set_label("◀️")
-            .set_id("prev_hexa_stat_page")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-        .add_component(dpp::component()
-            .set_label("▶️")
-            .set_id("next_hexa_stat_page")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-        .add_component(dpp::component()
-            .set_label("❌")
-            .set_id("delete_command_message")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-    );
+    Msg.add_component(Create_Move_Page_Component("hexa_stat"));
 
     return Msg;
 }
@@ -187,23 +138,6 @@ dpp::message Discord_BOT::Generate_Symbol_Embed(const Symbol& Symbol, int page){
         Msg.add_embed(Embed[i]);
     }
 
-    Msg.add_component(dpp::component()
-        .add_component(dpp::component()
-            .set_label("◀️")
-            .set_id("prev_symbol_page")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-        .add_component(dpp::component()
-            .set_label("▶️")
-            .set_id("next_symbol_page")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-        .add_component(dpp::component()
-            .set_label("❌")
-            .set_id("delete_command_message")
-            .set_style(dpp::cos_secondary)
-            .set_type(dpp::cot_button))
-    );
-
+    Msg.add_component(Create_Move_Page_Component("symbol"));
     return Msg;
 }

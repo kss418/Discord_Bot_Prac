@@ -75,6 +75,7 @@ private:
     bool Is_Scroll(const Equipment_Info& Equipment) const;
     bool Is_Additional_Option(const Equipment_Info& Equipment) const;
     std::string Get_Symbol_Progress(const Symbol::Info& Symbol) const;
+    dpp::component Create_Move_Page_Component(const std::string& Custom_ID) const;
 
     const int32_t Skill_Per_Page = 4;
     const int32_t Hexa_Core_Count = 3;
