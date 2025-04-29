@@ -119,8 +119,41 @@ dpp::message Discord_BOT::Generate_Hexa_Skill_Embed(const Character_Skill& Skill
     return Msg;
 }
 
-dpp::message Discord_BOT::Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat){
+dpp::message Discord_BOT::Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int page){
     dpp::message Msg;
+    int32_t Hexa_Core_Count = 3;
+    std::vector <std::vector<Hexa_Stat::Core>> Core_List;
+    Core_List.push_back(Stat.character_hexa_stat_core);
+    Core_List.push_back(Stat.character_hexa_stat_core_2);
+    Core_List.push_back(Stat.character_hexa_stat_core_3);
+    Hexa_Stat::Core Current_Core = Core_List[page][0];
+
+    dpp::message msg(std::to_string(page + 1) + "번 헥사 스탯\n" +
+        "메인 레벨 : " + std::to_string(Current_Core.main_stat_level) + "\n" +
+        "메인 스탯 : " + Current_Core.main_stat_name + "\n" +
+        "에디셔널1 레벨 : " + std::to_string(Current_Core.sub_stat_level_1) + "\n" +
+        "에디셔널1 스탯 : " + Current_Core.sub_stat_name_1 + "\n" +
+        "에디셔널2 레벨 : " + std::to_string(Current_Core.sub_stat_level_2) + "\n" +
+        "에디셔널2 스탯 : " + Current_Core.sub_stat_name_2 + "\n"
+    );
+
+    msg.add_component(dpp::component()
+        .add_component(dpp::component()
+            .set_label("◀️")
+            .set_id("prev_hexa_stat_page")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+        .add_component(dpp::component()
+            .set_label("▶️")
+            .set_id("next_hexa_stat_page")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+        .add_component(dpp::component()
+            .set_label("❌")
+            .set_id("delete_command_message")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+    );
 
     return Msg;
 }

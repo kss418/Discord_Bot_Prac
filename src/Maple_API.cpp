@@ -17,14 +17,10 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Hexa_Stat::Core,
     main_stat_level, sub_stat_level_1, sub_stat_level_2, stat_grade
 );
 
-
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Hexa_Stat,
-    character_haxa_stat_core,
-    character_haxa_stat_core_2,
-    character_haxa_stat_core_3,
-    preset_character_haxa_stat_core,
-    preset_character_haxa_stat_core_2,
-    preset_character_haxa_stat_core_3
+    character_hexa_stat_core,
+    character_hexa_stat_core_2,
+    character_hexa_stat_core_3
 );
 
 //"https://open.api.nexon.com/maplestory/v1";

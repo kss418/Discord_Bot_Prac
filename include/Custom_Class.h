@@ -115,12 +115,9 @@ public:
         int64_t stat_grade;
     };
     std::string character_class;
-    Core character_haxa_stat_core;
-    Core character_haxa_stat_core_2;
-    Core character_haxa_stat_core_3;
-
-    Core preset_character_haxa_stat_core;
-    Core preset_character_haxa_stat_core_2;
-    Core preset_character_haxa_stat_core_3;
+    std::vector <Core> character_hexa_stat_core;
+    std::vector <Core> character_hexa_stat_core_2;
+    std::vector <Core> character_hexa_stat_core_3;
+    
     int32_t Status_Code;
 };

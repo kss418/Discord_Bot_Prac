@@ -53,7 +53,7 @@ private:
 
     dpp::message Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page);
     dpp::message Generate_Hexa_Skill_Embed(const Character_Skill& Skill, int page);
-    dpp::message Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat);
+    dpp::message Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int page);
 
     void Create_Equipment_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Equipment_Set& Equipments);
     void Create_Skill_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Character_Skill& Skill);
