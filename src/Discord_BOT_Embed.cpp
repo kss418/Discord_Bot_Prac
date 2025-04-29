@@ -166,11 +166,11 @@ dpp::message Discord_BOT::Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int pa
 dpp::message Discord_BOT::Generate_Symbol_Embed(const Symbol& Symbol, int page){
     dpp::message Msg;
     dpp::embed Embed[6], Main_Embed;
-    Main_Embed.set_title(std::string(page ? "어센틱" : "아케인") + "심볼\n" + 
+    std::vector<std::string> Symbol_Name = {"아케인", "어센틱", "그랜드 어센틱"};
+    Main_Embed.set_title(Symbol_Name[page] + "심볼\n" + 
         std::to_string(page + 1) + " / " + std::to_string(2) + "페이지")
         .set_color(0x00CCFF);
 
-        
     const auto& Symbol_Info = Symbol.symbol; 
     for(size_t i = 0;i < 6;i++){
         const auto& Current_Symbol = Symbol_Info[i];
@@ -183,7 +183,25 @@ dpp::message Discord_BOT::Generate_Symbol_Embed(const Symbol& Symbol, int page){
     }
 
     Msg.add_embed(Main_Embed);
-    for(int i = 0;i < 6;i++) Msg.add_embed(Embed[i]);  
+    for(int i = 0;i < 6;i++) Msg.add_embed(Embed[i]);
+
+    Msg.add_component(dpp::component()
+        .add_component(dpp::component()
+            .set_label("◀️")
+            .set_id("prev_symbol_page")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+        .add_component(dpp::component()
+            .set_label("▶️")
+            .set_id("next_symbol_page")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+        .add_component(dpp::component()
+            .set_label("❌")
+            .set_id("delete_command_message")
+            .set_style(dpp::cos_secondary)
+            .set_type(dpp::cot_button))
+    );
 
     return Msg;
 }

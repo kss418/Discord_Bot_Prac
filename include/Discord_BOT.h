@@ -68,6 +68,7 @@ private:
     void Move_Equipment_Page(const dpp::button_click_t& Event);
     void Move_Hexa_Skill_Page(const dpp::button_click_t& Event);
     void Move_Hexa_Stat_Page(const dpp::button_click_t& Event);
+    void Move_Symbol_Page(const dpp::button_click_t& Event);
     void Back_Summary_Page(const dpp::button_click_t& Event);
     void Delete_Command_Message(const dpp::button_click_t& Event);
 
