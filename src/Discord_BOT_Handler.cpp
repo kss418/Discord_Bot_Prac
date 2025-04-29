@@ -14,6 +14,8 @@ void Discord_BOT::Handle_Button_Click(const dpp::button_click_t& Event){
     else if(Event.custom_id == "next_equipment_page") Move_Equipment_Page(Event);
     else if(Event.custom_id == "next_hexa_skill_page") Move_Hexa_Skill_Page(Event);
     else if(Event.custom_id == "prev_hexa_skill_page") Move_Hexa_Skill_Page(Event);
+    else if(Event.custom_id == "next_hexa_stat_page") Move_Hexa_Stat_Page(Event);
+    else if(Event.custom_id == "prev_hexa_stat_page") Move_Hexa_Stat_Page(Event);
     else if(Event.custom_id == "back_summary") Back_Summary_Page(Event);
     else if(Event.custom_id == "delete_command_message") Delete_Command_Message(Event);
 }

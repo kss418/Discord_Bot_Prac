@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 const int32_t Skill_Per_Page = 4;
+const int32_t Hexa_Core_Count = 3;
 
 class Discord_BOT{
 public:
@@ -17,6 +18,7 @@ private:
     std::unordered_map<dpp::snowflake, size_t> Message_Page;
     std::unordered_map<dpp::snowflake, Equipment_Set> Message_Equipment_Map;
     std::unordered_map<dpp::snowflake, Character_Skill> Message_Skill_Map;
+    std::unordered_map<dpp::snowflake, Hexa_Stat> Message_Hexa_Stat_Map;
     std::unordered_map<dpp::snowflake, std::pair<dpp::snowflake, dpp::snowflake>> Message_Info;
 
     void Setup_Command();
@@ -61,6 +63,7 @@ private:
 
     void Move_Equipment_Page(const dpp::button_click_t& Event);
     void Move_Hexa_Skill_Page(const dpp::button_click_t& Event);
+    void Move_Hexa_Stat_Page(const dpp::button_click_t& Event);
     void Back_Summary_Page(const dpp::button_click_t& Event);
     void Delete_Command_Message(const dpp::button_click_t& Event);
 

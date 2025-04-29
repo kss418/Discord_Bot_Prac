@@ -298,6 +298,34 @@ void Discord_BOT::Create_Hexa_Stat_Message(dpp::message& Msg, const dpp::slashco
         if(!this->Create_Message_Log(cb)) return;
         const dpp::message& Sent = std::get<dpp::message>(cb.value);
         this->Message_Info[UID] = { Sent.id, Sent.channel_id };
+        this->Message_Hexa_Stat_Map[Sent.id] = Stat;
         this->Message_Page[Sent.id] = 0;
     });
+}
+
+void Discord_BOT::Move_Hexa_Stat_Page(const dpp::button_click_t& Event){
+    dpp::snowflake UID = Event.command.get_issuing_user().id;
+    dpp::snowflake MID = Event.command.message_id;
+    size_t& Page = Message_Page[Event.command.message_id];
+    Message_Info[UID] = { Event.command.message_id, Event.command.channel_id };
+
+    auto it = Message_Hexa_Stat_Map.find(MID);
+    if(it == Message_Hexa_Stat_Map.end()){
+        dpp::message Msg("헥사 스탯 데이터를 찾을 수 없습니다.");
+        Edit_Prev_Message(Msg, UID);
+        return;
+    }
+
+    Event.reply("로딩 중 입니다...");
+    const auto& Stat = it->second;
+
+    int32_t Last_Page = Hexa_Core_Count;
+    if(Event.custom_id == "next_hexa_stat_page" && Page < Last_Page - 1) Page++;
+    if(Event.custom_id == "prev_hexa_stat_page" && Page > 0) Page--;
+
+    dpp::message Msg = Generate_Hexa_Stat_Embed(Stat, Page);
+    Msg.id = Event.command.message_id;
+    Msg.channel_id = Event.command.channel_id;
+    BOT.message_edit(Msg);
+    Event.delete_original_response();
 }

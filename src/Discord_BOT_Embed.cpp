@@ -120,7 +120,6 @@ dpp::message Discord_BOT::Generate_Hexa_Skill_Embed(const Character_Skill& Skill
 }
 
 dpp::message Discord_BOT::Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int page){
-    int32_t Hexa_Core_Count = 3;
     std::vector <std::vector<Hexa_Stat::Core>> Core_List;
     Core_List.push_back(Stat.character_hexa_stat_core);
     Core_List.push_back(Stat.character_hexa_stat_core_2);
