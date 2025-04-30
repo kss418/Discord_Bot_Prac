@@ -18,6 +18,19 @@ private:
     std::unordered_map<dpp::snowflake, Map_Type> Message_Map;
     std::unordered_map<dpp::snowflake, std::pair<dpp::snowflake, dpp::snowflake>> Message_Info;
 
+    using Member_Ptr = std::string Option::*;
+    const std::unordered_map<std::string, std::pair<std::string, Member_Ptr>> Option_List = {
+        {"str", {"STR", &Option::str}}, {"dex", {"DEX", &Option::dex}},           
+        {"int_", {"INT", &Option::int_}}, {"luk", {"LUK", &Option::luk}},           
+        {"max_hp", {"최대 HP", &Option::max_hp}},
+        {"attack_power",{"공격력", &Option::attack_power}},
+        {"magic_power", {"마력", &Option::magic_power}},
+        {"boss_damage", {"보스 몬스터 공격 시 데미지", &Option::boss_damage}},
+        {"ignore_monster_armor",{"몬스터 방어율 무시",&Option::ignore_monster_armor}},
+        {"all_stat",  {"올스탯", &Option::all_stat}},
+        {"max_hp_rate",{"최대 HP", &Option::max_hp_rate}},
+    };
+
     void Setup_Command();
     void Create_Command();
 
@@ -49,7 +62,7 @@ private:
     std::string Get_Equipment_Detail_Message(const Equipment_Info& Equipment);
     std::string Get_Equipment_Detail_Option(const Equipment_Info& Equipment, const std::string& Key);
     std::string Get_Equipment_Name(const Equipment_Info& Equipment) const;
-    std::string Get_Map_By_Key(const std::unordered_map<std::string, std::string>& Map, const std::string& Key);
+    std::string Get_Option_Value(const Option& option, const std::string& Key);
 
     dpp::message Generate_Equipment_Embed(const std::vector<Equipment_Info>& Info, int page);
     dpp::message Generate_Hexa_Skill_Embed(const Character_Skill& Skill, int page);

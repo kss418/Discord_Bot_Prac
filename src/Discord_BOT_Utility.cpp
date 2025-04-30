@@ -17,10 +17,14 @@ void Discord_BOT::Add_Command_Global(const dpp::slashcommand& CMD){
     });
 }
 
-std::string Discord_BOT::Get_Map_By_Key(const std::unordered_map<std::string, std::string>& Map, const std::string& Key){
+std::string Discord_BOT::Get_Option_Value(const Option& option, const std::string& Key){
     static const std::string Empty = "0";
-    auto It = Map.find(Key);
-    return (It != Map.end() ? It->second : Empty);
+    for(auto& [Str, it] : Option_List){
+        auto& [Name, Ptr] = it;
+        if(Str == Key) return option.*Ptr;
+    }
+   
+    return Empty;
 }
 
 void Discord_BOT::Move_Hexa_Skill_Page(const dpp::button_click_t& Event){
@@ -73,8 +77,14 @@ void Discord_BOT::Move_Equipment_Page(const dpp::button_click_t& Event){
     }
 
     const auto& Equipment = std::get<Equipment_Set>(it->second);
+    const std::vector <Equipment_Info>& Current_Equipment = !Page ? Equipment.item_equipment : (
+        Page == 1 ? Equipment.item_equipment_preset_1 : (
+            Page == 2 ? Equipment.item_equipment_preset_2 : Equipment.item_equipment_preset_3
+        )
+    );
+
     Event.reply("로딩 중 입니다...");
-    dpp::message Msg = Generate_Equipment_Embed(Equipment.Info[Page], Page);
+    dpp::message Msg = Generate_Equipment_Embed(Current_Equipment, Page);
     Msg.id = Event.command.message_id;
     Msg.channel_id = Event.command.channel_id;
     BOT.message_edit(Msg);
@@ -97,8 +107,14 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
         Event.delete_original_response();
         return;
     }
+    
+    const Equipment_Set& Equipment_ = std::get<Equipment_Set>(Message_Map[MID]);
+    const std::vector <Equipment_Info>& Equipment_List = !Message_Page[MID] ? Equipment_.item_equipment : (
+        Message_Page[MID] == 1 ? Equipment_.item_equipment_preset_1 : (
+            Message_Page[MID] == 2 ? Equipment_.item_equipment_preset_2 : Equipment_.item_equipment_preset_3
+        )
+    );
 
-    const std::vector<Equipment_Info>& Equipment_List = std::get<Equipment_Set>(Message_Map[MID]).Info[Message_Page[MID]];
     if(Index < 0 || Index >= Equipment_List.size()){
         dpp::message Msg("잘못된 장비 선택입니다.");
         Edit_Prev_Message(Msg, UID);
@@ -143,9 +159,9 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
     std::string Msg;
     Msg += "장비분류: " + Equipment.item_equipment_part + "\n";
 
-    for(const auto& [Key, Name] : Option_List){
-        if(Equipment.Total_Option.Map.find(Key) == Equipment.Total_Option.Map.end()) continue;
-        if(Get_Map_By_Key(Equipment.Total_Option.Map, Key) == "0") continue;
+    for(const auto& [Key, it] : Option_List){
+        auto[Name, Ptr] = it;
+        if((Equipment.item_total_option).*Ptr == "0") continue;
         Msg += Name + ": +" + Get_Equipment_Detail_Option(Equipment, Key) + "\n";
     }
 
@@ -173,14 +189,14 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         }
     }
 
-    if(Get_Map_By_Key(Equipment.Exceptional_Option.Map, "exceptional_upgrade") != "0"){
+    if(Get_Option_Value(Equipment.item_exceptional_option, "exceptional_upgrade") != "0"){
         Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n익셉셔널\n";
-        for(const auto& [Key, Name] : Option_List){
-            if(Equipment.Exceptional_Option.Map.find(Key) == Equipment.Exceptional_Option.Map.end()) continue;
-            if(Get_Map_By_Key(Equipment.Exceptional_Option.Map, Key) == "0") continue;
-            Msg += Name + ": +" + Get_Map_By_Key(Equipment.Exceptional_Option.Map, Key) + "\n";
+        for(const auto& [Key, it] : Option_List){
+            auto [Name, Ptr] = it;
+            if(Get_Option_Value(Equipment.item_exceptional_option, Key) == "0") continue;
+            Msg += Name + ": +" + Get_Option_Value(Equipment.item_exceptional_option, Key) + "\n";
         }
-        Msg += "익셉셔널 강화 " + Get_Map_By_Key(Equipment.Exceptional_Option.Map, "exceptional_upgrade") + "회 적용\n";
+        Msg += "익셉셔널 강화 " + Get_Option_Value(Equipment.item_exceptional_option, "exceptional_upgrade") + "회 적용\n";
     }
 
     return Msg;

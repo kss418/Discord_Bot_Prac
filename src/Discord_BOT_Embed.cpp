@@ -3,30 +3,30 @@
 
 std::string Discord_BOT::Get_Equipment_Detail_Option(const Equipment_Info& Equipment, const std::string& Key){
     std::string Msg;
-    Msg += Get_Map_By_Key(Equipment.item_total_option, Key);
+    Msg += Get_Option_Value(Equipment.item_total_option, Key);
     if(Is_Percentage(Key)) Msg += "%";
 
-    if(Get_Map_By_Key(Equipment.item_total_option, Key) == Get_Map_By_Key(Equipment.item_base_option, Key)){
+    if(Get_Option_Value(Equipment.item_total_option, Key) == Get_Option_Value(Equipment.item_base_option, Key)){
         return Msg;
     }
     
     Msg += " (";
-    Msg += Get_Map_By_Key(Equipment.item_base_option, Key);
+    Msg += Get_Option_Value(Equipment.item_base_option, Key);
     if(Is_Percentage(Key)) Msg += "%";
 
     if(Is_Additional_Option(Equipment)){
-        Msg += "+" + Get_Map_By_Key(Equipment.item_add_option, Key);
+        Msg += "+" + Get_Option_Value(Equipment.item_add_option, Key);
         if(Is_Percentage(Key)) Msg += "%";
     }
     
     if(Is_Scroll(Equipment)){
-        Msg += (std::stoi(Get_Map_By_Key(Equipment.item_etc_option, Key)) < 0 ? "-" : "+");
-        Msg += Get_Map_By_Key(Equipment.item_etc_option, Key);
+        Msg += (std::stoi(Get_Option_Value(Equipment.item_etc_option, Key)) < 0 ? "-" : "+");
+        Msg += Get_Option_Value(Equipment.item_etc_option, Key);
         if(Is_Percentage(Key)) Msg += "%";
     }
 
     if(Is_Starforce(Equipment)){
-        Msg += "+" + Get_Map_By_Key(Equipment.item_starforce_option, Key);
+        Msg += "+" + Get_Option_Value(Equipment.item_starforce_option, Key);
         if(Is_Percentage(Key)) Msg += "%";
     }
     Msg += ")";

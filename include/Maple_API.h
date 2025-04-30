@@ -123,3 +123,8 @@ public:
     T Parse_Json(const nlohmann::json& Json) const;
 };
 
+template <typename T>
+T Maple_API::Parse_Json(const nlohmann::json& Json) const{
+    return Json.get<T>();
+}
+
