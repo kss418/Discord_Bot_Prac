@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <string>
 #include <nlohmann/json.hpp>
+#include <optional>
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character_Skill::Skill_Info,
     skill_name, skill_level, skill_description, skill_icon
@@ -46,53 +47,66 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Character,
     character_exp_rate, character_guild_name, character_class
 );
 
+#define JSON_SAFE_FIELD(j,obj,field,default_val)         \
+  do {                                                   \
+    auto it = (j).find(#field);                         \
+    if (it != (j).end() && !it->is_null())              \
+      it->get_to((obj).field);                          \
+    else                                                 \
+      (obj).field = (default_val);                      \
+  } while(0)
+
 inline void from_json(const nlohmann::json& j, Option& o) {
-    j.at("str").get_to(o.str);
-    j.at("dex").get_to(o.dex);
-    j.at("int").get_to(o.int_);          
-    j.at("luk").get_to(o.luk);
-    j.at("max_hp").get_to(o.max_hp);
-    j.at("attack_power").get_to(o.attack_power);
-    j.at("magic_power").get_to(o.magic_power);
-    j.at("boss_damage").get_to(o.boss_damage);
-    j.at("ignore_monster_armor").get_to(o.ignore_monster_armor);
-    j.at("all_stat").get_to(o.all_stat);
-    j.at("max_hp_rate").get_to(o.max_hp_rate);
+    JSON_SAFE_FIELD(j, o, str, "0");
+    JSON_SAFE_FIELD(j, o, dex, "0");
+    JSON_SAFE_FIELD(j, o, int_, "0");
+    JSON_SAFE_FIELD(j, o, luk, "0");
+    JSON_SAFE_FIELD(j, o, max_hp, "0");
+    JSON_SAFE_FIELD(j, o, attack_power, "0");
+    JSON_SAFE_FIELD(j, o, magic_power, "0");
+    JSON_SAFE_FIELD(j, o, boss_damage, "0");
+    JSON_SAFE_FIELD(j, o, ignore_monster_armor, "0");
+    JSON_SAFE_FIELD(j, o, all_stat, "0");
+    JSON_SAFE_FIELD(j, o, max_hp_rate, "0");
+  }
+
+inline void from_json(const nlohmann::json& j, Equipment_Info& e) {
+    JSON_SAFE_FIELD(j, e, item_equipment_part, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, item_equipment_slot, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, item_name, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, item_icon, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, scroll_upgrade, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, cuttable_count, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, golden_hammer_flag, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, soul_name, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, soul_option, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, starforce, std::string{"0"});
+  
+    JSON_SAFE_FIELD(j, e, item_base_option, Option{});
+    JSON_SAFE_FIELD(j, e, item_total_option, Option{});
+    JSON_SAFE_FIELD(j, e, item_add_option, Option{});
+    JSON_SAFE_FIELD(j, e, item_starforce_option, Option{});
+    JSON_SAFE_FIELD(j, e, item_exceptional_option, Option{});
+    JSON_SAFE_FIELD(j, e, item_etc_option, Option{});
+  
+    JSON_SAFE_FIELD(j, e, potential_option_grade, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, additional_potential_option_grade, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, potential_option_1, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, potential_option_2, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, potential_option_3, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, additional_potential_option_1, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, additional_potential_option_2, std::string{"0"});
+    JSON_SAFE_FIELD(j, e, additional_potential_option_3, std::string{"0"});
+  
+    JSON_SAFE_FIELD(j, e, special_ring_level, int64_t{0});
+  }
+
+inline void from_json(const nlohmann::json& j, Equipment_Set& es) {
+    JSON_SAFE_FIELD(j, es, item_equipment, std::vector<Equipment_Info>{});
+    JSON_SAFE_FIELD(j, es, item_equipment_preset_1,std::vector<Equipment_Info>{});
+    JSON_SAFE_FIELD(j, es, item_equipment_preset_2,std::vector<Equipment_Info>{});
+    JSON_SAFE_FIELD(j, es, item_equipment_preset_3,std::vector<Equipment_Info>{});
 }
-
-inline void to_json(nlohmann::json& j, const Option& o) {
-    j = nlohmann::json{
-        { "str", o.str },
-        { "dex", o.dex },
-        { "int", o.int_ }, 
-        { "luk", o.luk },
-        { "max_hp", o.max_hp },
-        { "attack_power", o.attack_power },
-        { "magic_power", o.magic_power },
-        { "boss_damage",  o.boss_damage },
-        { "ignore_monster_armor", o.ignore_monster_armor },
-        { "all_stat", o.all_stat },
-        { "max_hp_rate", o.max_hp_rate }
-    };
-}
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Equipment_Info,
-    item_equipment_part, item_equipment_slot, item_name,
-    item_icon, scroll_upgrade, cuttable_count,
-    golden_hammer_flag, soul_name, soul_option, starforce,
-    item_base_option, item_total_option, item_add_option,
-    item_starforce_option, item_exceptional_option,
-    item_etc_option, potential_option_grade,
-    additional_potential_option_grade,
-    potential_option_1, potential_option_2, potential_option_3,
-    additional_potential_option_1, additional_potential_option_2,
-    additional_potential_option_3
-);
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Equipment_Set,
-    item_equipment, item_equipment_preset_1,
-    item_equipment_preset_2, item_equipment_preset_3
-);
 
 class Maple_API{
 private:

@@ -42,8 +42,8 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
     for(int i = 0;i < Info.size();i++){
         Equipment_Info Current_Equipment = Info[i];
         std::string description = (Is_Starforce(Current_Equipment) ? "★" + Current_Equipment.starforce + " | " : "");
-        if(!Current_Equipment.potential_option_grade.empty()) description += Current_Equipment.potential_option_grade;
-        if(!Current_Equipment.additional_potential_option_grade.empty()) description += " | " + Current_Equipment.additional_potential_option_grade;
+        if(Current_Equipment.potential_option_grade != "0") description += Current_Equipment.potential_option_grade;
+        if(Current_Equipment.additional_potential_option_grade != "0") description += " | " + Current_Equipment.additional_potential_option_grade;
         if(Current_Equipment.special_ring_level && Current_Equipment.item_equipment_part == "반지"){
             description += " Lv." + std::to_string(Current_Equipment.special_ring_level);
         }

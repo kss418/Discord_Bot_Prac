@@ -28,7 +28,7 @@ private:
         {"boss_damage", {"보스 몬스터 공격 시 데미지", &Option::boss_damage}},
         {"ignore_monster_armor",{"몬스터 방어율 무시",&Option::ignore_monster_armor}},
         {"all_stat",  {"올스탯", &Option::all_stat}},
-        {"max_hp_rate",{"최대 HP", &Option::max_hp_rate}},
+        {"max_hp_rate",{"최대 HP", &Option::max_hp_rate}}
     };
 
     void Setup_Command();
