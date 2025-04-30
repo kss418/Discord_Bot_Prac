@@ -54,7 +54,10 @@ void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
 
 void Discord_BOT::Get_Hexa_Skill(const dpp::slashcommand_t& Event){
     std::string Character_Name = std::get<std::string>(Event.get_parameter("character_name"));
-    API_Result Skill_Result = M_API.Get_Info(Character_Name, "character/skill");
+    std::vector <std::string> Paramters = {
+        "character_skill_grade=6"
+    };
+    API_Result Skill_Result = M_API.Get_Info(Character_Name, "character/skill", Paramters);
     if(Skill_Result.Status_Code != 200){ Find_Error(Event, Skill_Result.Status_Code); return; }
     Character_Skill Skill_Info = std::get<Character_Skill>(Skill_Result.Data);
 
