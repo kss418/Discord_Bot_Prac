@@ -9,7 +9,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(Discord_BotP
     main.cpp
     src/Maple_API.cpp
-    src/Maple_API_Parser.cpp
     src/Discord_BOT_Main.cpp
     src/Discord_BOT_CMD.cpp
     src/Discord_BOT_Log.cpp

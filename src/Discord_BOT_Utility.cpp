@@ -110,8 +110,8 @@ void Discord_BOT::Show_Equipment_Detail(const dpp::select_click_t& Event){
     dpp::message Msg;
     dpp::embed Image;
     Image.set_title(Get_Equipment_Name(Equipment))
-        .set_thumbnail(Equipment.Item_Icon)
-        .set_color(Get_Potential_Color(Equipment.Potential_Option_Info.Grade))
+        .set_thumbnail(Equipment.item_icon)
+        .set_color(Get_Potential_Color(Equipment.potential_option_grade))
         .set_description(Get_Equipment_Detail_Message(Equipment));
         
     Msg.add_embed(Image);
@@ -141,7 +141,7 @@ uint32_t Discord_BOT::Get_Potential_Color(const std::string& Potential_Grade) co
 
 std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equipment){
     std::string Msg;
-    Msg += "장비분류: " + Equipment.Part_Name + "\n";
+    Msg += "장비분류: " + Equipment.item_equipment_part + "\n";
 
     for(const auto& [Key, Name] : Option_List){
         if(Equipment.Total_Option.Map.find(Key) == Equipment.Total_Option.Map.end()) continue;
@@ -149,27 +149,27 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
         Msg += Name + ": +" + Get_Equipment_Detail_Option(Equipment, Key) + "\n";
     }
 
-    if(Equipment.Cuttable_Count != "255"){
-        Msg += "가위 사용 가능 횟수: " + Equipment.Cuttable_Count + "\n";
+    if(Equipment.cuttable_count != "255"){
+        Msg += "가위 사용 가능 횟수: " + Equipment.cuttable_count + "\n";
     }
 
-    if(!Equipment.Potential_Option_Info.Grade.empty()){
+    if(!Equipment.potential_option_grade.empty()){
         Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
-        Msg += "\n" + Equipment.Potential_Option_Info.Grade + " 잠재옵션\n";
-        Msg += Equipment.Potential_Option_Info.Option[0] + "\n";
-        Msg += Equipment.Potential_Option_Info.Option[1] + "\n";
-        if(!Equipment.Potential_Option_Info.Option[2].empty()){
-            Msg += Equipment.Potential_Option_Info.Option[2] + "\n";
+        Msg += "\n" + Equipment.potential_option_grade + " 잠재옵션\n";
+        Msg += Equipment.potential_option_1 + "\n";
+        Msg += Equipment.potential_option_2 + "\n";
+        if(!Equipment.potential_option_3.empty()){
+            Msg += Equipment.potential_option_3 + "\n";
         }
     }
 
-    if(!Equipment.Potential_Option_Info.Additional_Grade.empty()){
+    if(!Equipment.additional_potential_option_grade.empty()){
         Msg += "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
-        Msg += "\n" + Equipment.Potential_Option_Info.Additional_Grade + " 에디셔널 잠재옵션\n";
-        Msg += Equipment.Potential_Option_Info.Additional_Option[0] + "\n";
-        Msg += Equipment.Potential_Option_Info.Additional_Option[1] + "\n";
-        if(!Equipment.Potential_Option_Info.Additional_Option[2].empty()){
-            Msg += Equipment.Potential_Option_Info.Additional_Option[2] + "\n";
+        Msg += "\n" + Equipment.additional_potential_option_grade + " 에디셔널 잠재옵션\n";
+        Msg += Equipment.additional_potential_option_1 + "\n";
+        Msg += Equipment.additional_potential_option_2+ "\n";
+        if(!Equipment.additional_potential_option_3.empty()){
+            Msg += Equipment.additional_potential_option_3 + "\n";
         }
     }
 
@@ -187,32 +187,36 @@ std::string Discord_BOT::Get_Equipment_Detail_Message(const Equipment_Info& Equi
 }
 
 bool Discord_BOT::Is_Starforce(const Equipment_Info& Equipment) const{
-    if(Equipment.Slot_Name == "보조무기") return 0;
-    if(Equipment.Slot_Name == "뱃지") return 0;
-    if(Equipment.Slot_Name == "훈장") return 0;
-    if(Equipment.Slot_Name == "포켓 아이템") return 0;
-    if(Equipment.Slot_Name == "엠블렘") return 0;
-    if(Equipment.Part_Name == "반지" && Equipment.Special_Ring_Level) return 0;
+    const std::string& slot = Equipment.item_equipment_slot;
+    if(slot == "보조무기") return 0;
+    if(slot == "뱃지") return 0;
+    if(slot == "훈장") return 0;
+    if(slot == "포켓 아이템") return 0;
+    if(slot == "엠블렘") return 0;
+    if(slot == "반지" && Equipment.special_ring_level) return 0;
     return 1;
 }
 
 bool Discord_BOT::Is_Scroll(const Equipment_Info& Equipment) const{
-    if(Equipment.Slot_Name == "보조무기") return 0;
-    if(Equipment.Slot_Name == "뱃지") return 0;
-    if(Equipment.Slot_Name == "훈장") return 0;
-    if(Equipment.Slot_Name == "포켓 아이템") return 0;
-    if(Equipment.Slot_Name == "엠블렘") return 0;
-    if(Equipment.Part_Name == "반지" && Equipment.Special_Ring_Level) return 0;
+    const std::string& slot = Equipment.item_equipment_slot;
+    if(slot == "보조무기") return 0;
+    if(slot == "뱃지") return 0;
+    if(slot == "훈장") return 0;
+    if(slot == "포켓 아이템") return 0;
+    if(slot == "엠블렘") return 0;
+    if(slot == "반지" && Equipment.special_ring_level) return 0;
     return 1;
 }
 
 bool Discord_BOT::Is_Additional_Option(const Equipment_Info& Equipment) const{
-    if(Equipment.Slot_Name == "보조무기") return 0;
-    if(Equipment.Slot_Name == "뱃지") return 0;
-    if(Equipment.Slot_Name == "훈장") return 0;
-    if(Equipment.Slot_Name == "어깨장식") return 0;
-    if(Equipment.Slot_Name == "엠블렘") return 0;
-    if(Equipment.Part_Name == "반지") return 0;
+    const std::string& slot = Equipment.item_equipment_slot;
+    const std::string& part = Equipment.item_equipment_part;
+    if(slot == "보조무기") return 0;
+    if(slot == "뱃지") return 0;
+    if(slot == "훈장") return 0;
+    if(slot == "어깨장식") return 0;
+    if(slot == "엠블렘") return 0;
+    if(part == "반지") return 0;
     return 1;
 }
 
@@ -228,16 +232,16 @@ std::string Discord_BOT::Get_Equipment_Name(const Equipment_Info& Equipment) con
         for(int i = 1;i <= 30;i++){
             if(i % 5 == 1 && i != 1) Msg += " ";
             if(i == 16) Msg += "\n";
-            Msg += (i <= std::stoi(Equipment.Starforce) ? "★" : "☆");
+            Msg += (i <= std::stoi(Equipment.starforce) ? "★" : "☆");
         }   
         Msg += "\n";
     }
-    Msg += Equipment.Item_Name;
+    Msg += Equipment.item_name;
     if(Is_Scroll(Equipment)){
-        Msg += " (+" + Equipment.Uprade_Count + ")";
+        Msg += " (+" + Equipment.scroll_upgrade + ")";
     }
-    if(Equipment.Special_Ring_Level && Equipment.Part_Name == "반지"){
-        Msg += " Lv." + std::to_string(Equipment.Special_Ring_Level);
+    if(Equipment.special_ring_level && Equipment.item_equipment_part == "반지"){
+        Msg += " Lv." + std::to_string(Equipment.special_ring_level);
     }
     return Msg;
 }
@@ -257,7 +261,13 @@ void Discord_BOT::Back_Summary_Page(const dpp::button_click_t& Event){
 
     const auto& Equipment = std::get<Equipment_Set>(it->second);
     Event.reply("로딩 중 입니다...");
-    dpp::message Msg = Generate_Equipment_Embed(Equipment.Info[Page], Page);
+    const std::vector <Equipment_Info>& Current_Equipment = !Page ? Equipment.item_equipment : (
+        Page == 1 ? Equipment.item_equipment_preset_1 : (
+            Page == 2 ? Equipment.item_equipment_preset_2 : Equipment.item_equipment_preset_3
+        )
+    );
+
+    dpp::message Msg = Generate_Equipment_Embed(Current_Equipment, Page);
     Msg.id = Event.command.message_id;
     Msg.channel_id = Event.command.channel_id;
     BOT.message_edit(Msg);

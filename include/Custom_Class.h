@@ -2,30 +2,28 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <variant>
 
 class Character {
 public:
-    std::string Image_URL;
-    std::string World_Name;
-    std::string Class;
-    int64_t Level;
-    std::string EXP_Rate;
-    std::string Guild_Name;
-    int32_t Status_Code;
+    std::string character_image;
+    std::string world_name;
+    std::string character_class;
+    int64_t character_level;
+    std::string character_exp_rate;
+    std::string character_guild_name;
 };
 
 class Union {
 public:
-    int64_t Union_Level;
-    std::string Union_Grade;
-    int64_t Artifact_Level;
-    int32_t Status_Code;
+    int64_t union_level;
+    std::string union_grade;
+    int64_t union_artifact_level;
 };
 
 class Popularity {
 public:
-    int32_t Popularity;
-    int32_t Status_Code;
+    int32_t popularity;
 };
 
 class Character_Skill {
@@ -41,64 +39,61 @@ public:
     std::string character_class;  
     std::string character_skill_grade;
     std::vector <Skill_Info> character_skill;
-    int32_t Status_Code;
-};
-
-const std::vector <std::pair<std::string, std::string>> Option_List = {
-    {"str", "STR"},
-    {"dex", "DEX"},
-    {"int", "INT"},
-    {"luk", "LUK"},
-    {"max_hp", "최대 HP"},
-    {"attack_power", "공격력"},
-    {"magic_power", "마력"},
-    {"boss_damage", "보스 몬스터 공격 시 데미지"},
-    {"ignore_monster_armor", "몬스터 방어율 무시"},
-    {"all_stat", "올스탯"},
-    {"max_hp_rate", "최대 HP"},
 };
 
 class Option {
 public:
-    std::unordered_map <std::string, std::string> Map;
-};
-
-class Potential_Option {
-public:
-    std::string Grade;
-    std::string Additional_Grade;
-    std::string Option[3];
-    std::string Additional_Option[3];
+    std::string str;
+    std::string dex;
+    std::string int_;
+    std::string luk;
+    std::string max_hp;
+    std::string attack_power;
+    std::string magic_power;
+    std::string boss_damage;
+    std::string ignore_monster_armor;
+    std::string all_stat;
+    std::string max_hp_rate;
 };
 
 class Equipment_Info {
 public:
-    std::string Part_Name;
-    std::string Slot_Name;
-    std::string Item_Name;
-    std::string Item_Icon;
-    std::string Uprade_Count;
-    std::string Cuttable_Count;
-    std::string Golden_Hammer_Flag;
-    std::string Soul_Name;
-    std::string Soul_Option;
-    std::string Starforce;
+    std::string item_equipment_part;
+    std::string item_equipment_slot;
+    std::string item_name;
+    std::string item_icon;
+    std::string scroll_upgrade;
+    std::string cuttable_count;
+    std::string golden_hammer_flag;
+    std::string soul_name;
+    std::string soul_option;
+    std::string starforce;
 
-    Option Base_Option;
-    Option Total_Option;
-    Option Additional_Option;
-    Option Starforce_Option;
-    Option Exceptional_Option;
-    Option Etc_Option;
+    Option item_base_option;
+    Option item_total_option;
+    Option item_add_option;
+    Option item_starforce_option;
+    Option item_exceptional_option;
+    Option item_etc_option;
 
-    Potential_Option Potential_Option_Info;
-    int64_t Special_Ring_Level;
+    std::string potential_option_grade;
+    std::string additional_potential_option_grade;
+    std::string potential_option_1;
+    std::string potential_option_2;
+    std::string potential_option_3;
+    std::string additional_potential_option_1;
+    std::string additional_potential_option_2;
+    std::string additional_potential_option_3;
+
+    int64_t special_ring_level;
 };
 
 class Equipment_Set {
 public:
-    std::vector <Equipment_Info> Info[4];
-    int32_t Status_Code;
+    std::vector<Equipment_Info> item_equipment;
+    std::vector<Equipment_Info> item_equipment_preset_1;
+    std::vector<Equipment_Info> item_equipment_preset_2;
+    std::vector<Equipment_Info> item_equipment_preset_3;
 };
 
 class Hexa_Stat {
@@ -118,8 +113,6 @@ public:
     std::vector <Core> character_hexa_stat_core;
     std::vector <Core> character_hexa_stat_core_2;
     std::vector <Core> character_hexa_stat_core_3;
-    
-    int32_t Status_Code;
 };
 
 class Symbol {
@@ -134,5 +127,15 @@ public:
     };
     
     std::vector <Info> symbol;
+};
+
+using API_Type = std::variant<
+    Equipment_Set, Character_Skill, Hexa_Stat, 
+    Symbol, Popularity, Union, Character
+>;
+
+class API_Result{
+public:
     int32_t Status_Code;
+    API_Type Data;
 };

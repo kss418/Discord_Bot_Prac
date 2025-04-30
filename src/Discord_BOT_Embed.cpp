@@ -3,30 +3,30 @@
 
 std::string Discord_BOT::Get_Equipment_Detail_Option(const Equipment_Info& Equipment, const std::string& Key){
     std::string Msg;
-    Msg += Get_Map_By_Key(Equipment.Total_Option.Map, Key);
+    Msg += Get_Map_By_Key(Equipment.item_total_option, Key);
     if(Is_Percentage(Key)) Msg += "%";
 
-    if(Get_Map_By_Key(Equipment.Total_Option.Map, Key) == Get_Map_By_Key(Equipment.Base_Option.Map, Key)){
+    if(Get_Map_By_Key(Equipment.item_total_option, Key) == Get_Map_By_Key(Equipment.item_base_option, Key)){
         return Msg;
     }
     
     Msg += " (";
-    Msg += Get_Map_By_Key(Equipment.Base_Option.Map, Key);
+    Msg += Get_Map_By_Key(Equipment.item_base_option, Key);
     if(Is_Percentage(Key)) Msg += "%";
 
     if(Is_Additional_Option(Equipment)){
-        Msg += "+" + Get_Map_By_Key(Equipment.Additional_Option.Map, Key);
+        Msg += "+" + Get_Map_By_Key(Equipment.item_add_option, Key);
         if(Is_Percentage(Key)) Msg += "%";
     }
     
     if(Is_Scroll(Equipment)){
-        Msg += (std::stoi(Get_Map_By_Key(Equipment.Etc_Option.Map, Key)) < 0 ? "-" : "+");
-        Msg += Get_Map_By_Key(Equipment.Etc_Option.Map, Key);
+        Msg += (std::stoi(Get_Map_By_Key(Equipment.item_etc_option, Key)) < 0 ? "-" : "+");
+        Msg += Get_Map_By_Key(Equipment.item_etc_option, Key);
         if(Is_Percentage(Key)) Msg += "%";
     }
 
     if(Is_Starforce(Equipment)){
-        Msg += "+" + Get_Map_By_Key(Equipment.Starforce_Option.Map, Key);
+        Msg += "+" + Get_Map_By_Key(Equipment.item_starforce_option, Key);
         if(Is_Percentage(Key)) Msg += "%";
     }
     Msg += ")";
@@ -41,15 +41,15 @@ dpp::message Discord_BOT::Generate_Equipment_Embed(const std::vector<Equipment_I
 
     for(int i = 0;i < Info.size();i++){
         Equipment_Info Current_Equipment = Info[i];
-        std::string description = (Is_Starforce(Current_Equipment) ? "★" + Current_Equipment.Starforce + " | " : "");
-        if(!Current_Equipment.Potential_Option_Info.Grade.empty()) description += Current_Equipment.Potential_Option_Info.Grade;
-        if(!Current_Equipment.Potential_Option_Info.Additional_Grade.empty()) description += " | " + Current_Equipment.Potential_Option_Info.Additional_Grade;
-        if(Current_Equipment.Special_Ring_Level && Current_Equipment.Part_Name == "반지"){
-            description += " Lv." + std::to_string(Current_Equipment.Special_Ring_Level);
+        std::string description = (Is_Starforce(Current_Equipment) ? "★" + Current_Equipment.starforce + " | " : "");
+        if(!Current_Equipment.potential_option_grade.empty()) description += Current_Equipment.potential_option_grade;
+        if(!Current_Equipment.additional_potential_option_grade.empty()) description += " | " + Current_Equipment.additional_potential_option_grade;
+        if(Current_Equipment.special_ring_level && Current_Equipment.item_equipment_part == "반지"){
+            description += " Lv." + std::to_string(Current_Equipment.special_ring_level);
         }
 
         menu.add_select_option(
-            dpp::select_option(Current_Equipment.Item_Name, std::to_string(i))
+            dpp::select_option(Current_Equipment.item_name, std::to_string(i))
                 .set_description(description)
         );
     }
