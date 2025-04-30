@@ -268,42 +268,6 @@ void Discord_BOT::Delete_Command_Message(const dpp::button_click_t& Event){
     BOT.message_delete(Event.command.message_id, Event.command.channel_id);
 }
 
-void Discord_BOT::Create_Equipment_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Equipment_Set& Equipments){
-    const dpp::snowflake UID = Event.command.get_issuing_user().id;
-    Msg.channel_id = Event.command.channel_id;
-    BOT.message_create(Msg, [this, UID, Equipments](const dpp::confirmation_callback_t& cb){
-        if(!this->Create_Message_Log(cb)) return;
-        const dpp::message& Sent = std::get<dpp::message>(cb.value);
-        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        this->Message_Map[Sent.id] = Equipments;
-        this->Message_Page[Sent.id] = 0;
-    });
-}
-
-void Discord_BOT::Create_Skill_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Character_Skill& Skill){
-    const dpp::snowflake UID = Event.command.get_issuing_user().id;
-    Msg.channel_id = Event.command.channel_id;
-    BOT.message_create(Msg, [this, UID, Skill](const dpp::confirmation_callback_t& cb){
-        if(!this->Create_Message_Log(cb)) return;
-        const dpp::message& Sent = std::get<dpp::message>(cb.value);
-        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        this->Message_Map[Sent.id] = Skill;
-        this->Message_Page[Sent.id] = 0;
-    });
-}
-
-void Discord_BOT::Create_Hexa_Stat_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Hexa_Stat& Stat){
-    const dpp::snowflake UID = Event.command.get_issuing_user().id;
-    Msg.channel_id = Event.command.channel_id;
-    BOT.message_create(Msg, [this, UID, Stat](const dpp::confirmation_callback_t& cb){
-        if(!this->Create_Message_Log(cb)) return;
-        const dpp::message& Sent = std::get<dpp::message>(cb.value);
-        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        this->Message_Map[Sent.id] = Stat;
-        this->Message_Page[Sent.id] = 0;
-    });
-}
-
 void Discord_BOT::Move_Hexa_Stat_Page(const dpp::button_click_t& Event){
     dpp::snowflake UID = Event.command.get_issuing_user().id;
     dpp::snowflake MID = Event.command.message_id;
@@ -329,18 +293,6 @@ void Discord_BOT::Move_Hexa_Stat_Page(const dpp::button_click_t& Event){
     Msg.channel_id = Event.command.channel_id;
     BOT.message_edit(Msg);
     Event.delete_original_response();
-}
-
-void Discord_BOT::Create_Symbol_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Symbol& Symbol){
-    const dpp::snowflake UID = Event.command.get_issuing_user().id;
-    Msg.channel_id = Event.command.channel_id;
-    BOT.message_create(Msg, [this, UID, Symbol](const dpp::confirmation_callback_t& cb){
-        if(!this->Create_Message_Log(cb)) return;
-        const dpp::message& Sent = std::get<dpp::message>(cb.value);
-        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
-        this->Message_Map[Sent.id] = Symbol;
-        this->Message_Page[Sent.id] = 0;
-    });
 }
 
 void Discord_BOT::Move_Symbol_Page(const dpp::button_click_t& Event){
@@ -409,4 +361,16 @@ dpp::component Discord_BOT::Create_Move_Page_Component(const std::string& Custom
     );
        
     return Ret;
+}
+
+void Discord_BOT::Create_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Map_Type& Map){
+    const dpp::snowflake UID = Event.command.get_issuing_user().id;
+    Msg.channel_id = Event.command.channel_id;
+    BOT.message_create(Msg, [this, UID, Map](const dpp::confirmation_callback_t& cb){
+        if(!this->Create_Message_Log(cb)) return;
+        const dpp::message& Sent = std::get<dpp::message>(cb.value);
+        this->Message_Info[UID] = { Sent.id, Sent.channel_id };
+        this->Message_Map[Sent.id] = Map;
+        this->Message_Page[Sent.id] = 0;
+    });
 }

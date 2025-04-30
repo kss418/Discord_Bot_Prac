@@ -56,10 +56,7 @@ private:
     dpp::message Generate_Hexa_Stat_Embed(const Hexa_Stat& Stat, int page);
     dpp::message Generate_Symbol_Embed(const Symbol& Symbol, int page);
 
-    void Create_Equipment_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Equipment_Set& Equipments);
-    void Create_Skill_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Character_Skill& Skill);
-    void Create_Hexa_Stat_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Hexa_Stat& Stat);
-    void Create_Symbol_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Symbol& Symbol);
+    void Create_Message(dpp::message& Msg, const dpp::slashcommand_t& Event, const Map_Type& Map);
 
     void Move_Equipment_Page(const dpp::button_click_t& Event);
     void Move_Hexa_Skill_Page(const dpp::button_click_t& Event);

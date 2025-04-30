@@ -44,7 +44,7 @@ void Discord_BOT::Get_Equipment(const dpp::slashcommand_t& Event){
     
     Event.reply(dpp::message("정보를 받는 중 입니다."));
     dpp::message Msg = Generate_Equipment_Embed(Equipment_Set.Info[0], 0);
-    Create_Equipment_Message(Msg, Event, Equipment_Set);
+    Create_Message(Msg, Event, Equipment_Set);
     Event.delete_original_response();
 }
 
@@ -55,7 +55,7 @@ void Discord_BOT::Get_Hexa_Skill(const dpp::slashcommand_t& Event){
 
     Event.reply(dpp::message("정보를 받는 중 입니다."));
     dpp::message Msg = Generate_Hexa_Skill_Embed(Skill_Info, 0);
-    Create_Skill_Message(Msg, Event, Skill_Info);
+    Create_Message(Msg, Event, Skill_Info);
     Event.delete_original_response();
 }
 
@@ -66,7 +66,7 @@ void Discord_BOT::Get_Hexa_Stat(const dpp::slashcommand_t& Event){
 
     Event.reply(dpp::message("정보를 받는 중 입니다."));
     dpp::message Msg = Generate_Hexa_Stat_Embed(Stat_Info, 0);
-    Create_Hexa_Stat_Message(Msg, Event, Stat_Info);
+    Create_Message(Msg, Event, Stat_Info);
     Event.delete_original_response();
 }
 
@@ -77,6 +77,6 @@ void Discord_BOT::Get_Symbol(const dpp::slashcommand_t& Event){
 
     Event.reply(dpp::message("정보를 받는 중 입니다."));
     dpp::message Msg = Generate_Symbol_Embed(Symbol_Info, 0);
-    Create_Symbol_Message(Msg, Event, Symbol_Info);
+    Create_Message(Msg, Event, Symbol_Info);
     Event.delete_original_response();
 }
